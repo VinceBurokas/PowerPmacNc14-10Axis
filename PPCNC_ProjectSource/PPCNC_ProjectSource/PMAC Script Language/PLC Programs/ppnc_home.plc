@@ -1,0 +1,36 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Homing PLC.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+open plc HomePlc
+
+Ldata.coord = 1
+
+if (CommandReg == UI_Home)
+{
+    CommandReg = UI_None
+
+    abort;
+    enable;
+
+    // Allow 1 Seconds for Homing Simulation
+    call timer(1.0);
+
+    //cmd"#1hmz #2hmz #3hmz"
+    homez 1..10
+
+    send1 "HomeCompleted"
+
+}
+
+close

@@ -1,0 +1,118 @@
+// NC transformation subprogram(s)
+
+
+// Shorthand definitions for transformation matrix elements used
+#define Dis1	Tdata[XformNum].Bias[XaxisIndex]
+#define Dis2	Tdata[XformNum].Bias[YaxisIndex]
+#define Dis3	Tdata[XformNum].Bias[ZaxisIndex]
+#define Dis4	Tdata[XformNum].Bias[UaxisIndex]
+#define Dis5	Tdata[XformNum].Bias[VaxisIndex]
+#define Dis6	Tdata[XformNum].Bias[WaxisIndex]
+#define Dis7	Tdata[XformNum].Bias[AaxisIndex]
+#define Dis8	Tdata[XformNum].Bias[BaxisIndex]
+#define Dis9	Tdata[XformNum].Bias[CaxisIndex]
+#define Rot11	Tdata[XformNum].Diag[XaxisIndex]
+#define Rot12	Tdata[XformNum].XYZ[0]
+#define Rot13	Tdata[XformNum].XYZ[1]
+#define Rot21	Tdata[XformNum].XYZ[2]
+#define Rot22	Tdata[XformNum].Diag[YaxisIndex]
+#define Rot23	Tdata[XformNum].XYZ[3]
+#define Rot31	Tdata[XformNum].XYZ[4]
+#define Rot32	Tdata[XformNum].XYZ[5]
+#define Rot33	Tdata[XformNum].Diag[ZaxisIndex]
+
+/************************************************************
+Subprogram to calculate complete NC transformation matrix from csglobal variables
+Transformations include:
+	All NC offsets -- work, local, common
+	Mirroring
+	Rotation
+	Scaling
+	Other offsets
+Transformation matrix is NOT sensitive to the order of declared transformations
+Net transform matrix can be described as:
+	
+	p = A * p' + B
+	  = M [R (S (p' - Pcs) - Pcr) + Pcr] + 2Pcm + Pnc
+where:
+	p is "base" (machine) XYZ position vector
+	A is net square transformation matrix
+	p' is transformed (program) XYZ position vector
+	B is net offset vector
+	M is square mirroring matrix (+/-1.0 on diagonals)
+	R is square rotation matrix
+	S is square scaling matrix (including inch/mm scaling)
+	Pcs is position vector to center of scaling operation
+	Pcr is position vector to center of rotation operation
+	Pcm is position vector to center of mirroring operation
+	Pnc is position vector to net NC offset point
+*/
+
+open subprog ComputeNCTransform(XformNum);
+
+local TestDet;					// Determinant returned from matrix functions
+// Select Trans Matrix
+tsel1
+
+// Initialize, then set "operator" transform
+TestDet=tinit(XformNum);			// Set to identity transform
+
+// Compute displacement as M * Pcr (Mirror matrix * Rotation center vector)
+Dis1 = XmirFact * XcentRot;
+Dis2 = YmirFact * YcentRot;
+Dis3 = ZmirFact * ZcentRot;
+
+// Compute M * R (Mirror matrix * Rotation matrix)
+Rot11 = XmirFact * cosd(Zrotate) * cosd(Yrotate);
+Rot12 = XmirFact * (cosd(Zrotate) * sind(Yrotate) * sind(Xrotate) - sind(Zrotate) * cosd(Xrotate));
+Rot13 = XmirFact * (sind(Zrotate) * sind(Xrotate) + cosd(Zrotate) * sind(Yrotate) * cosd(Xrotate));
+Rot21 = YmirFact * sind(Zrotate) * cosd(Yrotate);
+Rot22 = YmirFact * (cosd(Zrotate) * cosd(Xrotate) + sind(Zrotate) * sind(Yrotate) * sind(Xrotate));
+Rot23 = YmirFact * (sind(Zrotate) * sind(Yrotate) * cosd(Xrotate) - cosd(Zrotate) * sind(Xrotate));
+Rot31 = -1.0 * ZmirFact * sind(Yrotate);
+Rot32 = ZmirFact * cosd(Yrotate) * sind(Xrotate);
+Rot33 = ZmirFact * cosd(Yrotate) * cosd(Xrotate);
+
+// Subtract M * R * Pcr term from displacement 
+Dis1 -= Rot11 * XcentRot + Rot12 * YcentRot + Rot13 * ZcentRot;
+Dis2 -= Rot21 * XcentRot + Rot22 * YcentRot + Rot23 * ZcentRot;
+Dis3 -= Rot31 * XcentRot + Rot32 * YcentRot + Rot33 * ZcentRot;
+
+// Add M * R * Pcs term to displacement
+Dis1 += Rot11 * XcentScale + Rot12 * YcentScale + Rot13 * ZcentScale;
+Dis2 += Rot21 * XcentScale + Rot22 * YcentScale + Rot23 * ZcentScale;
+Dis3 += Rot31 * XcentScale + Rot32 * YcentScale + Rot33 * ZcentScale;
+
+// Compute M * R * S matrix (multiply in scaling matrix)
+Rot11 *= Xscaling * UnitScaling;
+Rot12 *= Yscaling * UnitScaling;
+Rot13 *= Zscaling * UnitScaling;
+Rot21 *= Xscaling * UnitScaling;
+Rot22 *= Yscaling * UnitScaling;
+Rot23 *= Zscaling * UnitScaling;
+Rot31 *= Xscaling * UnitScaling;
+Rot32 *= Yscaling * UnitScaling;
+Rot33 *= Zscaling * UnitScaling;
+
+// Subtract M * R * S *Pcs term from displacement
+Dis1 -= Rot11 * XcentScale + Rot12 * YcentScale + Rot13 * ZcentScale;
+Dis2 -= Rot21 * XcentScale + Rot22 * YcentScale + Rot23 * ZcentScale;
+Dis3 -= Rot31 * XcentScale + Rot32 * YcentScale + Rot33 * ZcentScale;
+
+// Add 2x mirror offset to displacement (check sign)
+Dis1 += 2 * XcentMir;
+Dis2 += 2 * YcentMir;
+Dis3 += 2 * ZcentMir;
+
+// Add NC style offsets to displacement
+Dis1 += XworkOfs + XlocOfs + XtoolOfs + XcomOfs;
+Dis2 += YworkOfs + YlocOfs + YtoolOfs + YcomOfs;
+Dis3 += ZworkOfs + ZlocOfs + ZtoolOfs + ZcomOfs;
+
+//dwell 0
+
+pmatch;
+
+dwell 100;
+
+close 

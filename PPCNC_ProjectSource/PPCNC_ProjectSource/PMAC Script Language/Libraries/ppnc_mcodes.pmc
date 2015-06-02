@@ -1,0 +1,197 @@
+/****************************************/
+// Power PMAC SUB PROGRAM Template.
+// The following Sample SUB PROGRAM is a sample template for creating Sub Programs in the Library Folder.
+/****************************************/
+open subprog 1001	//G-Code Sub-Routines
+
+local SubProgLoop, SubProgNum;
+
+// M0 - Feed Hold
+n0:
+MCodesProgramGroup == 1
+dwell 0;
+//StatusReg = StatusReg|UI_FeedHold
+send1 "InFeedHold"
+stop;
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M1 - Option Stop
+n1000:
+dwell 0;
+if (RunOptions & UI_OptionStop ==  UI_OptionStop)
+{
+    MCodesProgramGroup == 2
+    dwell 0;
+    //StatusReg = StatusReg|UI_FeedHold
+    send1 "InFeedHold"
+    stop;
+}
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M2 - Stop
+n2000:
+dwell 0
+//StatusReg = StatusReg|UI_ProgComplete
+send1 "ProgramCompleted"
+MCodesProgramGroup == 3
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+if (RunOptions & UI_RotaryBuffer == UI_RotaryBuffer)
+{
+    cmd"&1 abort"
+}
+return;
+
+// M3 - Spindle CW
+n3000:
+MCodesSpindleGroup == 0
+dwell 0;
+SpindleMode == Spindle_CW
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M4 - Spindle CCW
+n4000:
+MCodesSpindleGroup == 1
+dwell 0;
+SpindleMode == Spindle_CCW
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M5 - Spindle Stop
+n5000:
+MCodesSpindleGroup == 2
+dwell 0;
+SpindleMode == Spindle_OFF
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M6 - Tool Change
+n6000:
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M08 - Unused M-Code
+n8000:
+MCodesCoolantGroup == 1
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M09 - Unused M-Code
+n9000:
+MCodesCoolantGroup == 2
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M10 - Unused M-Code
+n10000:
+MCodesChuckGroup == 0
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M11 - Unused M-Code
+n11000:
+MCodesChuckGroup == 1
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M12 - Unused M-Code
+n12000:
+MCodesThreadingGroup == 0
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M13 - Unused M-Code
+n13000:
+MCodesThreadingGroup == 1
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M20 - Unused M-Code
+n20000:
+MCodesGearRangeGroup == 0
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M21 - Unused M-Code
+n21000:
+MCodesGearRangeGroup == 1
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M30 - Stop with Rewind
+n30000:
+MCodesProgramGroup == 4
+dwell 0
+//StatusReg = StatusReg|UI_ProgComplete
+send1 "ProgramCompleted"
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+if (RunOptions & UI_RotaryBuffer == UI_RotaryBuffer)
+{
+    cmd"&1 abort"
+}
+return
+
+// M62 - Unused M-Code
+n62000:
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M64 - Unused M-Code
+n64000:
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+// M98 - Sub-Program Call
+n98000:
+MCodesSubprogramGroup == 1
+dwell 0
+read(L,P)		// Read Sub-Program Number Argument
+
+if (ArgPassVar & LargMask) 	// L-value passed?
+{
+    SubProgLoop = Larg
+    LoopDisplay = SubProgLoop
+}
+else
+{
+    SubProgLoop = 1
+    LoopDisplay = SubProgLoop
+}
+
+if (ArgPassVar & PargMask) 	// P-value passed?
+{
+    SubProgNum = Parg
+    while(SubProgLoop > 0)
+    {
+        MCodesSubprogramGroup == 1
+        call (SubProgNum)					// Call Sub-Program
+        SubProgLoop--
+        LoopDisplay = SubProgLoop
+    }
+}
+
+return;
+
+
+// M99 - Return From Sub-Routine
+n99000:
+MCodesSubprogramGroup == 2
+dwell 0
+if (RunOptions & UI_SingleBlock == UI_SingleBlock) dwell 0
+return;
+
+
+close

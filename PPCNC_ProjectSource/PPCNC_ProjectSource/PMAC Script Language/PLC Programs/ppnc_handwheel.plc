@@ -1,0 +1,377 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Handwheel PLC.
+// Original File Date:  October 8, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+//	Comments / Revisions:
+//	SMJ 010914 - Initial push to GitHub
+//	This PLC supports Handwheel Jogging.
+//
+/***********************************************************************************/
+
+Open plc Handwheel
+
+local HandleScale;
+local Motornumber;
+local axisindex;
+local motorindex;
+
+HandleScale = 0.25
+
+// Set Coordinate System
+Ldata.coord=1;
+
+if (PowerPendPresent == 1)
+{
+    // Enable Handwheel when in Hand/Inc Mode
+    if (OutputLED & LED_JogInc == LED_JogInc && MachineMode == Manual)
+    {
+        HandwheelActive=1
+    }
+    else
+    {
+        HandwheelActive=0
+    }
+
+    if (MachineMode == Manual && HandwheelActive == 1 && InitHandle==0)
+    {
+        while (!(Coord[1].DesVelZero)){}
+        PrevHandleCount=HandEncoder;
+        HandleSpeed=0;
+        
+        motorindex = 0
+        while (motorindex < Sys.MaxMotors)
+        {
+			if (Motor[motorindex].ServoCtrl == 1)
+			{
+				TargetPos(motorindex) = Motor[motorindex].DesPos-Motor[motorindex].HomePos
+				Motor[motorindex].ProgJogPos = TargetPos(motorindex)
+				PrevJogSpeed(motorindex) = Motor[motorindex].JogSpeed
+				PrevJogTa(motorindex) = Motor[motorindex].JogTa
+				PrevJogTs(motorindex) = Motor[motorindex].JogTs
+			}
+			motorindex++
+        }
+/*
+        TargetPos1 = Motor[1].DesPos-Motor[1].HomePos
+        Motor[1].ProgJogPos = TargetPos1
+        PrevJogSpeed1 = Motor[1].JogSpeed
+        PrevJogTa1 = Motor[1].JogTa
+        PrevJogTs1 = Motor[1].JogTs
+
+        TargetPos2 = Motor[2].DesPos-Motor[2].HomePos
+        Motor[2].ProgJogPos = TargetPos2
+        PrevJogSpeed2 = Motor[2].JogSpeed
+        PrevJogTa2 = Motor[2].JogTa
+        PrevJogTs2 = Motor[2].JogTs
+
+        TargetPos3 = Motor[3].DesPos-Motor[3].HomePos
+        Motor[3].ProgJogPos = TargetPos3
+        PrevJogSpeed3 = Motor[3].JogSpeed
+        PrevJogTa3 = Motor[3].JogTa
+        PrevJogTs3 = Motor[3].JogTs
+        
+        TargetPos4 = Motor[4].DesPos-Motor[4].HomePos
+        Motor[4].ProgJogPos = TargetPos4
+        PrevJogSpeed4 = Motor[4].JogSpeed
+        PrevJogTa4 = Motor[4].JogTa
+        PrevJogTs4 = Motor[4].JogTs        
+*/
+        InitHandle = 1
+    }
+
+    While(MachineMode == Manual && OutputLED & LED_JogInc == LED_JogInc && HandwheelActive == 1 && InitHandle == 1)
+    {
+        HandleWhileLoop = 1
+        HandleChange  = (HandEncoder - PrevHandleCount)
+
+        // Check Maximum Change Not to Exceed
+        if (abs(HandleChange) > 50)
+        {
+            HandleChange = 0
+        }
+
+        //Set Handle Jog Accel and Speed
+        
+        motorindex = 0
+        while (motorindex < Sys.MaxMotors)
+        {
+			if (Motor[motorindex].ServoCtrl == 1)
+			{
+				Motor[motorindex].JogTa=-3
+				Motor[motorindex].JogTs=1.5
+				Motor[motorindex].JogSpeed=500
+			}
+			motorindex++
+        }
+/*
+        Motor[1].JogTa=-3
+        Motor[2].JogTa=-3
+        Motor[3].JogTa=-1.5
+        Motor[4].JogTa=-1.5
+
+        Motor[1].JogTs=1.5
+        Motor[2].JogTs=1.5
+        Motor[3].JogTs=0
+        Motor[4].JogTs=0
+
+        Motor[1].JogSpeed=500
+        Motor[2].JogSpeed=500
+        Motor[3].JogSpeed=500
+        Motor[4].JogSpeed=500
+*/
+        PrevHandleCount = HandEncoder
+
+        if (SpeedSelect == Sel_1_Speed)
+        {
+            HandleSpeed=0.0001
+/*
+            Motor[1].JogTa=-3
+            Motor[2].JogTa=-3
+            Motor[3].JogTa=-1.5
+            Motor[4].JogTa=-1.5
+
+            Motor[1].JogTs=1.5
+            Motor[2].JogTs=1.5
+            Motor[3].JogTs=0
+            Motor[4].JogTs=0
+
+            Motor[1].JogSpeed=500
+            Motor[2].JogSpeed=500
+            Motor[3].JogSpeed=500
+            Motor[4].JogSpeed=500
+*/
+        }
+        if (SpeedSelect == Sel_2_Speed)
+        {
+            HandleSpeed=0.0010
+/*
+            Motor[1].JogTa=-3
+            Motor[2].JogTa=-3
+            Motor[3].JogTa=-1.5
+            Motor[4].JogTa=-1.5
+
+            Motor[1].JogTs=1.5
+            Motor[2].JogTs=1.5
+            Motor[3].JogTs=0
+            Motor[4].JogTs=0
+
+            Motor[1].JogSpeed=500
+            Motor[2].JogSpeed=500
+            Motor[3].JogSpeed=500
+            Motor[4].JogSpeed=500
+*/            
+        }
+        if (SpeedSelect == Sel_3_Speed)
+        {
+            HandleSpeed=0.0100
+/*
+            Motor[1].JogTa=-3
+            Motor[2].JogTa=-3
+            Motor[3].JogTa=-1.5
+            Motor[4].JogTa=-1.5
+
+            Motor[1].JogTs=1.5
+            Motor[2].JogTs=1.5
+            Motor[3].JogTs=0
+            Motor[4].JogTs=0
+
+            Motor[1].JogSpeed=500
+            Motor[2].JogSpeed=500
+            Motor[3].JogSpeed=500
+            Motor[4].JogSpeed=500
+*/            
+        }
+
+        if (SpeedSelect == Sel_4_Speed)
+        {
+            HandleSpeed=0.1000
+/*
+            Motor[1].JogTa=-3
+            Motor[2].JogTa=-3
+            Motor[3].JogTa=-1.5
+            Motor[4].JogTa=-1.5
+
+            Motor[1].JogTs=1.5
+            Motor[2].JogTs=1.5
+            Motor[3].JogTs=0
+            Motor[4].JogTs=0
+
+            Motor[1].JogSpeed=500
+            Motor[2].JogSpeed=500
+            Motor[3].JogSpeed=500
+            Motor[4].JogSpeed=500
+*/            
+        }
+
+        if (SpeedSelect == Sel_5_Speed)
+        {
+            HandleSpeed=1.0000
+/*
+            Motor[1].JogTa=-3
+            Motor[2].JogTa=-3
+            Motor[3].JogTa=-1.5
+            Motor[4].JogTa=-1.5
+
+            Motor[1].JogTs=1.5
+            Motor[2].JogTs=1.5
+            Motor[3].JogTs=0
+            Motor[4].JogTs=0
+
+            Motor[1].JogSpeed=500
+            Motor[2].JogSpeed=500
+            Motor[3].JogSpeed=500
+            Motor[4].JogSpeed=500
+*/            
+        }
+
+        If(AxisSelect == Sel_1_Axis)
+        {
+			axisindex = Setup_PendantPos(1)							// find which axis name is on pendant pos 1
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)	// find which motor number is corresponding to axis name
+        }
+        If(AxisSelect == Sel_2_Axis)
+        {
+            axisindex = Setup_PendantPos(2)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_3_Axis)
+        {
+            axisindex = Setup_PendantPos(3)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_4_Axis)
+        {
+            axisindex = Setup_PendantPos(4)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_5_Axis)
+        {
+            axisindex = Setup_PendantPos(5)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_6_Axis)
+        {
+            axisindex = Setup_PendantPos(6)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }             
+        If(AxisSelect == Sel_7_Axis)
+        {
+            axisindex = Setup_PendantPos(7)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_8_Axis)
+        {
+            axisindex = Setup_PendantPos(8)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }
+        If(AxisSelect == Sel_9_Axis)
+        {
+            axisindex = Setup_PendantPos(9)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }  
+        If(AxisSelect == Sel_10_Axis)
+        {
+            axisindex = Setup_PendantPos(10)
+            Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+        }                  
+        
+        if (Motornumber > -1 && Motor[Motornumber].ServoCtrl == 1 && HandleChange != 0)
+        {
+			If ((Motor[Motornumber].PlusLimit == 1 || Motor[Motornumber].SoftPlusLimit == 1) && HandleChange > 0)
+			{
+				HandleChange = 0
+			}
+			If((Motor[Motornumber].MinusLimit == 1 || Motor[Motornumber].SoftMinusLimit == 1) && HandleChange < 0)
+			{
+				HandleChange = 0
+			}
+			TargetPos(Motornumber) = TargetPos(Motornumber)  + HandleSpeed*HandleChange*Motor[Motornumber].CoordSf[axisindex]*HandleScale
+			Motor[Motornumber].ProgJogPos = TargetPos(Motornumber)
+			Ldata.motor = Motornumber
+			jog=*
+			//cmd"#1j=*"
+			send1 "Jogging"
+        }
+
+/*
+        If(AxisSelect == Sel_Y_Axis && HandleChange != 0)
+        {
+            If ((Motor[2].PlusLimit == 1 || Motor[2].SoftPlusLimit == 1) && HandleChange > 0)
+            {
+                HandleChange = 0
+            }
+            If((Motor[2].MinusLimit == 1 || Motor[2].SoftMinusLimit == 1) && HandleChange < 0)
+            {
+                HandleChange = 0
+            }
+            TargetPos2 = TargetPos2  + HandleSpeed*HandleChange*Motor[2].CoordSf[YaxisIndex]*HandleScale
+            Motor[2].ProgJogPos = TargetPos2
+            cmd"#2j=*"
+            send1 "Jogging"
+        }
+
+        If(AxisSelect == Sel_Z_Axis && HandleChange != 0)
+        {
+            If ((Motor[3].PlusLimit == 1 || Motor[3].SoftPlusLimit == 1) && HandleChange > 0)
+            {
+                HandleChange = 0
+            }
+            If((Motor[3].MinusLimit == 1 || Motor[3].SoftMinusLimit == 1) && HandleChange < 0)
+            {
+                HandleChange = 0
+            }
+            TargetPos3 = TargetPos3  + HandleSpeed*HandleChange*Motor[3].CoordSf[ZaxisIndex]*HandleScale
+            Motor[3].ProgJogPos = TargetPos3
+            cmd"#3j=*"
+            send1 "Jogging"
+        }
+*/
+    }
+
+    HandwheelActive=0
+    HandleSpeed=0
+
+    If(HandleWhileLoop == 1)	// && MachineMode!=Manual)
+    {
+        InitHandle = 0
+        HandleWhileLoop = 0
+        HandleSpeed = 0
+
+        send1 "JogStopped"
+
+        motorindex = 0
+        while (motorindex < Sys.MaxMotors)
+        {
+			if (Motor[motorindex].ServoCtrl == 1)
+			{
+				Motor[motorindex].JogSpeed = PrevJogSpeed(motorindex)
+				Motor[motorindex].JogTa = PrevJogTa(motorindex)
+				Motor[motorindex].JogTs = PrevJogTs(motorindex)
+			}
+			motorindex++
+        }
+        /*
+        Motor[1].JogSpeed = PrevJogSpeed1
+        Motor[2].JogSpeed = PrevJogSpeed2
+        Motor[3].JogSpeed = PrevJogSpeed3
+        Motor[4].JogSpeed = PrevJogSpeed4
+
+        Motor[1].JogTa = PrevJogTa1
+        Motor[2].JogTa = PrevJogTa2
+        Motor[3].JogTa = PrevJogTa3
+        Motor[4].JogTa = PrevJogTa4
+
+        Motor[1].JogTs = PrevJogTs1
+        Motor[2].JogTs = PrevJogTs2
+        Motor[3].JogTs = PrevJogTs3
+        Motor[4].JogTs = PrevJogTs4
+        */
+    }
+}
+
+close
+
+

@@ -1,0 +1,937 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Global Include File for all necessary GUI interface parameters.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+// 052214 - Added Machine Type Logic for Variable Assignments
+//
+//
+/***********************************************************************************/
+
+// Set Machine Type Below
+// Laser / Mill / Etc.
+#define Laser
+
+// Power PMAC System Port/Com Setup
+Sys.SendFileMode=30
+
+// 
+global Setup_MotorNumber(11)
+global Setup_AxisIndex(11)
+global Setup_PendantPos(11)
+
+// PowerPMAC NC Axis Index Designators
+#define AaxisIndex 0
+#define BaxisIndex 1
+#define CaxisIndex 2
+#define UaxisIndex 3
+#define VaxisIndex 4
+#define WaxisIndex 5
+#define XaxisIndex 6
+#define YaxisIndex 7
+#define ZaxisIndex 8
+#define AAaxisIndex 9
+#define BBaxisIndex 10
+#define CCaxisIndex 11
+#define DDaxisIndex 12
+#define EEaxisIndex 13
+#define FFaxisIndex 14
+#define GGaxisIndex 15
+#define HHaxisIndex 16
+#define LLaxisIndex 17
+#define MMaxisIndex 18
+#define NNaxisIndex 19
+#define OOaxisIndex 20
+#define PPaxisIndex 21
+#define QQaxisIndex 22
+#define RRaxisIndex 23
+#define SSaxisIndex 24
+#define TTaxisIndex 25
+#define UUaxisIndex 26
+#define VVaxisIndex 27
+#define WWaxisIndex 28
+#define XXaxisIndex 29
+#define YYaxisIndex 30
+#define ZZaxisIndex 31
+
+global Setup_AxisIndexToMotorNumber(32)
+global Setup_AxisIndexToAxisNumber(32)
+
+// Units Selection
+#define English		0
+#define Metric		1
+
+//PowerPMAC NC State/Command/Status Registers
+#define MachineState	M1
+#define CommandReg		M2
+#define StatusReg		M3
+#define JogOptions		M4
+#define RunOptions		M5
+#define MachineMode		M6
+#define HmiCounter		M7
+
+//PowerPMAC NC Status Response Port
+#define StatusResponse	send1
+
+
+//PowerPMAC NC Software Control Panel Registers
+#define SoftPanelCommand	M20
+#define SoftPanelStatus		M21
+
+//PowerPMAC NC Messaging Registers
+#define MsgFatal			M100
+#define MsgFatalAck			M101
+#define MsgWarning			M120
+#define MsgWarningAck		M121
+#define MsgInfo				M140
+#define MsgInfoAck			M141
+#define MsgLog				M160
+
+//PowerPMAC NC Machine States
+#define Offline				0
+#define	NotReady			1
+#define Ready				2
+#define ProgramLoaded		3
+#define Running				4
+#define InFeedHold			5
+#define Completed			6
+#define Failed				7
+#define Aborted				8
+#define EStopped			9
+#define Error				10
+#define Downloading			11
+
+//PowerPMAC NC Machine Modes
+#define Auto	0
+#define Manual 	1
+#define MDI		2
+
+//PowerPMAC NC Axis Display Modes
+#define ProgramPosition		0
+#define RelativePosition	1
+#define MachinePosition		2
+#define CommandedPosition	3
+
+// PowerPMAC NC Feed Mode Display
+#define NoFeedMode	0
+#define FeedPerMin	1
+#define FeedPerRev	2
+#define FeedInverse	3
+
+// PowerPMAC NC Spindle Mode Display
+#define SpindleCSS	0
+#define SpindleCUT	1
+
+/*
+//PowerPMAC NC Command/Status Bits Definitions
+#define UI_None					0	// $00000000
+#define UI_Initialize		1	// $00000001	// Long Timeout Setting
+#define UI_Reset				2	// $00000002	// Short Timeout Setting
+#define UI_Home					4	// $00000004	// Long Timeout Setting
+#define UI_Cancel				8	// $00000008
+#define UI_JogPlus			16	// $00000010
+#define UI_JogMinus			32	// $00000020
+#define UI_JogStop			64	// $00000040
+#define UI_Incremental	128	// $00000080
+#define UI_CycleStart		256	// $00000100
+#define UI_FeedHold			512	// $00000200
+#define UI_Abort				1024	// $00000400	// Short Timeout Setting
+//#define UI_xxxxxxx		2048	// $00000800
+#define UI_ProgComplete	4096	// $00001000
+#define UI_ProgFail			8192	// $00002000
+#define UI_EstopStatus	16384	// $00004000	// Status Set Only
+//#define UI_xxxxxxx		32768	// $00008000
+#define UI_SetWorkOfs		65536	// $00010000
+#define UI_SetToolOfs		131072	// $00020000
+#define UI_xxxxxxx	262144	// $00040000
+#define UI_xxxxxxx	524288	// $00080000
+#define UI_xxxxxxx	1048576	// $00100000
+#define UI_xxxxxxx	2097152	// $00200000
+#define UI_xxxxxxx	4194304	// $00400000
+#define UI_xxxxxxx	8388608	// $00800000
+#define UI_xxxxxxx    16777216	// $01000000
+#define UI_xxxxxxx    33554432   	// $02000000
+#define UI_xxxxxxx    67108864   	// $04000000
+#define UI_xxxxxxx    134217728  	// $08000000
+#define UI_xxxxxxx    268435456  	// $10000000
+#define UI_xxxxxxx    536870912  	// $20000000
+#define UI_xxxxxxx    1073741824 	// $40000000
+#define UI_xxxxxxx    2147483648 	// $80000000
+*/
+
+//PowerPMAC NC Command Code Structure
+#define UI_None				0	
+#define UI_Initialize		100		// Long Timeout Setting
+#define UI_Reset			101		// Short Timeout Setting
+#define UI_Home				102		// Long Timeout Setting
+#define UI_Cancel			109		// Init, Reset, Home or Abort was cancelled by the user
+#define UI_JogPlus			110
+#define UI_JogMinus			111
+#define UI_JogIncPlus		112
+#define UI_JogIncMinus		113
+#define UI_JogStop			114
+
+//#define UI_Incremental	
+#define UI_CycleStart		120	
+#define UI_FeedHold			121	
+#define UI_Abort			122		// Short Timeout Setting
+
+#define UI_SetWorkOfs		130	
+#define UI_SetToolOfs		131
+
+#define UI_FeedMinus		140
+#define UI_FeedPlus			141
+#define UI_FeedZero			142
+#define UI_Feed100			143
+#define UI_SpindleMinus		150
+#define UI_SpindlePlus		151
+#define UI_Spindle100		152
+#define UI_SpindleCW		153
+#define UI_SpindleCCW		154
+#define UI_SpindleZero		155
+#define UI_ToolChange		160
+
+#define UI_LaserEnable		161
+#define UI_LaserShutter		162
+#define UI_LaserEmission	163
+#define UI_LaserSpeedModulation 164
+
+// Status Register Send Strings	
+/*	
+Initialized=
+ResetCompleted=
+HomeCompleted=
+Jogging=
+JogStopped=
+CycleStarted=
+InFeedHold=
+ProgramAborted=
+ProgramCompleted=
+ProgramFailed  <----Need to Add
+WorkOffsetSet=
+ToolOffsetSet=
+EStopPressed	<-----For Estop
+EStopReleased	<----- For Estop
+*/
+
+/*		
+#define UI_ProgComplete	
+#define UI_ProgFail			
+#define UI_EstopStatus	// Status Set Only
+*/
+
+//PowerPMAC NC Soft Panel Command/Status Bits
+#define SP_None					0	// $00000000
+#define SP_FeedMinus		1	// $00000001
+#define SP_FeedPlus			2	// $00000002
+#define SP_FeedZero			4	// $00000004
+#define SP_Feed100			8	// $00000008
+#define SP_SpindleMinus	16	// $00000010
+#define SP_SpindlePlus	32	// $00000020
+#define SP_Spindle100		64	// $00000040
+#define SP_SpindleCW		128	// $00000080
+#define SP_SpindleCCW		256	// $00000100
+#define SP_ToolChange		512	// $00000200
+#define SP_SpindleZero		1024	// $00000400
+#define SP_NotUsed				2048	// $00000800
+#define SP_LaserEnable		4096	// $00001000
+#define SP_LaserShutter		8192	// $00002000
+#define SP_LaserEmission	16384	// $00004000
+#define SP_SpeedModulation	32768	// $00008000
+/*
+#define UI_xxxxxxx	65536	// $00010000
+#define UI_xxxxxxx	131072	// $00020000
+#define UI_xxxxxxx	262144	// $00040000
+#define UI_xxxxxxx	524288	// $00080000
+#define UI_xxxxxxx	1048576	// $00100000
+#define UI_xxxxxxx	2097152	// $00200000
+#define UI_xxxxxxx	4194304	// $00400000
+#define UI_xxxxxxx	8388608	// $00800000
+#define UI_xxxxxxx    16777216	// $01000000
+#define UI_xxxxxxx    33554432    	// $02000000
+#define UI_xxxxxxx    67108864    	// $04000000
+#define UI_xxxxxxx    134217728    	// $08000000
+#define UI_xxxxxxx    268435456  	// $10000000
+#define UI_xxxxxxx    536870912  	// $20000000
+#define UI_xxxxxxx    1073741824 	// $40000000
+#define UI_xxxxxxx    2147483648 	// $80000000
+*/
+
+//PowerPMAC NC Run Options
+#define UI_OptionStop		1	// $00000001
+#define UI_SingleBlock		2	// $00000002
+#define UI_BlockSkip		4	// $00000004
+#define UI_DryRun			8	// $00000008
+#define UI_RotaryBuffer		16  // $00000010
+
+//PowerPMAC NC Jog Options
+#define UI_JogX1		$00001
+#define UI_JogX2		$10000
+#define UI_JogX3		$00002
+#define UI_JogX4		$20000
+#define UI_JogX5		$00004
+
+#define UI_Axis_a1		16	// $00000010
+#define UI_Axis_a2		32	// $00000020
+#define UI_Axis_a3		64	// $00000040
+#define UI_Axis_a4		128	// $00000080
+#define UI_Axis_a5		256	// $00000100
+#define UI_Axis_a6		512	// $00000200
+#define UI_Axis_a7		1024// $00000400
+#define UI_Axis_a8		2048// $00000800
+#define UI_Axis_a9		4096// $00001000
+#define UI_Axis_a10		8192// $00002000
+
+
+// PowerPMAC NC Position Display Parameters
+#define A1position	P100
+#define A2position	P101
+#define A3position	P102
+#define A4position	P103
+#define A5position	P104
+#define A6position	P105
+#define A7position	P106
+#define A8position	P107
+#define A9position	P108
+#define A10position	P109
+
+#define A1disttogo	P110
+#define A2disttogo	P111
+#define A3disttogo	P112
+#define A4disttogo	P113
+#define A5disttogo	P114
+#define A6disttogo	P115
+#define A7disttogo	P116
+#define A8disttogo	P117
+#define A9disttogo	P118
+#define A10disttogo	P119
+
+#define A1torque	P120
+#define A2torque	P121
+#define A3torque	P122
+#define A4torque	P123
+#define A5torque	P124
+#define A6torque	P125
+#define A7torque	P126
+#define A8torque	P127
+#define A9torque	P128
+#define A10torque	P129
+
+#define A1FolErr	P140
+#define A2FolErr	P141
+#define A3FolErr	P142
+#define A4FolErr	P143
+#define A5FolErr	P144
+#define A6FolErr	P145
+#define A7FolErr	P146
+#define A8FolErr	P147
+#define A9FolErr	P148
+#define A10FolErr	P149
+
+
+// CNC G-Code Group Display
+#define GCodesGroup0	P200
+#define GCodesGroup1	P201
+#define GCodesGroup2	P202
+#define GCodesGroup3	P203
+#define GCodesGroup5	P205
+#define GCodesGroup6	P206
+#define GCodesGroup7	P207
+#define GCodesGroup8	P208
+#define GCodesGroup11	P211
+#define GCodesGroup12	P212
+#define GCodesGroup13	P213
+#define GCodesGroup15	P215
+#define GCodesGroup16	P216
+#define GCodesGroup19	P219
+#define GCodesGroup22	P222
+
+// CNC M-Code Group Display
+#define MCodesProgramGroup 					P300
+#define MCodesSpindleGroup 					P301
+#define MCodesCoolantGroup 					P302
+#define MCodesChuckGroup 						P303
+#define MCodesThreadingGroup 				P304
+#define MCodesGearRangeGroup 				P305
+#define MCodesFeedrateOverrideGroup	P306
+#define MCodesBAxisGroup 						P307
+#define MCodesSubprogramGroup 			P308
+
+//Power PMAC NC Display Parameters
+#define DispFeedAct				P500
+#define DispFeedCmd				P501
+#define DispFeedOverride	P502
+#define DispFeedMode			P503
+#define AxesDisplayMode		P504
+
+#define DispSpindleAct		P510
+#define DispSpindleCmd		P511
+#define DispSpinOverride	P512
+#define SpinDisplayMode		P513
+
+// Get current active TCode/HCode/DCode
+#define CS1ActiveTCode	P520
+#define CS1ActiveHCode	P521
+#define CS1ActiveDCode	P522
+#define CS1ToolNext			P523
+
+//Laser Parameters
+#define LaserPower  						P530	//For Display
+#define LaserFrequency  				P531	//For Display
+#define LaserRatedPower  				P532
+#define LaserMinFrequency  			P533
+#define LaserMaxFrequency  			P534
+#define LaserMinPulseDuty  			P535
+#define LaserMaxPulseDuty  			P536
+#define LaserMinAnalogVoltage  	P537
+#define LaserPfmOutputFrequency P538
+#define LaserPfmOutputDutyCycle P539
+#define LaserPfmOutputFirstShotDistance  P540
+
+
+// PowerPMAC NC Miscellaneous Parameters
+#define JogX1			P700
+#define JogX2			P701
+#define JogX3			P702
+#define JogX4			P703
+#define JogX5			P704
+#define JogIncDist		P705
+#define PMACSourceVer	P706
+#define MaxFeedrate		P707
+
+
+// G-Code Display Parameters
+#define LoopDisplay		P720
+#define G04StartTime	P721
+#define G04EndTime		P722
+#define G04TotalTime	P723
+
+
+//Q-Variable Definitions
+//csglobal EnglishMode;
+csglobal NativeUnits;
+csglobal UnitScaling;
+
+csglobal XcentScale;
+csglobal YcentScale;
+csglobal ZcentScale;
+
+csglobal XcentRot;
+csglobal YcentRot;
+csglobal ZcentRot;
+
+csglobal XcentMir;
+csglobal YcentMir;
+csglobal ZcentMir;
+
+csglobal Xscaling;
+csglobal Yscaling;
+csglobal Zscaling;
+
+csglobal Xrotate;
+csglobal Yrotate;
+csglobal Zrotate;
+
+csglobal XmirFact;
+csglobal YmirFact;
+csglobal ZmirFact;
+
+csglobal XworkOfs;
+csglobal YworkOfs;
+csglobal ZworkOfs;
+
+csglobal XlocOfs;
+csglobal YlocOfs;
+csglobal ZlocOfs;
+
+csglobal CS1_CutterRadius;
+csglobal CS1_CutterWear;
+
+csglobal XtoolOfs;
+csglobal YtoolOfs;
+csglobal ZtoolOfs;
+
+csglobal XcomOfs;
+csglobal YcomOfs;
+csglobal ZcomOfs;
+
+csglobal XaxisDesPos;
+csglobal YaxisDesPos;
+csglobal ZaxisDesPos;
+
+//Parameters for Canned Cycles
+csglobal CannedCycleCode;
+csglobal CannedCycleRepeats;
+csglobal R_PlanePos;
+csglobal Init_PlanePos;
+csglobal ReturnLevel;
+csglobal PeckDepth;
+csglobal RetractDistance;
+csglobal LastPeckCycle;
+csglobal PeckCycles;
+csglobal Z_PrevDepth;
+csglobal X_Pos;
+csglobal Y_Pos;
+csglobal Z_Pos;
+csglobal Z_Depth;
+csglobal R_Plane;
+csglobal Abs_Mode;
+csglobal CycleDwell;
+csglobal XreadFlag;
+csglobal YreadFlag;
+csglobal ZreadFlag;
+csglobal BoreShift;
+csglobal X_inter_point;
+csglobal Y_inter_point;
+csglobal Z_inter_point;
+csglobal X_final_point;
+csglobal Y_final_point;
+csglobal Z_final_point;
+
+
+// Miscellaneous Parameters
+csglobal OverrideDisable;
+csglobal CoordFeedTemp;
+
+
+// -------------------Global Variable Section------------------------- 
+
+// Software Control Panel Variables
+global IncDistance;
+global FeedOverrideInput;
+global DryRunMode;
+
+global OverrideTemp;
+global OverrideTemp2;
+global OverrideInc;
+global OverrideMax;
+
+global SpindleOverrideTemp;
+global SpindleOverrideInc;
+global SpindleOverrideMax;
+
+// Single Block Steppig Parameters
+global StepLatch
+global StepCycleLatch
+
+// Auto Jog Mode Flag
+global AutoJogFlag
+
+//PowerPMAC READ Statement Command Definitions
+#define ArgPassVar	D0
+
+#define Aarg	D1
+#define Barg	D2
+#define Carg	D3
+#define Darg	D4
+#define Earg	D5
+#define Farg	D6
+#define Garg	D7
+#define Harg	D8
+#define Iarg	D9
+#define Jarg	D10
+#define Karg	D11
+#define Larg	D12
+#define Marg	D13
+#define Narg	D14
+#define Oarg	D15
+#define Parg	D16
+#define Qarg	D17
+#define Rarg	D18
+#define Sarg	D19
+#define Targ	D20
+#define Uarg	D21
+#define Varg	D22
+#define Warg	D23
+#define Xarg	D24
+#define Yarg	D25
+#define Zarg	D26
+
+#define AAarg	D27
+#define BBarg	D28
+#define CCarg	D29
+#define DDarg	D30
+#define EEarg	D31
+#define FFarg	D32
+#define GGarg	D33
+#define HHarg	D34
+#define IIarg	D35
+#define JJarg	D36
+#define KKarg	D37
+#define LLarg	D38
+#define MMarg	D39
+#define NNarg	D40
+#define OOarg	D41
+#define PParg	D42
+#define QQarg	D43
+#define RRarg	D44
+#define SSarg	D45
+#define TTarg	D46
+#define UUarg	D47
+#define VVarg	D48
+#define WWarg	D49
+#define XXarg	D50
+#define YYarg	D51
+#define ZZarg	D52
+
+#define AargMask	$1
+#define BargMask	$2
+#define CargMask	$4
+#define DargMask	$8
+#define EargMask	$10
+#define FargMask	$20
+#define GargMask	$40
+#define HargMask	$80
+#define IargMask	$100
+#define JargMask	$200
+#define KargMask	$400
+#define LargMask	$800
+#define MargMask	$1000
+#define NargMask	$2000
+#define OargMask	$4000
+#define PargMask	$8000
+#define QargMask	$10000
+#define RargMask	$20000
+#define SargMask	$40000
+#define TargMask	$80000
+#define UargMask	$100000
+#define VargMask	$200000
+#define WargMask	$400000
+#define XargMask	$800000
+#define YargMask	$1000000
+#define ZargMask	$2000000
+
+#define AAargMask	$4000000
+#define BBargMask	$8000000
+#define CCargMask	$10000000
+#define DDargMask	$20000000
+#define EEargMask	$40000000
+#define FFargMask	$80000000
+#define GGargMask	$100000000
+#define HHargMask	$200000000
+#define IIargMask	$400000000
+#define JJargMask	$800000000
+#define KKargMask	$1000000000
+#define LLargMask	$2000000000
+#define MMargMask	$4000000000
+#define NNargMask	$8000000000
+#define OOargMask	$10000000000
+#define PPargMask	$20000000000
+#define QQargMask	$40000000000
+#define RRargMask	$80000000000
+#define SSargMask	$100000000000
+#define TTargMask	$200000000000
+#define UUargMask	$400000000000
+#define VVargMask	$800000000000
+#define WWargMask	$1000000000000
+#define XXargMask	$2000000000000
+#define YYargMask	$4000000000000
+#define ZZargMask	$8000000000000
+
+// CS Global Definitions for Work Offsets - XYZ
+#define CS1WorkG54X P900
+#define CS1WorkG54Y P901
+#define CS1WorkG54Z P902
+
+#define CS1WorkG55X P910
+#define CS1WorkG55Y P911
+#define CS1WorkG55Z P912
+
+#define CS1WorkG56X P920
+#define CS1WorkG56Y P921
+#define CS1WorkG56Z P922
+
+#define CS1WorkG57X P930
+#define CS1WorkG57Y P931
+#define CS1WorkG57Z P932
+
+#define CS1WorkG58X P940
+#define CS1WorkG58Y P941
+#define CS1WorkG58Z P942
+
+#define CS1WorkG59X P950
+#define CS1WorkG59Y P951
+#define CS1WorkG59Z P952
+
+#define CS1WorkG54_1P1X P1000
+#define CS1WorkG54_1P1Y P1001
+#define CS1WorkG54_1P1Z P1002
+
+#define CS1WorkG54_1P2X P1010
+#define CS1WorkG54_1P2Y P1011
+#define CS1WorkG54_1P2Z P1012
+
+#define CS1WorkG54_1P3X P1020
+#define CS1WorkG54_1P3Y P1021
+#define CS1WorkG54_1P3Z P1022
+
+#define CS1WorkG54_1P4X P1030
+#define CS1WorkG54_1P4Y P1031
+#define CS1WorkG54_1P4Z P1032
+
+#define CS1WorkG54_1P5X P1040
+#define CS1WorkG54_1P5Y P1041
+#define CS1WorkG54_1P5Z P1042
+
+#define CS1WorkG54_1P6X P1050
+#define CS1WorkG54_1P6Y P1051
+#define CS1WorkG54_1P6Z P1052
+
+#define CS1WorkG54_1P7X P1060
+#define CS1WorkG54_1P7Y P1061
+#define CS1WorkG54_1P7Z P1062
+
+#define CS1WorkG54_1P8X P1070
+#define CS1WorkG54_1P8Y P1071
+#define CS1WorkG54_1P8Z P1072
+
+#define CS1WorkG54_1P9X P1080
+#define CS1WorkG54_1P9Y P1081
+#define CS1WorkG54_1P9Z P1082
+
+#define CS1WorkG54_1P10X P1090
+#define CS1WorkG54_1P10Y P1091
+#define CS1WorkG54_1P10Z P1092
+
+#define CS1WorkG54_1P11X P1100
+#define CS1WorkG54_1P11Y P1101
+#define CS1WorkG54_1P11Z P1102
+
+#define CS1WorkG54_1P12X P1110
+#define CS1WorkG54_1P12Y P1111
+#define CS1WorkG54_1P12Z P1112
+
+#define CS1WorkG54_1P13X P1120
+#define CS1WorkG54_1P13Y P1121
+#define CS1WorkG54_1P13Z P1122
+
+#define CS1WorkG54_1P14X P1130
+#define CS1WorkG54_1P14Y P1131
+#define CS1WorkG54_1P14Z P1132
+
+#define CS1WorkG54_1P15X P1140
+#define CS1WorkG54_1P15Y P1141
+#define CS1WorkG54_1P15Z P1142
+
+#define CS1WorkG54_1P16X P1150
+#define CS1WorkG54_1P16Y P1151
+#define CS1WorkG54_1P16Z P1152
+
+// CNC Mill Tooling Parameters
+
+// CS Global Definitions for Tool Length and Cutter Comp
+#define CS1Tool1ZGeom  P2000
+#define CS1Tool1ZWear P2001
+#define CS1Tool1CCGeom P2002
+#define CS1Tool1CCWear  P2003
+
+#define CS1Tool2ZGeom  P2010
+#define CS1Tool2ZWear P2011
+#define CS1Tool2CCGeom P2012
+#define CS1Tool2CCWear  P2013
+
+#define CS1Tool3ZGeom  P2020
+#define CS1Tool3ZWear P2021
+#define CS1Tool3CCGeom P2022
+#define CS1Tool3CCWear   P2023
+
+#define CS1Tool4ZGeom  P2030
+#define CS1Tool4ZWear P2031
+#define CS1Tool4CCGeom P2032
+#define CS1Tool4CCWear  P2033
+
+#define CS1Tool5ZGeom  P2040
+#define CS1Tool5ZWear P2041
+#define CS1Tool5CCGeom P2042
+#define CS1Tool5CCWear  P2043
+
+#define CS1Tool6ZGeom  P2050
+#define CS1Tool6ZWear P2051
+#define CS1Tool6CCGeom P2052
+#define CS1Tool6CCWear  P2053
+
+#define CS1Tool7ZGeom  P2060
+#define CS1Tool7ZWear P2061
+#define CS1Tool7CCGeom P2062
+#define CS1Tool7CCWear  P2063
+
+#define CS1Tool8ZGeom  P2070
+#define CS1Tool8ZWear P2071
+#define CS1Tool8CCGeom P2072
+#define CS1Tool8CCWear  P2073
+
+#define CS1Tool9ZGeom  P2080
+#define CS1Tool9ZWear P2081
+#define CS1Tool9CCGeom P2082
+#define CS1Tool9CCWear  P2083
+
+#define CS1Tool10ZGeom  P2090
+#define CS1Tool10ZWear P2091
+#define CS1Tool10CCGeom P2092
+#define CS1Tool10CCWear  P2093
+
+#define CS1Tool11ZGeom  P2100
+#define CS1Tool11ZWear P2101
+#define CS1Tool11CCGeom P2102
+#define CS1Tool11CCWear  P2103
+
+#define CS1Tool12ZGeom  P2110
+#define CS1Tool12ZWear P2111
+#define CS1Tool12CCGeom P2112
+#define CS1Tool12CCWear  P2113
+
+#define CS1Tool13ZGeom  P2120
+#define CS1Tool13ZWear P2121
+#define CS1Tool13CCGeom P2122
+#define CS1Tool13CCWear  P2123
+
+#define CS1Tool14ZGeom  P2130
+#define CS1Tool14ZWear P2131
+#define CS1Tool14CCGeom P2132
+#define CS1Tool14CCWear  P2133
+
+#define CS1Tool15ZGeom  P2140
+#define CS1Tool15ZWear P2141
+#define CS1Tool15CCGeom P2142
+#define CS1Tool15CCWear  P2143
+
+#define CS1Tool16ZGeom  P2150
+#define CS1Tool16ZWear P2151
+#define CS1Tool16CCGeom P2152
+#define CS1Tool16CCWear  P2153
+
+#define CS1Tool17ZGeom  P2160
+#define CS1Tool17ZWear P2161
+#define CS1Tool17CCGeom P2162
+#define CS1Tool17CCWear  P2163
+
+#define CS1Tool18ZGeom  P2170
+#define CS1Tool18ZWear P2171
+#define CS1Tool18CCGeom P2172
+#define CS1Tool18CCWear  P2173
+
+#define CS1Tool19ZGeom  P2180
+#define CS1Tool19ZWear P2181
+#define CS1Tool19CCGeom P2182
+#define CS1Tool19CCWear  P2183
+
+#define CS1Tool20ZGeom  P2190
+#define CS1Tool20ZWear P2191
+#define CS1Tool20CCGeom P2192
+#define CS1Tool20CCWear  P2193
+
+#define CS1Tool21ZGeom  P2200
+#define CS1Tool21ZWear P2201
+#define CS1Tool21CCGeom P2202
+#define CS1Tool21CCWear  P2203
+
+#define CS1Tool22ZGeom  P2210
+#define CS1Tool22ZWear P2211
+#define CS1Tool22CCGeom P2212
+#define CS1Tool22CCWear  P2213
+
+#define CS1Tool23ZGeom  P2220
+#define CS1Tool23ZWear P2221
+#define CS1Tool23CCGeom P2222
+#define CS1Tool23CCWear  P2223
+
+#define CS1Tool24ZGeom  P2230
+#define CS1Tool24ZWear P2231
+#define CS1Tool24CCGeom P2232
+#define CS1Tool24CCWear  P2233
+
+#define CS1Tool25ZGeom  P2240
+#define CS1Tool25ZWear P2241
+#define CS1Tool25CCGeom P2242
+#define CS1Tool25CCWear  P2243
+
+
+// CNC Laser Parameters
+#ifdef Laser
+
+    // CS Global Definitions for Laser Power, Frequency, Speed, Length, Path Offset
+    #define LaserParametersT1Power P2004 
+    #define LaserParametersT1Frequency P2005 
+    #define LaserParametersT1Speed P2006 
+     
+    #define LaserParametersT2Power P2014 
+    #define LaserParametersT2Frequency P2015
+    #define LaserParametersT2Speed P2016 
+    
+    #define LaserParametersT3Power P2024
+    #define LaserParametersT3Frequency P2025 
+    #define LaserParametersT3Speed P2026
+    
+    #define LaserParametersT4Power P2034
+    #define LaserParametersT4Frequency P2035 
+    #define LaserParametersT4Speed P2036
+    
+    #define LaserParametersT5Power P2044
+    #define LaserParametersT5Frequency P2045 
+    #define LaserParametersT5Speed P2046
+    
+    #define LaserParametersT6Power P2054
+    #define LaserParametersT6Frequency P2055
+    #define LaserParametersT6Speed P2056
+     
+    #define LaserParametersT7Power P2064
+    #define LaserParametersT7Frequency P2065
+    #define LaserParametersT7Speed P2066
+    
+    #define LaserParametersT8Power P2074
+    #define LaserParametersT8Frequency P2075
+    #define LaserParametersT8Speed P2076
+    
+    #define LaserParametersT9Power P2084
+    #define LaserParametersT9Frequency P2085
+    #define LaserParametersT9Speed P2086
+    
+    #define LaserParametersT10Power P2094
+    #define LaserParametersT10Frequency P2095
+    #define LaserParametersT10Speed P2096
+    
+    #define LaserParametersT11Power P2104
+    #define LaserParametersT11Frequency P2105
+    #define LaserParametersT11Speed P2106
+    
+    #define LaserParametersT12Power P2114
+    #define LaserParametersT12Frequency P2115
+    #define LaserParametersT12Speed P2116
+    
+    #define LaserParametersT13Power P2124
+    #define LaserParametersT13Frequency P2125
+    #define LaserParametersT13Speed P2126
+    
+    #define LaserParametersT14Power P2134
+    #define LaserParametersT14Frequency P2135
+    #define LaserParametersT14Speed P2136
+    
+    #define LaserParametersT15Power P2144
+    #define LaserParametersT15Frequency P2145
+    #define LaserParametersT15Speed P2146
+    
+    #define LaserParametersT16Power P2154
+    #define LaserParametersT16Frequency P2155
+    #define LaserParametersT16Speed P2156
+    
+    #define LaserParametersT17Power P2164
+    #define LaserParametersT17Frequency P2165
+    #define LaserParametersT17Speed P2166
+    
+    #define LaserParametersT18Power P2174
+    #define LaserParametersT18Frequency P2175
+    #define LaserParametersT18Speed P2176
+    
+    #define LaserParametersT19Power P2184
+    #define LaserParametersT19Frequency P2185
+    #define LaserParametersT19Speed P2186
+    
+    #define LaserParametersT20Power P2194
+    #define LaserParametersT20Frequency P2195
+    #define LaserParametersT20Speed P2196
+
+#endif

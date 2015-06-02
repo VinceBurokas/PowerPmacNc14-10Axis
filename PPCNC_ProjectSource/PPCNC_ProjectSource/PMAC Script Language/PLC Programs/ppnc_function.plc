@@ -1,0 +1,585 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// CNC Machine Control Functions.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+// 111914 - Revised Code for Pendant Support
+// 111914 - Replaced Program Jogs for Command Jogs
+// 102115 - Modified Step Logic While Loops
+// 052515 - Implemented 10 Axis Code
+/***********************************************************************************/
+
+open plc Function
+
+local StepCycleTemp;
+local JogIncActive;
+local ScanOnce;
+//
+local A1motorNumber, A2motorNumber, A3motorNumber, A4motorNumber, A5motorNumber ,A6motorNumber, A7motorNumber, A8motorNumber, A9motorNumber, A10motorNumber;
+local A1axisIndex, A2axisIndex, A3axisIndex, A4axisIndex, A5axisIndex, A6axisIndex, A7axisIndex, A8axisIndex, A9axisIndex, A10axisIndex;
+
+// initialisation of motor number and axis nmae
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// -------------------- Handshake GUI Initialize Bit - Login --------------
+if (CommandReg == UI_Initialize)
+{
+	CommandReg = UI_None
+	send1 "Initialized"
+}
+
+// -------------------- Handshake GUI Cancel Bit --------------------
+if (CommandReg == UI_Cancel)
+{
+	CommandReg = UI_None
+	// Place User Cancel Logic Here or Add Custom Cancel PLC
+	send1 "Canceled"
+}
+
+// -------------------- Abort Program --------------
+if (CommandReg == UI_Abort)
+{
+	CommandReg = UI_None
+	abort
+	enable
+	send1 "ProgramAborted"
+}
+
+// -------------------- Application Reset --------------
+if (CommandReg == UI_Reset)
+{
+	CommandReg = UI_None
+	abort
+	enable
+	if (RunOptions & UI_RotaryBuffer == UI_None)
+	{
+		begin 1:100
+	}
+	//ResetInit = 1
+	send1 "ResetCompleted"
+}
+
+// ------------------- Set Max Feedrate On GUI Initialization - Only Once! -----------------------
+if (MaxFeedrate != 0 && ScanOnce == 0)
+{
+	Coord[1].MaxFeedRate = MaxFeedrate
+	ScanOnce = 1
+}
+
+// -------------------- Auto and MDI Mode Functions --------------
+if (MachineMode == Auto || MachineMode == MDI)
+{
+	if (MachineState==ProgramLoaded || MachineState==InFeedHold || MachineState==Running)	// || MachineState==Completed)
+	{
+		if (CommandReg == UI_CycleStart && Coord[1].ProgActive == 0)
+		{
+			//Test Code Here
+			if (RunOptions & UI_RotaryBuffer == UI_RotaryBuffer)
+			{
+				//call timer(1)
+				while(MachineState == 11){}
+			}
+
+
+			CommandReg = UI_None
+			if (MachineMode == Auto)
+			{
+				if (RunOptions & UI_SingleBlock == UI_SingleBlock)
+				{
+					send1 "CycleStarted"
+					//begin 1:100
+					if (RunOptions & UI_RotaryBuffer == UI_RotaryBuffer)
+					{
+						cmd"&1 B0"
+					}
+					else
+					{
+						begin 1:100
+					}
+
+					StepCycleTemp = 1
+					Do
+					{
+						Step
+						call timer(0.1)
+					}while(StepCycleTemp == Coord[1].Nsync && CommandReg == 0)
+
+					if (StepCycleLatch == 1)
+					{
+						StepCycleLatch = 0
+					}
+				}
+				else
+				{
+					//begin 1:100
+					if (RunOptions & UI_RotaryBuffer == UI_RotaryBuffer)
+					{
+
+						// begin 0
+						cmd"&1 B0"
+					}
+					else
+					{
+						begin 1:100
+					}
+
+					cmd"run"
+
+					send1 "CycleStarted"
+				}
+			}
+			else if (MachineMode == MDI)
+			{
+				if (RunOptions & UI_SingleBlock ==  UI_SingleBlock)
+				{
+					send1 "CycleStarted"
+					begin 1:99
+					StepCycleTemp = 1
+					Do
+					{
+						Step
+						call timer(0.1)
+					}while(StepCycleTemp == Coord[1].Nsync && CommandReg == 0)
+
+					if (StepCycleLatch == 1)
+					{
+						StepCycleLatch = 0
+					}
+				}
+				else
+				{
+					begin 1:99
+					run
+					send1 "CycleStarted"
+				}
+			}
+		}
+		else if (CommandReg == UI_CycleStart && Coord[1].ProgActive == 1)
+		{
+			CommandReg = UI_None
+			if (RunOptions & UI_SingleBlock == UI_SingleBlock)
+			{
+				if (AutoJogFlag == 1)
+				{
+					cmd"#*j="
+					call timer(0.05)
+					while (!(Coord[1].DesVelZero)){}
+					AutoJogFlag = 0
+				}
+				send1 "CycleStarted"
+				StepCycleTemp = Coord[1].Nsync
+				Do
+				{
+					Step
+					call timer(0.1)
+				}while(StepCycleTemp == Coord[1].Nsync && CommandReg == 0)
+
+				if (StepCycleLatch == 1)
+				{
+					StepCycleLatch = 0
+				}
+			}
+			else
+			{
+				if (AutoJogFlag == 1)
+				{
+					cmd"#*j="
+					call timer(0.05)
+					while (!(Coord[1].DesVelZero)){}
+					AutoJogFlag = 0
+				}
+				run
+				send1 "CycleStarted"
+			}
+		}
+		else if (CommandReg == UI_FeedHold)
+		{
+			cmd "&1\ "
+			//Quick Stop - This does not work in IDE
+			// lh\\;
+			CommandReg = UI_None
+			send1 "InFeedHold"
+		}
+
+		//Single Step Hold Status
+		if (RunOptions & UI_SingleBlock == UI_SingleBlock && coord[1].ProgActive==1 && coord[1].ProgProceeding==0 && StepCycleLatch==0)
+		{
+			send1 "InFeedHold"
+			StepCycleLatch = 1
+		}
+
+		//Stop Program If Single Step Pressed While Running
+		if (RunOptions & UI_SingleBlock == UI_SingleBlock && coord[1].ProgProceeding==1 && coord[1].ProgRunning==1 && StepLatch==0)
+		{
+			cmd "&1\ "
+			while(coord[1].ProgRunning==1){}
+			step
+			StepLatch = 1
+			StepCycleLatch = 0
+		}
+		else if (RunOptions & UI_SingleBlock == UI_None && StepLatch == 1)
+		{
+			while(coord[1].ProgProceeding == 1){}
+			RunOptions = RunOptions & (RunOptions^UI_SingleBlock)
+			StepLatch = 0
+		}
+	}
+}
+
+
+
+// -------------------- Manual Mode Functions --------------
+if (MachineMode == Manual)
+{
+	if (PowerPendPresent != 1)
+	{
+		// Set Continuous Jog Speed
+		if (JogOptions & UI_JogX1 == UI_JogX1)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX1 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX1 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX1 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			motor[A4motorNumber].JogSpeed = JogX1 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX1 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX1 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX1 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX1 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX1 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX1 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (JogOptions & UI_JogX2 == UI_JogX2)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX2 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX2 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX2 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX2 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX2 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX2 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX2 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX2 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX2 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX2 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (JogOptions & UI_JogX3 == UI_JogX3)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX3 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX3 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX3 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX3 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX3 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX3 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX3 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX3 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX3 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX3 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (JogOptions & UI_JogX4 == UI_JogX4)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX4 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX4 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX4 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX4 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX4 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX4 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX4 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX4 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX4 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX4 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (JogOptions & UI_JogX5 == UI_JogX5)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX5 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX5 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX5 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX5 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX5 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX5 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX5 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX5 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX5 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX5 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		// Set Incremental Jog Distance
+		IncDistance = JogIncDist
+	}
+
+	// Continuous Jogging Plus
+	if (CommandReg == UI_JogPlus)
+	{
+		if (JogOptions & UI_Axis_a1 == UI_Axis_a1)
+		{
+			Ldata.motor = A1motorNumber
+		}
+
+		if (JogOptions & UI_Axis_a2 == UI_Axis_a2)
+		{
+			Ldata.motor = A2motorNumber
+		}
+
+		if (JogOptions & UI_Axis_a3 == UI_Axis_a3)
+		{
+			Ldata.motor = A3motorNumber
+		}
+		
+		if (JogOptions &  UI_Axis_a4 ==  UI_Axis_a4)
+		{
+			Ldata.motor = A4motorNumber
+		}
+		if (JogOptions &  UI_Axis_a5 ==  UI_Axis_a5)
+		{
+			Ldata.motor = A5motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a6 ==  UI_Axis_a6)
+		{
+			Ldata.motor = A6motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a7 ==  UI_Axis_a7)
+		{
+			Ldata.motor = A7motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a8 ==  UI_Axis_a8)
+		{
+			Ldata.motor = A8motorNumber
+		}
+		if (JogOptions &  UI_Axis_a9 ==  UI_Axis_a9)
+		{
+			Ldata.motor = A9motorNumber
+		}
+		if (JogOptions &  UI_Axis_a10 ==  UI_Axis_a10)
+		{
+			Ldata.motor = A10motorNumber
+		}
+		jog+			
+		send1 "Jogging"
+		CommandReg = UI_None
+	}
+
+	// Continuous Jogging Minus
+	if (CommandReg == UI_JogMinus)
+	{
+		if (JogOptions & UI_Axis_a1 == UI_Axis_a1)
+		{
+			Ldata.motor = A1motorNumber
+		}
+
+		if (JogOptions & UI_Axis_a2 == UI_Axis_a2)
+		{
+			Ldata.motor = A2motorNumber
+		}
+
+		if (JogOptions & UI_Axis_a3 == UI_Axis_a3)
+		{
+			Ldata.motor = A3motorNumber
+		}
+		
+		if (JogOptions &  UI_Axis_a4 ==  UI_Axis_a4)
+		{
+			Ldata.motor = A4motorNumber
+		}
+		if (JogOptions &  UI_Axis_a5 ==  UI_Axis_a5)
+		{
+			Ldata.motor = A5motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a6 ==  UI_Axis_a6)
+		{
+			Ldata.motor = A6motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a7 ==  UI_Axis_a7)
+		{
+			Ldata.motor = A7motorNumber
+		}	
+		if (JogOptions &  UI_Axis_a8 ==  UI_Axis_a8)
+		{
+			Ldata.motor = A8motorNumber
+		}
+		if (JogOptions &  UI_Axis_a9 ==  UI_Axis_a9)
+		{
+			Ldata.motor = A9motorNumber
+		}
+		if (JogOptions &  UI_Axis_a10 ==  UI_Axis_a10)
+		{
+			Ldata.motor = A10motorNumber
+		}
+		jog-
+		send1 "Jogging"
+		CommandReg = UI_None
+	}
+
+	// Incremental Jogging
+	if (CommandReg == UI_JogIncPlus)
+	{
+		if (JogOptions & UI_Axis_a1 == UI_Axis_a1)
+		{
+			Motor[A1motorNumber].ProgJogPos = IncDistance * Motor[A1motorNumber].CoordSf[A1axisIndex]
+			Ldata.motor = A1motorNumber		
+		}
+		if (JogOptions & UI_Axis_a2 == UI_Axis_a2)
+		{
+			Motor[A2motorNumber].ProgJogPos = IncDistance * Motor[A2motorNumber].CoordSf[A2axisIndex]
+			Ldata.motor = A2motorNumber	
+		}
+		if (JogOptions & UI_Axis_a3 == UI_Axis_a3)
+		{
+			Motor[A3motorNumber].ProgJogPos = IncDistance * Motor[A3motorNumber].CoordSf[A3axisIndex]
+			Ldata.motor = A3motorNumber	
+		}
+		if (JogOptions & UI_Axis_a4 == UI_Axis_a4)
+		{
+			Motor[A4motorNumber].ProgJogPos = IncDistance * Motor[A4motorNumber].CoordSf[A4axisIndex]
+			Ldata.motor = A4motorNumber	
+		}		
+		if (JogOptions & UI_Axis_a5 == UI_Axis_a5)
+		{
+			Motor[A5motorNumber].ProgJogPos = IncDistance * Motor[A5motorNumber].CoordSf[A5axisIndex]
+			Ldata.motor = A5motorNumber	
+		}	
+		if (JogOptions & UI_Axis_a6 == UI_Axis_a6)
+		{
+			Motor[A6motorNumber].ProgJogPos = IncDistance * Motor[A6motorNumber].CoordSf[A6axisIndex]
+			Ldata.motor = A6motorNumber	
+		}
+		if (JogOptions & UI_Axis_a7 == UI_Axis_a7)
+		{
+			Motor[A7motorNumber].ProgJogPos = IncDistance * Motor[A7motorNumber].CoordSf[A7axisIndex]
+			Ldata.motor = A7motorNumber	
+		}
+		if (JogOptions & UI_Axis_a8 == UI_Axis_a8)
+		{
+			Motor[A8motorNumber].ProgJogPos = IncDistance * Motor[A8motorNumber].CoordSf[A8axisIndex]
+			Ldata.motor = A8motorNumber	
+		}
+		if (JogOptions &  UI_Axis_a9 ==  UI_Axis_a9)
+		{
+			Motor[A9motorNumber].ProgJogPos = IncDistance * Motor[A9motorNumber].CoordSf[A9axisIndex]
+			Ldata.motor = A9motorNumber
+		}
+		if (JogOptions &  UI_Axis_a10 ==  UI_Axis_a10)
+		{
+			Motor[A10motorNumber].ProgJogPos = IncDistance * Motor[A10motorNumber].CoordSf[A10axisIndex]
+			Ldata.motor = A10motorNumber
+		}
+		jog^*	
+		send1 "Jogging"
+		JogIncActive = 1
+		CommandReg = UI_None
+	}
+
+	if (CommandReg == UI_JogIncMinus)
+	{
+		if (JogOptions & UI_Axis_a1 == UI_Axis_a1)
+		{
+			Motor[A1motorNumber].ProgJogPos = -IncDistance * Motor[A1motorNumber].CoordSf[A1axisIndex]
+			Ldata.motor = A1motorNumber		
+		}
+		if (JogOptions & UI_Axis_a2 == UI_Axis_a2)
+		{
+			Motor[A2motorNumber].ProgJogPos = -IncDistance * Motor[A2motorNumber].CoordSf[A2axisIndex]
+			Ldata.motor = A2motorNumber	
+		}
+		if (JogOptions & UI_Axis_a3 == UI_Axis_a3)
+		{
+			Motor[A3motorNumber].ProgJogPos = -IncDistance * Motor[A3motorNumber].CoordSf[A3axisIndex]
+			Ldata.motor = A3motorNumber	
+		}
+		if (JogOptions & UI_Axis_a4 == UI_Axis_a4)
+		{
+			Motor[A4motorNumber].ProgJogPos = -IncDistance * Motor[A4motorNumber].CoordSf[A4axisIndex]
+			Ldata.motor = A4motorNumber	
+		}		
+		if (JogOptions & UI_Axis_a5 == UI_Axis_a5)
+		{
+			Motor[A5motorNumber].ProgJogPos = -IncDistance * Motor[A5motorNumber].CoordSf[A5axisIndex]
+			Ldata.motor = A5motorNumber	
+		}	
+		if (JogOptions & UI_Axis_a6 == UI_Axis_a6)
+		{
+			Motor[A6motorNumber].ProgJogPos = -IncDistance * Motor[A6motorNumber].CoordSf[A6axisIndex]
+			Ldata.motor = A6motorNumber	
+		}
+		if (JogOptions & UI_Axis_a7 == UI_Axis_a7)
+		{
+			Motor[A7motorNumber].ProgJogPos = -IncDistance * Motor[A7motorNumber].CoordSf[A7axisIndex]
+			Ldata.motor = A7motorNumber	
+		}
+		if (JogOptions & UI_Axis_a8 == UI_Axis_a8)
+		{
+			Motor[A8motorNumber].ProgJogPos = -IncDistance * Motor[A8motorNumber].CoordSf[A8axisIndex]
+			Ldata.motor = A8motorNumber	
+		}
+		if (JogOptions &  UI_Axis_a9 ==  UI_Axis_a9)
+		{
+			Motor[A9motorNumber].ProgJogPos = -IncDistance * Motor[A9motorNumber].CoordSf[A9axisIndex]
+			Ldata.motor = A9motorNumber
+		}
+		if (JogOptions &  UI_Axis_a10 ==  UI_Axis_a10)
+		{
+			Motor[A10motorNumber].ProgJogPos = -IncDistance * Motor[A10motorNumber].CoordSf[A10axisIndex]
+			Ldata.motor = A10motorNumber
+		}
+		jog^*	
+		send1 "Jogging"
+		JogIncActive = 1
+		CommandReg = UI_None
+	}
+
+	// Jog Stop All
+	if (CommandReg == UI_JogStop)
+	{
+		CommandReg = UI_None
+		cmd"#*j/"
+		send1 "JogStopped"
+	}
+}
+
+//Send Jog Complete After Incremental Jog Move Completes Regardless of Mode
+if (JogIncActive == 1)
+{
+	call timer(0.1) //Pause Until Jog Move Starts
+	if (Motor[A1motorNumber].Desired.TimerEnabled == 0 && Motor[A2motorNumber].Desired.TimerEnabled == 0 && Motor[A3motorNumber].Desired.TimerEnabled == 0  && Motor[A4motorNumber].Desired.TimerEnabled == 0 && Motor[A5motorNumber].Desired.TimerEnabled == 0 && Motor[A6motorNumber].Desired.TimerEnabled == 0 && Motor[A7motorNumber].Desired.TimerEnabled == 0 && Motor[A8motorNumber].Desired.TimerEnabled == 0 && Motor[A9motorNumber].Desired.TimerEnabled == 0 && Motor[A10motorNumber].Desired.TimerEnabled == 0)
+	{
+		send1 "JogStopped"
+		JogIncActive = 0
+	}
+}
+
+// Set Jog While Auto Mode Flag
+if (MachineMode == Manual && Coord[1].ProgActive == 1 && AutoJogFlag == 0)
+{
+	AutoJogFlag = 1
+}
+
+// Cancel G04 Display if Program Aborted During G04
+if (Coord[1].ProgActive == 0 && GCodesGroup0 & $1 == $1)
+{
+	GCodesGroup0 = GCodesGroup0&(GCodesGroup0^$1)
+}
+
+close
+

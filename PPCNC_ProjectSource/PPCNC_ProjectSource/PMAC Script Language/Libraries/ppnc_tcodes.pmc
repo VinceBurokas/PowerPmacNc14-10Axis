@@ -1,0 +1,159 @@
+// T-code subroutine implementation
+// Assumes saved setup element Coord[x].Gprog is at default of 1002
+
+open subprog 1002	//T-Code Sub-Routines
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// T1 - Tool 1 Parameter
+n1000:
+CS1ActiveTCode == 1;
+dwell 0;
+return;
+
+// T2 - Tool 2 Parameter
+n2000:
+CS1ActiveTCode == 2;
+dwell 0;
+return;
+
+// T3 - Tool 3 Parameter
+n3000:
+CS1ActiveTCode == 3;
+dwell 0;
+return;
+
+// T4 - Tool 4 Parameter
+n4000:
+CS1ActiveTCode == 4;
+dwell 0;
+return;
+
+// T5 - Tool 5 Parameter
+n5000:
+CS1ActiveTCode == 5;
+dwell 0;
+return;
+
+// T6 - Tool 6 Parameter
+n6000:
+CS1ActiveTCode == 6;
+dwell 0;
+return;
+
+// T7 - Tool 7 Parameter
+n7000:
+CS1ActiveTCode == 7;
+dwell 0;
+return;
+
+// T8 - Tool 8 Parameter
+n8000:
+CS1ActiveTCode == 8;
+dwell 0;
+return;
+
+// T9 - Tool 9 Parameter
+n9000:
+CS1ActiveTCode == 9;
+dwell 0;
+return;
+
+// T10 - Tool 10 Parameter
+n10000:
+CS1ActiveTCode == 10;
+dwell 0;
+return;
+
+// T11 - Tool 11 Parameter
+n11000:
+CS1ActiveTCode == 11;
+dwell 0;
+return;
+
+// T12 - Tool 12 Parameter
+n12000:
+CS1ActiveTCode == 12;
+dwell 0;
+return;
+
+// T13 - Tool 13 Parameter
+n13000:
+CS1ActiveTCode == 13;
+dwell 0;
+return;
+
+// T14 - Tool 14 Parameter
+n14000:
+CS1ActiveTCode == 14;
+dwell 0;
+return;
+
+// T15 - Tool 15 Parameter
+n15000:
+CS1ActiveTCode == 15;
+dwell 0;
+return;
+
+// T16 - Tool 16 Parameter
+n16000:
+CS1ActiveTCode == 16;
+dwell 0;
+return;
+
+// T17 - Tool 17 Parameter
+n17000:
+CS1ActiveTCode == 17;
+dwell 0;
+return;
+
+// T18 - Tool 18 Parameter
+n18000:
+CS1ActiveTCode == 18;
+dwell 0;
+return;
+
+// T19 - Tool 19 Parameter
+n19000:
+CS1ActiveTCode == 19;
+dwell 0;
+return;
+
+// T20 - Tool 20 Parameter
+n20000:
+CS1ActiveTCode == 20;
+dwell 0;
+return;
+
+// T21 - Tool 21 Parameter
+n21000:
+CS1ActiveTCode == 21;
+dwell 0;
+return;
+
+// T22 - Tool 22 Parameter
+n22000:
+CS1ActiveTCode == 22;
+dwell 0;
+return;
+
+// T23 - Tool 23 Parameter
+n23000:
+CS1ActiveTCode == 23;
+dwell 0;
+return;
+
+// T24 - Tool 24 Parameter
+n24000:
+CS1ActiveTCode == 24;
+dwell 0;
+return;
+
+// T25 - Tool 25 Parameter
+n25000:
+CS1ActiveTCode == 25;
+dwell 0;
+return;
+
+close

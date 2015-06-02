@@ -1,0 +1,194 @@
+1		ThisCs	0	1
+2		Xref	1	1
+3		Yref	2	1
+4		Zref	3	1
+5		Xang	4	1
+6		Yang	5	1
+7		Zang	6	1
+8		MotorNumber	7	1
+9		ToolOffset	8	1
+10		ToolWearOffset	9	1
+11		ToolOffsetRow	10	1
+12		CutterRadiusTemp	11	1
+13		ZtoolOfsTemp	12	1
+14		AuxG54Offset	13	1
+15		AuxG54Temp	14	1
+16		ActiveWorkOffset	15	1
+17		ActiveToolOffset	16	1
+18		ExtendOffsetFlag	17	1
+19		DwellTime	18	1
+20		A1motorNumber	19	1
+21		A2motorNumber	20	1
+22		A3motorNumber	21	1
+23		A4motorNumber	22	1
+24		A5motorNumber	23	1
+25		A6motorNumber	24	1
+26		A7motorNumber	25	1
+27		A8motorNumber	26	1
+28		A9motorNumber	27	1
+29		A10motorNumber	28	1
+30		A1axisIndex	29	1
+31		A2axisIndex	30	1
+32		A3axisIndex	31	1
+33		A4axisIndex	32	1
+34		A5axisIndex	33	1
+35		A6axisIndex	34	1
+36		A7axisIndex	35	1
+37		A8axisIndex	36	1
+38		A9axisIndex	37	1
+39		A10axisIndex	38	1
+40		SubProgLoop	0	1
+41		SubProgNum	1	1
+42	SUBPROGtimer	time	0	1
+43	SUBPROGtimer	EndTime	1	1
+44	SUBPROGtimer	count	2	1
+45	SUBPROGComputeNCTransform	XformNum	0	1
+46	SUBPROGComputeNCTransform	TestDet	1	1
+47	PLCFunction	StepCycleTemp	0	1
+48	PLCFunction	JogIncActive	1	1
+49	PLCFunction	ScanOnce	2	1
+50	PLCFunction	A1motorNumber	3	1
+51	PLCFunction	A2motorNumber	4	1
+52	PLCFunction	A3motorNumber	5	1
+53	PLCFunction	A4motorNumber	6	1
+54	PLCFunction	A5motorNumber	7	1
+55	PLCFunction	A6motorNumber	8	1
+56	PLCFunction	A7motorNumber	9	1
+57	PLCFunction	A8motorNumber	10	1
+58	PLCFunction	A9motorNumber	11	1
+59	PLCFunction	A10motorNumber	12	1
+60	PLCFunction	A1axisIndex	13	1
+61	PLCFunction	A2axisIndex	14	1
+62	PLCFunction	A3axisIndex	15	1
+63	PLCFunction	A4axisIndex	16	1
+64	PLCFunction	A5axisIndex	17	1
+65	PLCFunction	A6axisIndex	18	1
+66	PLCFunction	A7axisIndex	19	1
+67	PLCFunction	A8axisIndex	20	1
+68	PLCFunction	A9axisIndex	21	1
+69	PLCFunction	A10axisIndex	22	1
+70	PLCHandwheel	HandleScale	0	1
+71	PLCHandwheel	Motornumber	1	1
+72	PLCHandwheel	axisindex	2	1
+73	PLCHandwheel	motorindex	3	1
+74	PLCHmiMonitor	HmiCounterPrev	0	1
+75	PLCHmiMonitor	HmiPresentFlag	1	1
+76	PLCHmiMonitor	FirstTime	2	1
+77	PLCInitialize	indexcount	0	1
+78	PLCInitialize	axisindex	1	1
+79	PLCPowerPendant	JogFlag	0	1
+80	PLCPowerPendant	KeyDownFlag	1	1
+81	PLCPowerPendant	Motornumber	2	1
+82	PLCPowerPendant	axisindex	3	1
+83	PLCPowerPendant	motorindex	4	1
+84	PLCPowerPendant	axisnumber	5	1
+85	PLCPowerPendant	axisnumbermask	6	1
+86	PLCPowerPendant	A1motorNumber	7	1
+87	PLCPowerPendant	A2motorNumber	8	1
+88	PLCPowerPendant	A3motorNumber	9	1
+89	PLCPowerPendant	A4motorNumber	10	1
+90	PLCPowerPendant	A5motorNumber	11	1
+91	PLCPowerPendant	A6motorNumber	12	1
+92	PLCPowerPendant	A7motorNumber	13	1
+93	PLCPowerPendant	A8motorNumber	14	1
+94	PLCPowerPendant	A9motorNumber	15	1
+95	PLCPowerPendant	A10motorNumber	16	1
+96	PLCPowerPendant	A1axisIndex	17	1
+97	PLCPowerPendant	A2axisIndex	18	1
+98	PLCPowerPendant	A3axisIndex	19	1
+99	PLCPowerPendant	A4axisIndex	20	1
+100	PLCPowerPendant	A5axisIndex	21	1
+101	PLCPowerPendant	A6axisIndex	22	1
+102	PLCPowerPendant	A7axisIndex	23	1
+103	PLCPowerPendant	A8axisIndex	24	1
+104	PLCPowerPendant	A9axisIndex	25	1
+105	PLCPowerPendant	A10axisIndex	26	1
+106	PLCPositionReport	A1progPos	0	1
+107	PLCPositionReport	A2progPos	1	1
+108	PLCPositionReport	A3progPos	2	1
+109	PLCPositionReport	A4progPos	3	1
+110	PLCPositionReport	A5progPos	4	1
+111	PLCPositionReport	A6progPos	5	1
+112	PLCPositionReport	A7progPos	6	1
+113	PLCPositionReport	A8progPos	7	1
+114	PLCPositionReport	A9progPos	8	1
+115	PLCPositionReport	A10progPos	9	1
+116	PLCPositionReport	InvalidSolA1	10	1
+117	PLCPositionReport	InvalidSolA2	11	1
+118	PLCPositionReport	InvalidSolA3	12	1
+119	PLCPositionReport	InvalidSolA4	13	1
+120	PLCPositionReport	InvalidSolA5	14	1
+121	PLCPositionReport	InvalidSolA6	15	1
+122	PLCPositionReport	InvalidSolA7	16	1
+123	PLCPositionReport	InvalidSolA8	17	1
+124	PLCPositionReport	InvalidSolA9	18	1
+125	PLCPositionReport	InvalidSolA10	19	1
+126	PLCPositionReport	A1disttogoRd	20	1
+127	PLCPositionReport	A2disttogoRd	21	1
+128	PLCPositionReport	A3disttogoRd	22	1
+129	PLCPositionReport	A4disttogoRd	23	1
+130	PLCPositionReport	A5disttogoRd	24	1
+131	PLCPositionReport	A6disttogoRd	25	1
+132	PLCPositionReport	A7disttogoRd	26	1
+133	PLCPositionReport	A8disttogoRd	27	1
+134	PLCPositionReport	A9disttogoRd	28	1
+135	PLCPositionReport	A10disttogoRd	29	1
+136	PLCPositionReport	A1currentPos	30	1
+137	PLCPositionReport	A2currentPos	31	1
+138	PLCPositionReport	A3currentPos	32	1
+139	PLCPositionReport	A4currentPos	33	1
+140	PLCPositionReport	A5currentPos	34	1
+141	PLCPositionReport	A6currentPos	35	1
+142	PLCPositionReport	A7currentPos	36	1
+143	PLCPositionReport	A8currentPos	37	1
+144	PLCPositionReport	A9currentPos	38	1
+145	PLCPositionReport	A10currentPos	39	1
+146	PLCPositionReport	A1velocity	40	1
+147	PLCPositionReport	A2velocity	41	1
+148	PLCPositionReport	A3velocity	42	1
+149	PLCPositionReport	A4velocity	43	1
+150	PLCPositionReport	A5velocity	44	1
+151	PLCPositionReport	A6velocity	45	1
+152	PLCPositionReport	A7velocity	46	1
+153	PLCPositionReport	A8velocity	47	1
+154	PLCPositionReport	A9velocity	48	1
+155	PLCPositionReport	A10velocity	49	1
+156	PLCPositionReport	Xvelocity	50	1
+157	PLCPositionReport	Yvelocity	51	1
+158	PLCPositionReport	Zvelocity	52	1
+159	PLCPositionReport	DispFeedTemp	53	1
+160	PLCPositionReport	ScanOnce	54	1
+161	PLCPositionReport	A1motorNumber	55	1
+162	PLCPositionReport	A2motorNumber	56	1
+163	PLCPositionReport	A3motorNumber	57	1
+164	PLCPositionReport	A4motorNumber	58	1
+165	PLCPositionReport	A5motorNumber	59	1
+166	PLCPositionReport	A6motorNumber	60	1
+167	PLCPositionReport	A7motorNumber	61	1
+168	PLCPositionReport	A8motorNumber	62	1
+169	PLCPositionReport	A9motorNumber	63	1
+170	PLCPositionReport	A10motorNumber	64	1
+171	PLCPositionReport	A1axisIndex	65	1
+172	PLCPositionReport	A2axisIndex	66	1
+173	PLCPositionReport	A3axisIndex	67	1
+174	PLCPositionReport	A4axisIndex	68	1
+175	PLCPositionReport	A5axisIndex	69	1
+176	PLCPositionReport	A6axisIndex	70	1
+177	PLCPositionReport	A7axisIndex	71	1
+178	PLCPositionReport	A8axisIndex	72	1
+179	PLCPositionReport	A9axisIndex	73	1
+180	PLCPositionReport	A10axisIndex	74	1
+181	PLCWorkOffset	NumWorkOffsets	0	1
+182	PLCWorkOffset	NumToolOffsets	1	1
+183	PLCWorkOffset	XaxisOffset	2	1
+184	PLCWorkOffset	YaxisOffset	3	1
+185	PLCWorkOffset	ZaxisOffset	4	1
+186	PLCWorkOffset	XaxisMaxOffset	5	1
+187	PLCWorkOffset	YaxisMaxOffset	6	1
+188	PLCWorkOffset	ZaxisMaxOffset	7	1
+189	PLCWorkOffset	XaxisInvalid	8	1
+190	PLCWorkOffset	YaxisInvalid	9	1
+191	PLCWorkOffset	ZaxisInvalid	10	1
+192	PLCWorkOffset	ToolOffset	11	1
+193	PLCWorkOffset	ToolMaxOffset	12	1
+194	PLCWorkOffset	ToolInvalid	13	1

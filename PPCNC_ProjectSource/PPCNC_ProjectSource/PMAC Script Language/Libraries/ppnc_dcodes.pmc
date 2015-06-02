@@ -1,0 +1,251 @@
+// D-code subroutine implementation
+// Assumes saved setup element Coord[x].Gprog is at default of 1003
+
+open subprog 1003	//D-Code Sub-Routines
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// D1 - D-Code 1 Parameter
+n1000:
+CS1_CutterRadius == CS1Tool1CCGeom;
+CS1_CutterWear == CS1Tool1CCWear;
+CS1ActiveDCode == 1;
+dwell 0;
+return;
+
+// D2 - D-Code 2 Parameter
+n2000:
+CS1_CutterRadius == CS1Tool2CCGeom;
+CS1_CutterWear == CS1Tool2CCWear;
+CS1ActiveDCode == 2;
+dwell 0;
+return;
+
+// D3 - D-Code 3 Parameter
+n3000:
+CS1_CutterRadius == CS1Tool3CCGeom;
+CS1_CutterWear == CS1Tool3CCWear;
+CS1ActiveDCode == 3;
+dwell 0;
+return;
+
+// D4 - D-Code 4 Parameter
+n4000:
+CS1_CutterRadius == CS1Tool4CCGeom;
+CS1_CutterWear == CS1Tool4CCWear;
+CS1ActiveDCode == 4;
+dwell 0;
+return;
+
+// D5 - D-Code 5 Parameter
+n5000:
+CS1_CutterRadius == CS1Tool5CCGeom;
+CS1_CutterWear == CS1Tool5CCWear;
+CS1ActiveDCode == 5;
+dwell 0;
+return;
+
+// D6 - D-Code 6 Parameter
+n6000:
+CS1_CutterRadius == CS1Tool6CCGeom;
+CS1_CutterWear == CS1Tool6CCWear;
+CS1ActiveDCode == 6;
+dwell 0;
+return;
+
+// D7 - D-Code 7 Parameter
+n7000:
+CS1_CutterRadius == CS1Tool7CCGeom;
+CS1_CutterWear == CS1Tool7CCWear;
+CS1ActiveDCode == 7;
+dwell 0;
+return;
+
+// D8 - D-Code 8 Parameter
+n8000:
+CS1_CutterRadius == CS1Tool8CCGeom;
+CS1_CutterWear == CS1Tool8CCWear;
+CS1ActiveDCode == 8;
+dwell 0;
+return;
+
+// D9 - D-Code 9 Parameter
+n9000:
+CS1_CutterRadius == CS1Tool9CCGeom;
+CS1_CutterWear == CS1Tool9CCWear;
+CS1ActiveDCode == 9;
+dwell 0;
+return;
+
+// D10 - D-Code 10 Parameter
+n10000:
+CS1_CutterRadius == CS1Tool10CCGeom;
+CS1_CutterWear == CS1Tool10CCWear;
+CS1ActiveDCode == 10;
+dwell 0;
+return;
+
+// D11 - D-Code 11 Parameter
+n11000:
+CS1_CutterRadius == CS1Tool11CCGeom;
+CS1_CutterWear == CS1Tool11CCWear;
+CS1ActiveDCode == 11;
+dwell 0;
+return;
+
+// D12 - D-Code 12 Parameter
+n12000:
+CS1_CutterRadius == CS1Tool12CCGeom;
+CS1_CutterWear == CS1Tool12CCWear;
+CS1ActiveDCode == 12;
+dwell 0;
+return;
+
+// D13 - D-Code 13 Parameter
+n13000:
+CS1_CutterRadius == CS1Tool13CCGeom;
+CS1_CutterWear == CS1Tool13CCWear;
+CS1ActiveDCode == 13;
+dwell 0;
+return;
+
+// D14 - D-Code 14 Parameter
+n14000:
+CS1_CutterRadius == CS1Tool14CCGeom;
+CS1_CutterWear == CS1Tool14CCWear;
+CS1ActiveDCode == 14;
+dwell 0;
+return;
+
+// D15 - D-Code 15 Parameter
+n15000:
+CS1_CutterRadius == CS1Tool15CCGeom;
+CS1_CutterWear == CS1Tool15CCWear;
+CS1ActiveDCode == 15;
+dwell 0;
+return;
+
+// D16 - D-Code 16 Parameter
+n16000:
+CS1_CutterRadius == CS1Tool16CCGeom;
+CS1_CutterWear == CS1Tool16CCWear;
+CS1ActiveDCode == 16;
+dwell 0;
+return;
+
+// D17 - D-Code 17 Parameter
+n17000:
+CS1_CutterRadius == CS1Tool17CCGeom;
+CS1_CutterWear == CS1Tool17CCWear;
+CS1ActiveDCode == 17;
+dwell 0;
+return;
+
+// D18 - D-Code 18 Parameter
+n18000:
+CS1_CutterRadius == CS1Tool18CCGeom;
+CS1_CutterWear == CS1Tool18CCWear;
+CS1ActiveDCode == 18;
+dwell 0;
+return;
+
+// D19 - D-Code 19 Parameter
+n19000:
+CS1_CutterRadius == CS1Tool19CCGeom;
+CS1_CutterWear == CS1Tool19CCWear;
+CS1ActiveDCode == 19;
+dwell 0;
+return;
+
+// D20 - D-Code 20 Parameter
+n20000:
+CS1_CutterRadius == CS1Tool20CCGeom;
+CS1_CutterWear == CS1Tool20CCWear;
+CS1ActiveDCode == 20;
+dwell 0;
+return;
+
+// D21 - D-Code 21 Parameter
+n21000:
+CS1_CutterRadius == CS1Tool21CCGeom;
+CS1_CutterWear == CS1Tool21CCWear;
+CS1ActiveDCode == 21;
+dwell 0;
+return;
+
+// D22 - D-Code 22 Parameter
+n22000:
+CS1_CutterRadius == CS1Tool22CCGeom;
+CS1_CutterWear == CS1Tool22CCWear;
+CS1ActiveDCode == 22;
+dwell 0;
+return;
+
+// D23 - D-Code 23 Parameter
+n23000:
+CS1_CutterRadius == CS1Tool23CCGeom;
+CS1_CutterWear == CS1Tool23CCWear;
+CS1ActiveDCode == 23;
+dwell 0;
+return;
+
+// D24 - D-Code 24 Parameter
+n24000:
+CS1_CutterRadius == CS1Tool24CCGeom;
+CS1_CutterWear == CS1Tool24CCWear;
+CS1ActiveDCode == 24;
+dwell 0;
+return;
+
+// D25 - D-Code 25 Parameter
+n25000:
+CS1_CutterRadius == CS1Tool25CCGeom;
+CS1_CutterWear == CS1Tool25CCWear;
+CS1ActiveDCode == 25;
+dwell 0;
+return;
+
+/*
+// D26 - D-Code 26 Parameter
+n26000:
+CS1_CutterRadius == CS1Tool26CCGeom;
+CS1_CutterWear == CS1Tool26CCWear;
+CS1ActiveDCode == 26;
+dwell 0;
+return;
+
+// D27 - D-Code 27 Parameter
+n27000:
+CS1_CutterRadius == CS1Tool27CCGeom;
+CS1_CutterWear == CS1Tool27CCWear;
+CS1ActiveDCode == 27;
+dwell 0;
+return;
+
+// D28 - D-Code 28 Parameter
+n28000:
+CS1_CutterRadius == CS1Tool28CCGeom;
+CS1_CutterWear == CS1Tool28CCWear;
+CS1ActiveDCode == 28;
+dwell 0;
+return;
+
+// D29 - D-Code 29 Parameter
+n29000:
+CS1_CutterRadius == CS1Tool29CCGeom;
+CS1_CutterWear == CS1Tool29CCWear;
+CS1ActiveDCode == 29;
+dwell 0;
+return;
+
+// D30 - D-Code 30 Parameter
+n30000:
+CS1_CutterRadius == CS1Tool30CCGeom;
+CS1_CutterWear == CS1Tool30CCWear;
+CS1ActiveDCode == 30;
+dwell 0;
+return;
+*/
+
+close

@@ -1,0 +1,780 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Power PMAC Pendant Control Functions.
+// Original File Date:  August 8, 2014
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 080814 - Initial Submit to GitHub
+// 041015 - Modified for Cleaner Logic
+//
+//
+/***********************************************************************************/
+
+/*
+pendantconnected  (hides the upper panel of controls)
+pendantdisconnected
+
+estoppressed
+estopreleased
+
+requestautomode
+requestmanualmode
+requestmdimode
+requestcyclestart
+requestfeedhold
+requestreset
+requestoptionstop
+requestsingleblock
+requestblockskip
+requestspindlecw
+requestspindleccw
+requesttoolchangeplus
+requesttoolchangeminus
+requestjogspeed1..5
+requestjog1..10
+requesthome
+
+HideManual
+ShowManual
+ManualSubmodeNone
+ManualSubmodeContinuous
+ManualSubmodeHandle
+ManualSubmodeHome
+*/
+
+open plc PowerPendant
+
+local JogFlag, KeyDownFlag;
+local Motornumber;
+local axisindex;
+local motorindex;
+local axisnumber;
+local axisnumbermask;
+//
+local A1motorNumber, A2motorNumber, A3motorNumber, A4motorNumber, A5motorNumber ,A6motorNumber, A7motorNumber, A8motorNumber, A9motorNumber, A10motorNumber;
+local A1axisIndex, A2axisIndex, A3axisIndex, A4axisIndex, A5axisIndex, A6axisIndex, A7axisIndex, A8axisIndex, A9axisIndex, A10axisIndex;
+
+// initialisation of motor number and axis nmae
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+// Set Coordinate System
+Ldata.coord=1;
+
+if (PowerPendPresent == 1)
+{
+	if(KeyDown == 1 && KeyDownFlag == 0)
+	{
+
+		//Pendant Reset Command
+		if (KeyCode == Key_Reset)
+		{
+			send1 "RequestReset"
+		}
+
+		//Mode Request Commands
+		if (KeyCode == Key_AutoMode)
+		{
+			send1 "RequestAutoMode"
+		}
+
+		if (KeyCode == Key_MdiMode)
+		{
+			send1 "RequestMdiMode"
+		}
+
+		if (KeyCode == Key_JogCont)
+		{
+			send1 "RequestManualMode"
+			send1 "ManualSubmodeContinuous"
+		}
+
+		if (KeyCode == Key_JogInc)
+		{
+			send1 "RequestManualMode"
+			send1 "ManualSubmodeHandle"
+		}
+
+		if (KeyCode == Key_HomeMode)
+		{
+			send1 "RequestManualMode"
+			send1 "ManualSubmodeHome"
+		}
+
+		// Run Mode Options
+
+		if (KeyCode == Key_SingleBlock)
+		{
+			send1 "RequestSingleBlock"
+		}
+
+		if (KeyCode == Key_BlockDelete)
+		{
+			send1 "RequestBlockSkip"
+		}
+
+		if (KeyCode == Key_OptStop)
+		{
+			send1 "RequestOptionStop"
+		}
+
+		//-------------------- Auto/Mdi Mode Functions ------------------
+		// Pendat Cycle Start / Feedhold Commands
+		if (MachineMode == Auto || MachineMode == MDI)
+		{
+			if (KeyCode == Key_CycleStart)
+			{
+				send1 "RequestCycleStart"
+			}
+
+			if (KeyCode == Key_FeedHold)
+			{
+				send1 "RequestFeedHold"
+			}
+		}
+
+
+
+		// -------------------- Manual Mode Functions --------------
+		if (MachineMode == Manual)
+		{
+			// Init Home Request
+			if (OutputLED & LED_Home == LED_Home)
+			{
+				if (KeyCode == Key_JogMinus || KeyCode == Key_JogPlus)
+				{
+					send1 "RequestHome"
+				}
+			}
+
+			// Motor number from axis selected
+			If(AxisSelect == Sel_1_Axis)
+			{
+				axisindex = Setup_PendantPos(1)							// find which axis name is on pendant pos 1
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)	// find which motor number is corresponding to axis name
+			}			
+			If(AxisSelect == Sel_2_Axis)
+			{
+				axisindex = Setup_PendantPos(2)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_3_Axis)
+			{
+				axisindex = Setup_PendantPos(3)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_4_Axis)
+			{
+				axisindex = Setup_PendantPos(4)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_5_Axis)
+			{
+				axisindex = Setup_PendantPos(5)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_6_Axis)
+			{
+				axisindex = Setup_PendantPos(6)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}             
+			If(AxisSelect == Sel_7_Axis)
+			{
+				axisindex = Setup_PendantPos(7)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_8_Axis)
+			{
+				axisindex = Setup_PendantPos(8)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}
+			If(AxisSelect == Sel_9_Axis)
+			{
+				axisindex = Setup_PendantPos(9)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}  
+			If(AxisSelect == Sel_10_Axis)
+			{
+				axisindex = Setup_PendantPos(10)
+				Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+			}  
+
+			// Continuous Mode Jogging Request
+			if (OutputLED & LED_JogCont == LED_JogCont)
+			{
+				if (Motornumber > -1 && Motor[Motornumber].ServoCtrl == 1)
+				{
+					Ldata.motor = Motornumber
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						//cmd"#1j-"
+						jog-
+						//send1 "Jogging"
+						//JogFlag = 1
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						//cmd"#1j+"
+						jog+
+						//send1 "Jogging"
+						//JogFlag = 1
+					}
+					send1 "Jogging"
+					JogFlag = 1
+				}								
+/*
+			
+				if (AxisSelect == Sel_X_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						cmd"#1j-"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						cmd"#1j+"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+				}
+
+				if (AxisSelect == Sel_Y_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						cmd"#2j-"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						cmd"#2j+"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+				}
+
+				if (AxisSelect == Sel_Z_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						cmd"#3j-"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						cmd"#3j+"
+						send1 "Jogging"
+						JogFlag = 1
+					}
+				}
+*/				
+			}
+			// Incremental Mode Jogging Request
+			if (OutputLED & LED_JogInc == LED_JogInc)
+			{
+				if (Motornumber > -1 && Motor[Motornumber].ServoCtrl == 1)
+				{
+					Ldata.motor = Motornumber
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						Motor[Motornumber].ProgJogPos = -IncDistance * Motor[Motornumber].CoordSf[axisindex]
+						//cmd"#1j^*"
+						jog^*
+
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[Motornumber].DesVelZero)){}
+						InitHandle = 0
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						Motor[Motornumber].ProgJogPos = IncDistance * Motor[Motornumber].CoordSf[axisindex]
+						//cmd"#1j^*"
+						jog^*
+
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[Motornumber].DesVelZero)){}
+						InitHandle = 0
+					}
+				}			
+/*			
+				if (AxisSelect == Sel_X_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						Motor[1].ProgJogPos = -IncDistance * Motor[1].CoordSf[6]
+						cmd"#1j^*"
+
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[1].DesVelZero)){}
+						InitHandle = 0
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						Motor[1].ProgJogPos = IncDistance * Motor[1].CoordSf[6]
+						cmd"#1j^*"
+
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[1].DesVelZero)){}
+						InitHandle = 0
+					}
+				}
+
+				if (AxisSelect == Sel_Y_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						Motor[2].ProgJogPos = -IncDistance * Motor[2].CoordSf[7]
+						cmd"#2j^*"
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[2].DesVelZero)){}
+						InitHandle = 0
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						Motor[2].ProgJogPos = IncDistance * Motor[2].CoordSf[7]
+						cmd"#2j^*"
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[2].DesVelZero)){}
+						InitHandle = 0
+					}
+				}
+
+				if (AxisSelect == Sel_Z_Axis)
+				{
+					if (KeyCode == Key_JogMinus && JogFlag == 0)
+					{
+						Motor[3].ProgJogPos = -IncDistance * Motor[3].CoordSf[8]
+						cmd"#3j^*"
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[3].DesVelZero)){}
+						InitHandle = 0
+					}
+
+					if (KeyCode == Key_JogPlus && JogFlag == 0)
+					{
+						Motor[3].ProgJogPos = IncDistance * Motor[3].CoordSf[8]
+						cmd"#3j^*"
+						send1 "Jogging"
+						JogFlag = 1
+
+						while (!(Motor[3].DesVelZero)){}
+						InitHandle = 0
+					}
+				}
+*/
+			}
+		}
+
+		//User Button 1
+		if(KeyCode == Key_User_01)
+		{
+			OutputLED = OutputLED^LED_User_01
+		}
+
+		//User Button 2
+		if(KeyCode == Key_User_02)
+		{
+			OutputLED = OutputLED^LED_User_02
+		}
+
+		//User Button 3
+		if(KeyCode == Key_User_03)
+		{
+			OutputLED = OutputLED^LED_User_03
+		}
+
+		//User Button 4
+		if (KeyCode == Key_User_04)
+		{
+			OutputLED = OutputLED^LED_User_04
+		}
+
+		//User Button 5
+		if (KeyCode == Key_User_05)
+		{
+			OutputLED = OutputLED^LED_User_05
+		}
+
+		//User Button 6
+		if (KeyCode == Key_User_06)
+		{
+			OutputLED = OutputLED^LED_User_06
+		}
+
+		KeyDownFlag = 1
+	}
+	else if(KeyDown == 0 && KeyDownFlag == 1)
+	{
+		KeyDownFlag = 0
+	}
+
+	//-------------------- Jog Stop All -----------------------
+	if (JogFlag == 1 && KeyDown == 0)
+	{
+		//cmd"#1j/ #2j/ #3j/"
+		cmd"#*j/"
+		JogFlag = 0
+		send1 "JogStopped"
+	}
+
+	//-------------------- Pendant Speed Select ----------------
+	if (OutputLED & LED_JogCont == LED_JogCont)
+	{
+		motorindex = 0
+        while (motorindex < Sys.MaxMotors)
+        {
+			if (Motor[motorindex].ServoCtrl == 1)
+			{
+				motor[motorindex].JogTa = -2
+				motor[motorindex].JogTs = 0
+			}
+			motorindex++
+        }	
+/*
+		motor[1].JogTa = -2
+		motor[2].JogTa = -2
+		motor[3].JogTa = -2
+
+		motor[1].JogTs = 0
+		motor[2].JogTs = 0
+		motor[3].JogTs = 0
+*/
+		if (SpeedSelect == Sel_1_Speed)
+		{
+			/*
+			motor[1].JogSpeed = JogX1 * Motor[1].CoordSf[6] / coord[1].FeedTime
+			motor[2].JogSpeed = JogX1 * Motor[2].CoordSf[7] / coord[1].FeedTime
+			motor[3].JogSpeed = JogX1 * Motor[3].CoordSf[8] / coord[1].FeedTime
+			*/
+			Motor[A1motorNumber].JogSpeed = JogX1 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX1 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX1 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX1 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX1 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX1 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX1 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX1 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX1 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX1 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (SpeedSelect == Sel_2_Speed)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX2 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX2 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX2 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX2 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX2 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX2 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX2 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX2 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX2 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX2 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (SpeedSelect == Sel_3_Speed)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX3 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX3 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX3 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX3 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX3 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX3 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX3 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX3 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX3 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX3 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (SpeedSelect == Sel_4_Speed)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX4 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX4 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX4 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX4 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX4 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX4 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX4 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX4 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX4 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX4 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+		else if (SpeedSelect == Sel_5_Speed)
+		{
+			Motor[A1motorNumber].JogSpeed = JogX5 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+			Motor[A2motorNumber].JogSpeed = JogX5 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+			Motor[A3motorNumber].JogSpeed = JogX5 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+			Motor[A4motorNumber].JogSpeed = JogX5 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+			Motor[A5motorNumber].JogSpeed = JogX5 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+			Motor[A6motorNumber].JogSpeed = JogX5 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+			Motor[A7motorNumber].JogSpeed = JogX5 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+			Motor[A8motorNumber].JogSpeed = JogX5 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+			Motor[A9motorNumber].JogSpeed = JogX5 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+			Motor[A10motorNumber].JogSpeed = JogX5 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+		}
+	}
+
+	if (OutputLED & LED_JogInc == LED_JogInc)
+	{
+		if (SpeedSelect == Sel_1_Speed)
+		{
+			IncDistance = 0.0001
+		}
+		else if (SpeedSelect == Sel_2_Speed)
+		{
+			IncDistance = 0.0010
+		}
+		else if (SpeedSelect == Sel_3_Speed)
+		{
+			IncDistance = 0.0100
+		}
+		else if (SpeedSelect == Sel_4_Speed)
+		{
+			IncDistance = 0.1000
+		}
+		else if (SpeedSelect == Sel_5_Speed)
+		{
+			IncDistance = 1.0000
+		}
+	}
+
+	//--------------------- Led Display Section -----------------
+	if (MachineMode == Auto)
+	{
+		OutputLED = OutputLED|LED_Auto
+		OutputLED = OutputLED&(OutputLED^LED_Mdi)
+		OutputLED = OutputLED&(OutputLED^LED_JogCont)
+		OutputLED = OutputLED&(OutputLED^LED_JogInc)
+		OutputLED = OutputLED&(OutputLED^LED_Home)
+	}
+
+	if (MachineMode == MDI)
+	{
+		OutputLED = OutputLED&(OutputLED^LED_Auto)
+		OutputLED = OutputLED|LED_Mdi
+		OutputLED = OutputLED&(OutputLED^LED_JogCont)
+		OutputLED = OutputLED&(OutputLED^LED_JogInc)
+		OutputLED = OutputLED&(OutputLED^LED_Home)
+	}
+
+	if (MachineMode == Auto || MachineMode == MDI)
+	{
+		if (MachineState == InFeedHold || MachineState == ProgramLoaded)
+		{
+			OutputLED2 = LED_FeedHold
+		}
+
+		if (MachineState == Running)
+		{
+			OutputLED2 = LED_CycleStart
+		}
+	}
+
+	if (MachineMode == Manual)
+	{
+		OutputLED2 = LED_Off
+
+		if (KeyCode == Key_JogCont)
+		{
+			OutputLED = OutputLED&(OutputLED^LED_Auto)
+			OutputLED = OutputLED&(OutputLED^LED_Mdi)
+			OutputLED = OutputLED|LED_JogCont
+			OutputLED = OutputLED&(OutputLED^LED_JogInc)
+			OutputLED = OutputLED&(OutputLED^LED_Home)
+		}
+
+		if (KeyCode == Key_JogInc)
+		{
+			OutputLED = OutputLED&(OutputLED^LED_Auto)
+			OutputLED = OutputLED&(OutputLED^LED_Mdi)
+			OutputLED = OutputLED&(OutputLED^LED_JogCont)
+			OutputLED = OutputLED|LED_JogInc
+			OutputLED = OutputLED&(OutputLED^LED_Home)
+		}
+
+		if (KeyCode == Key_HomeMode)
+		{
+			OutputLED = OutputLED&(OutputLED^LED_Auto)
+			OutputLED = OutputLED&(OutputLED^LED_Mdi)
+			OutputLED = OutputLED&(OutputLED^LED_JogCont)
+			OutputLED = OutputLED&(OutputLED^LED_JogInc)
+			OutputLED = OutputLED|LED_Home
+		}
+	}
+
+	// ------------------- Run Options ----------------------------------------
+	if (RunOptions & UI_SingleBlock == UI_SingleBlock)
+	{
+		OutputLED = OutputLED|LED_SingleBlock
+	}
+	else
+	{
+		OutputLED = OutputLED&(OutputLED^LED_SingleBlock)
+	}
+
+	if (RunOptions & UI_BlockSkip == UI_BlockSkip)
+	{
+		OutputLED = OutputLED|LED_BlockDelete
+	}
+	else
+	{
+		OutputLED = OutputLED&(OutputLED^LED_BlockDelete)
+	}
+
+	if (RunOptions & UI_OptionStop == UI_OptionStop)
+	{
+		OutputLED = OutputLED|LED_OptionStop
+	}
+	else
+	{
+		OutputLED = OutputLED&(OutputLED^LED_OptionStop)
+	}
+
+	// -------------------- Axis Select Display ---------------------------------------
+	if (AxisSelect == Sel_1_Axis)
+	{   
+		axisindex = Setup_PendantPos(1)						// find which axis name is on pendant pos 1
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex) // find which axis number is corresponding to axis name
+		/*
+		JogOptions=JogOptions|$10
+		JogOptions=JogOptions&(JogOptions^$20)
+		JogOptions=JogOptions&(JogOptions^$40)
+		*/
+	}
+
+	if (AxisSelect == Sel_2_Axis)
+	{
+		axisindex = Setup_PendantPos(2)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)
+	}
+	
+	if (AxisSelect == Sel_3_Axis)
+	{
+		axisindex = Setup_PendantPos(3)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)	
+	}
+	
+	if (AxisSelect == Sel_4_Axis)
+	{
+		axisindex = Setup_PendantPos(4)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)	
+	}
+	
+	if (AxisSelect == Sel_5_Axis)
+	{
+		axisindex = Setup_PendantPos(5)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}
+	
+	if (AxisSelect == Sel_6_Axis)
+	{
+		axisindex = Setup_PendantPos(6)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}
+	
+	if (AxisSelect == Sel_7_Axis)
+	{
+		axisindex = Setup_PendantPos(7)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}
+	
+	if (AxisSelect == Sel_8_Axis)
+	{
+		axisindex = Setup_PendantPos(8)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}
+	
+	if (AxisSelect == Sel_9_Axis)
+	{
+		axisindex = Setup_PendantPos(9)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}		
+	
+	if (AxisSelect == Sel_10_Axis)
+	{
+		axisindex = Setup_PendantPos(10)
+		axisnumber = Setup_AxisIndexToAxisNumber(axisindex)		
+	}			
+
+	axisnumbermask = exp2(axisnumber-1) *16
+	JogOptions=JogOptions&(JogOptions^$3ff0)
+	JogOptions=JogOptions|axisnumbermask	
+
+	//-------------------- HMI Pendant Speed Select Display ----------------
+	if (SpeedSelect == Sel_1_Speed)
+	{
+		JogOptions=JogOptions&(JogOptions^$F)
+		JogOptions=JogOptions&(JogOptions^$30000)
+		JogOptions=JogOptions|$00001
+	}
+	else if (SpeedSelect == Sel_2_Speed)
+	{
+		JogOptions=JogOptions&(JogOptions^$F)
+		JogOptions=JogOptions&(JogOptions^$30000)
+		JogOptions=JogOptions|$10000
+	}
+	else if (SpeedSelect == Sel_3_Speed)
+	{
+		JogOptions=JogOptions&(JogOptions^$F)
+		JogOptions=JogOptions&(JogOptions^$30000)
+		JogOptions=JogOptions|$00002
+	}
+	else if (SpeedSelect == Sel_4_Speed)
+	{
+		JogOptions=JogOptions&(JogOptions^$F)
+		JogOptions=JogOptions&(JogOptions^$30000)
+		JogOptions=JogOptions|$20000
+	}
+	else if (SpeedSelect == Sel_5_Speed)
+	{
+		JogOptions=JogOptions&(JogOptions^$F)
+		JogOptions=JogOptions&(JogOptions^$30000)
+		JogOptions=JogOptions|$00004
+	}
+}
+
+close
+

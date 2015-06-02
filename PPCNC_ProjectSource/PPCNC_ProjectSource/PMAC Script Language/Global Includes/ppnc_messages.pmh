@@ -1,0 +1,40 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Global Include File for all necessary GUI interface parameters.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+// PowerPMAC NC Fatal Error Bits
+#define MSG_Estop			1	// $00000001
+#define MSG_ReleaseEstop	2	// $00000002
+#define MSG_AirPressure		4	// $00000004
+
+// PowerPMAC NC Homing and Phasing Message Bit
+#define MSG_HomeError_Mot01  0	// $00000000      
+#define MSG_HomeError_Mot02  1	// $00000001      
+#define MSG_HomeError_Mot03  2	// $00000002      
+#define MSG_HomeError_Mot04  4	// $00000004      
+#define MSG_HomeError_Mot05  8	// $00000008      
+#define MSG_HomeError_Mot06  16	// $00000010    
+#define MSG_HomeError_Mot07  32	// $00000020    
+#define MSG_HomeError_Mot08  64	// $00000040    
+#define MSG_HomeError_Mot09  128	// $00000080    
+#define MSG_HomeError_Mot10  256	// $00000100    
+#define MSG_PhaseError_Mot01 512	// $00000200    
+#define MSG_PhaseError_Mot02 1024	// $00000400  
+#define MSG_PhaseError_Mot03 2048	// $00000800  
+#define MSG_PhaseError_Mot04 4096	// $00001000  
+#define MSG_PhaseError_Mot05 8192	// $00002000  
+#define MSG_PhaseError_Mot06 16384	// $00004000  
+#define MSG_PhaseError_Mot07 32768	// $00008000  
+#define MSG_PhaseError_Mot08 65536	// $00010000  
+#define MSG_PhaseError_Mot09 131072	// $00020000
+#define MSG_PhaseError_Mot10 262144	// $00040000

@@ -1,0 +1,37 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Global Include File for Spindle Related parameters.
+// Original File Date:  December 4, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 120413 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+
+// Constant Macro Definitions
+#define SpindleCommand 		coord[1].Ldata.D[53]
+
+#define SpindleMaxRPM		40000
+#define SpindleScaling	0.8192
+
+
+// Variable Definitions
+csglobal SpindleMode
+csglobal SpindleTemp
+csglobal SpindleOutput
+csglobal SpindleOutputTemp
+csglobal SpindlePrevCommand
+csglobal SpindleOverrideInput
+
+
+// Spindle State Control
+#define Spindle_OFF		0
+#define Spindle_CW		1
+#define Spindle_CCW		2
+
+	

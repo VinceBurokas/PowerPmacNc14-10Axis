@@ -1,0 +1,6418 @@
+#line 1 "/var/ftp/usrflash/Project/Configuration/pp_disable.txt"
+
+&*A 
+disable plc 0..31 
+clear all buffers
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_csparameters.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sys.WpKey = $AAAAAAAA
+
+
+
+&1
+&1#1->1000X	//25400X
+&1#2->1000Y	//25400Y
+&1#3->1000Z	//25400Z
+
+#line 32 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_csparameters.pmh"
+
+
+
+Coord[1].Gprog = 1000
+Coord[1].Mprog = 1001
+Coord[1].Tprog = 1002
+Coord[1].Dprog = 1003
+
+
+coord[1].FeedTime=60000
+coord[1].SegOverrideSlew=0.0005
+
+
+coord[1].StepMode=1
+
+
+Coord[1].tpsize = 1024
+
+Coord[1].tpcoords = $1FD 
+Coord[1].FRAxes=$1FD
+
+
+
+
+Coord[1].CCSize = 20
+Coord[1].CCDistance = 8
+
+
+Coord[1].SegMoveTime = 1
+Coord[1].MaxFeedRate = 5000
+Coord[1].Ta = 5.0
+Coord[1].Ts = 0.0
+Coord[1].Td = Coord[1].Ta
+
+
+Coord[1].LHDistance = 256
+
+
+Coord[1].AltFeedrate = 10
+
+
+Sys.MaxMotors = 11
+Sys.MaxCoords = 3
+
+
+Coord[1].SyncOps = 8192
+
+
+Motor[1].SoftLimitOffset=-1
+Motor[2].SoftLimitOffset=-1
+Motor[3].SoftLimitOffset=-1
+Motor[4].SoftLimitOffset=-1
+Motor[5].SoftLimitOffset=-1
+Motor[6].SoftLimitOffset=-1
+Motor[7].SoftLimitOffset=-1
+Motor[8].SoftLimitOffset=-1
+Motor[9].SoftLimitOffset=-1
+Motor[10].SoftLimitOffset=-1
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+CtrlPanel[0].ip[0]=192
+CtrlPanel[0].ip[1]=168
+CtrlPanel[0].ip[2]=0
+CtrlPanel[0].ip[3]=100
+
+
+#define SpeedSelect M8192
+#line 21 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+SpeedSelect->CtrlPanel[0].Input[0].0.4
+#line 21 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define AxisSelect M8193
+#line 22 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+AxisSelect->CtrlPanel[0].Input[0].4.4
+#line 22 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+
+
+
+
+
+
+#define OvrRapid M8194
+#line 31 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+OvrRapid->CtrlPanel[0].Input[1].8.12
+#line 31 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define OvrFeed M8195
+#line 32 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+OvrFeed->CtrlPanel[0].Input[5].8.12
+#line 32 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define OvrSpindle M8196
+#line 33 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+OvrSpindle->CtrlPanel[0].Input[6].8.12
+#line 33 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define HandCounter M8197
+#line 35 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+HandCounter->CtrlPanel[0].Input[2].0.32
+#line 35 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandEncoder M8198
+#line 36 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+HandEncoder->CtrlPanel[0].Input[3].0.32
+#line 36 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define KeyCode M8199
+#line 38 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+KeyCode->CtrlPanel[0].Input[4].8.8
+#line 38 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define KeyDown M8200
+#line 39 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+KeyDown->CtrlPanel[0].Input[4].0.1
+#line 39 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define OutputLED M8201
+#line 41 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+OutputLED->CtrlPanel[0].Output[0].0.32
+#line 41 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define OutputLED2 M8202
+#line 42 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+OutputLED2->CtrlPanel[0].Output[1].0.32
+#line 42 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+#line 62 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+
+
+#define Key_AutoMode 0
+#define Key_MdiMode 1
+#define Key_Reset 2
+#define Key_SingleBlock 3
+#define Key_BlockDelete 4
+#define Key_OptStop 5
+#define Key_JogCont 6
+#define Key_JogInc 7
+#define Key_HomeMode 8
+#define Key_User_01 9
+#define Key_User_02 10
+#define Key_User_03 11
+#define Key_User_04 12
+#define Key_User_05 13
+#define Key_User_06 14
+#define Key_ATC_Plus 33
+#define Key_ATC_Minus 34
+#define Key_Spindle_CW 19
+#define Key_Spindle_CCW 32
+#define Key_CycleStart 17
+#define Key_FeedHold 18
+#define Key_JogMinus 15
+#define Key_JogPlus 16	
+
+
+
+#define LED_Off $0
+
+#define LED_Auto $0001
+#define LED_Mdi $0002
+#define LED_Reset $0004
+#define LED_SingleBlock $0008
+#define LED_BlockDelete $0010
+#define LED_OptionStop $0020
+#define LED_JogCont $0040
+#define LED_JogInc $0080
+#define LED_Home $0100
+#define LED_User_01 $0200
+#define LED_User_02 $0400
+#define LED_User_03 $0800
+#define LED_User_04 $1000
+#define LED_User_05 $2000
+#define LED_User_06 $4000
+
+#define LED_CycleStart $1
+#define LED_FeedHold $2
+
+
+#define Sel_1_Axis 9
+#define Sel_2_Axis 8
+#define Sel_3_Axis 0
+#define Sel_4_Axis 1
+#define Sel_5_Axis 3
+#define Sel_6_Axis 2
+#define Sel_7_Axis 6
+#define Sel_8_Axis 7
+#define Sel_9_Axis 5
+#define Sel_10_Axis 4
+#define Sel_11_Axis 12
+#define Sel_12_Axis 13
+#define Sel_13_Axis 15
+#define Sel_14_Axis 14
+#define Sel_15_Axis 10
+#define Sel_16_Axis 11
+
+
+#define Sel_1_Speed 9
+#define Sel_2_Speed 8
+#define Sel_3_Speed 0
+#define Sel_4_Speed 1
+#define Sel_5_Speed 3
+#define Sel_6_Speed 2
+#define Sel_7_Speed 6
+#define Sel_8_Speed 7
+#define Sel_9_Speed 5
+#define Sel_10_Speed 4
+#define Sel_11_Speed 12
+#define Sel_12_Speed 13
+#define Sel_13_Speed 15
+#define Sel_14_Speed 14
+#define Sel_15_Speed 10
+#define Sel_16_Speed 11
+
+
+
+#define PowerPendPresent P8192
+#line 151 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define HandwheelActive P8193
+#line 153 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define InitHandle P8194
+#line 154 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define PrevHandleCount P8195
+#line 155 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleWhileLoop P8196
+#line 156 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleChange P8197
+#line 157 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleSpeed P8198
+#line 158 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define TargetPos(x) P(8199+x)
+#line 160 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#line 166 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+#define HandleScaleFactor1 P8231
+#line 168 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleScaleFactor2 P8232
+#line 169 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleScaleFactor3 P8233
+#line 170 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+#define HandleScaleFactor4 P8234
+#line 171 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#define PrevJogSpeed(x) P(8235+x)
+#line 173 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#line 179 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+#define PrevJogTa(x) P(8267+x)
+#line 181 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#line 187 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+
+#define PrevJogTs(x) P(8299+x)
+#line 189 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#line 195 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh"
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_messages.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define MSG_Estop 1	
+#define MSG_ReleaseEstop 2	
+#define MSG_AirPressure 4	
+
+
+#define MSG_HomeError_Mot01 0	
+#define MSG_HomeError_Mot02 1	
+#define MSG_HomeError_Mot03 2	
+#define MSG_HomeError_Mot04 4	
+#define MSG_HomeError_Mot05 8	
+#define MSG_HomeError_Mot06 16	
+#define MSG_HomeError_Mot07 32	
+#define MSG_HomeError_Mot08 64	
+#define MSG_HomeError_Mot09 128	
+#define MSG_HomeError_Mot10 256	
+#define MSG_PhaseError_Mot01 512	
+#define MSG_PhaseError_Mot02 1024	
+#define MSG_PhaseError_Mot03 2048	
+#define MSG_PhaseError_Mot04 4096	
+#define MSG_PhaseError_Mot05 8192	
+#define MSG_PhaseError_Mot06 16384	
+#define MSG_PhaseError_Mot07 32768	
+#define MSG_PhaseError_Mot08 65536	
+#define MSG_PhaseError_Mot09 131072	
+#define MSG_PhaseError_Mot10 262144	
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define Laser
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+Sys.SendFileMode=30
+
+
+#define Setup_MotorNumber(x) P(8331+x)
+#line 24 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Setup_AxisIndex(x) P(8342+x)
+#line 25 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Setup_PendantPos(x) P(8353+x)
+#line 26 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define AaxisIndex 0
+#define BaxisIndex 1
+#define CaxisIndex 2
+#define UaxisIndex 3
+#define VaxisIndex 4
+#define WaxisIndex 5
+#define XaxisIndex 6
+#define YaxisIndex 7
+#define ZaxisIndex 8
+#define AAaxisIndex 9
+#define BBaxisIndex 10
+#define CCaxisIndex 11
+#define DDaxisIndex 12
+#define EEaxisIndex 13
+#define FFaxisIndex 14
+#define GGaxisIndex 15
+#define HHaxisIndex 16
+#define LLaxisIndex 17
+#define MMaxisIndex 18
+#define NNaxisIndex 19
+#define OOaxisIndex 20
+#define PPaxisIndex 21
+#define QQaxisIndex 22
+#define RRaxisIndex 23
+#define SSaxisIndex 24
+#define TTaxisIndex 25
+#define UUaxisIndex 26
+#define VVaxisIndex 27
+#define WWaxisIndex 28
+#define XXaxisIndex 29
+#define YYaxisIndex 30
+#define ZZaxisIndex 31
+
+#define Setup_AxisIndexToMotorNumber(x) P(8364+x)
+#line 62 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Setup_AxisIndexToAxisNumber(x) P(8396+x)
+#line 63 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define English 0
+#define Metric 1
+
+
+#define MachineState M1
+#define CommandReg M2
+#define StatusReg M3
+#define JogOptions M4
+#define RunOptions M5
+#define MachineMode M6
+#define HmiCounter M7
+
+
+#define StatusResponse send1
+
+
+
+#define SoftPanelCommand M20
+#define SoftPanelStatus M21
+
+
+#define MsgFatal M100
+#define MsgFatalAck M101
+#define MsgWarning M120
+#define MsgWarningAck M121
+#define MsgInfo M140
+#define MsgInfoAck M141
+#define MsgLog M160
+
+
+#define Offline 0
+#define NotReady 1
+#define Ready 2
+#define ProgramLoaded 3
+#define Running 4
+#define InFeedHold 5
+#define Completed 6
+#define Failed 7
+#define Aborted 8
+#define EStopped 9
+#define Error 10
+#define Downloading 11
+
+
+#define Auto 0
+#define Manual 1
+#define MDI 2
+
+
+#define ProgramPosition 0
+#define RelativePosition 1
+#define MachinePosition 2
+#define CommandedPosition 3
+
+
+#define NoFeedMode 0
+#define FeedPerMin 1
+#define FeedPerRev 2
+#define FeedInverse 3
+
+
+#define SpindleCSS 0
+#define SpindleCUT 1
+
+
+#line 165 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+#define UI_None 0	
+#define UI_Initialize 100		
+#define UI_Reset 101		
+#define UI_Home 102		
+#define UI_Cancel 109		
+#define UI_JogPlus 110
+#define UI_JogMinus 111
+#define UI_JogIncPlus 112
+#define UI_JogIncMinus 113
+#define UI_JogStop 114
+
+
+#define UI_CycleStart 120	
+#define UI_FeedHold 121	
+#define UI_Abort 122		
+
+#define UI_SetWorkOfs 130	
+#define UI_SetToolOfs 131
+
+#define UI_FeedMinus 140
+#define UI_FeedPlus 141
+#define UI_FeedZero 142
+#define UI_Feed100 143
+#define UI_SpindleMinus 150
+#define UI_SpindlePlus 151
+#define UI_Spindle100 152
+#define UI_SpindleCW 153
+#define UI_SpindleCCW 154
+#define UI_SpindleZero 155
+#define UI_ToolChange 160
+
+#define UI_LaserEnable 161
+#define UI_LaserShutter 162
+#define UI_LaserEmission 163
+#define UI_LaserSpeedModulation 164
+
+
+
+#line 220 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+#line 226 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+#define SP_None 0	
+#define SP_FeedMinus 1	
+#define SP_FeedPlus 2	
+#define SP_FeedZero 4	
+#define SP_Feed100 8	
+#define SP_SpindleMinus 16	
+#define SP_SpindlePlus 32	
+#define SP_Spindle100 64	
+#define SP_SpindleCW 128	
+#define SP_SpindleCCW 256	
+#define SP_ToolChange 512	
+#define SP_SpindleZero 1024	
+#define SP_NotUsed 2048	
+#define SP_LaserEnable 4096	
+#define SP_LaserShutter 8192	
+#define SP_LaserEmission 16384	
+#define SP_SpeedModulation 32768	
+
+#line 263 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+#define UI_OptionStop 1	
+#define UI_SingleBlock 2	
+#define UI_BlockSkip 4	
+#define UI_DryRun 8	
+#define UI_RotaryBuffer 16  
+
+
+#define UI_JogX1 $00001
+#define UI_JogX2 $10000
+#define UI_JogX3 $00002
+#define UI_JogX4 $20000
+#define UI_JogX5 $00004
+
+#define UI_Axis_a1 16	
+#define UI_Axis_a2 32	
+#define UI_Axis_a3 64	
+#define UI_Axis_a4 128	
+#define UI_Axis_a5 256	
+#define UI_Axis_a6 512	
+#define UI_Axis_a7 1024
+#define UI_Axis_a8 2048
+#define UI_Axis_a9 4096
+#define UI_Axis_a10 8192
+
+
+
+#define A1position P100
+#define A2position P101
+#define A3position P102
+#define A4position P103
+#define A5position P104
+#define A6position P105
+#define A7position P106
+#define A8position P107
+#define A9position P108
+#define A10position P109
+
+#define A1disttogo P110
+#define A2disttogo P111
+#define A3disttogo P112
+#define A4disttogo P113
+#define A5disttogo P114
+#define A6disttogo P115
+#define A7disttogo P116
+#define A8disttogo P117
+#define A9disttogo P118
+#define A10disttogo P119
+
+#define A1torque P120
+#define A2torque P121
+#define A3torque P122
+#define A4torque P123
+#define A5torque P124
+#define A6torque P125
+#define A7torque P126
+#define A8torque P127
+#define A9torque P128
+#define A10torque P129
+
+#define A1FolErr P140
+#define A2FolErr P141
+#define A3FolErr P142
+#define A4FolErr P143
+#define A5FolErr P144
+#define A6FolErr P145
+#define A7FolErr P146
+#define A8FolErr P147
+#define A9FolErr P148
+#define A10FolErr P149
+
+
+
+#define GCodesGroup0 P200
+#define GCodesGroup1 P201
+#define GCodesGroup2 P202
+#define GCodesGroup3 P203
+#define GCodesGroup5 P205
+#define GCodesGroup6 P206
+#define GCodesGroup7 P207
+#define GCodesGroup8 P208
+#define GCodesGroup11 P211
+#define GCodesGroup12 P212
+#define GCodesGroup13 P213
+#define GCodesGroup15 P215
+#define GCodesGroup16 P216
+#define GCodesGroup19 P219
+#define GCodesGroup22 P222
+
+
+#define MCodesProgramGroup P300
+#define MCodesSpindleGroup P301
+#define MCodesCoolantGroup P302
+#define MCodesChuckGroup P303
+#define MCodesThreadingGroup P304
+#define MCodesGearRangeGroup P305
+#define MCodesFeedrateOverrideGroup P306
+#define MCodesBAxisGroup P307
+#define MCodesSubprogramGroup P308
+
+
+#define DispFeedAct P500
+#define DispFeedCmd P501
+#define DispFeedOverride P502
+#define DispFeedMode P503
+#define AxesDisplayMode P504
+
+#define DispSpindleAct P510
+#define DispSpindleCmd P511
+#define DispSpinOverride P512
+#define SpinDisplayMode P513
+
+
+#define CS1ActiveTCode P520
+#define CS1ActiveHCode P521
+#define CS1ActiveDCode P522
+#define CS1ToolNext P523
+
+
+#define LaserPower P530	
+#define LaserFrequency P531	
+#define LaserRatedPower P532
+#define LaserMinFrequency P533
+#define LaserMaxFrequency P534
+#define LaserMinPulseDuty P535
+#define LaserMaxPulseDuty P536
+#define LaserMinAnalogVoltage P537
+#define LaserPfmOutputFrequency P538
+#define LaserPfmOutputDutyCycle P539
+#define LaserPfmOutputFirstShotDistance P540
+
+
+
+#define JogX1 P700
+#define JogX2 P701
+#define JogX3 P702
+#define JogX4 P703
+#define JogX5 P704
+#define JogIncDist P705
+#define PMACSourceVer P706
+#define MaxFeedrate P707
+
+
+
+#define LoopDisplay P720
+#define G04StartTime P721
+#define G04EndTime P722
+#define G04TotalTime P723
+
+
+
+
+#define NativeUnits Q1024
+#line 417 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define UnitScaling Q1025
+#line 418 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XcentScale Q1026
+#line 420 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YcentScale Q1027
+#line 421 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZcentScale Q1028
+#line 422 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XcentRot Q1029
+#line 424 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YcentRot Q1030
+#line 425 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZcentRot Q1031
+#line 426 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XcentMir Q1032
+#line 428 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YcentMir Q1033
+#line 429 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZcentMir Q1034
+#line 430 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define Xscaling Q1035
+#line 432 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Yscaling Q1036
+#line 433 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Zscaling Q1037
+#line 434 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define Xrotate Q1038
+#line 436 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Yrotate Q1039
+#line 437 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Zrotate Q1040
+#line 438 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XmirFact Q1041
+#line 440 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YmirFact Q1042
+#line 441 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZmirFact Q1043
+#line 442 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XworkOfs Q1044
+#line 444 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YworkOfs Q1045
+#line 445 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZworkOfs Q1046
+#line 446 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XlocOfs Q1047
+#line 448 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YlocOfs Q1048
+#line 449 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZlocOfs Q1049
+#line 450 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define CS1_CutterRadius Q1050
+#line 452 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define CS1_CutterWear Q1051
+#line 453 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XtoolOfs Q1052
+#line 455 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YtoolOfs Q1053
+#line 456 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZtoolOfs Q1054
+#line 457 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XcomOfs Q1055
+#line 459 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YcomOfs Q1056
+#line 460 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZcomOfs Q1057
+#line 461 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define XaxisDesPos Q1058
+#line 463 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YaxisDesPos Q1059
+#line 464 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZaxisDesPos Q1060
+#line 465 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define CannedCycleCode Q1061
+#line 468 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define CannedCycleRepeats Q1062
+#line 469 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define R_PlanePos Q1063
+#line 470 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Init_PlanePos Q1064
+#line 471 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ReturnLevel Q1065
+#line 472 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define PeckDepth Q1066
+#line 473 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define RetractDistance Q1067
+#line 474 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define LastPeckCycle Q1068
+#line 475 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define PeckCycles Q1069
+#line 476 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Z_PrevDepth Q1070
+#line 477 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define X_Pos Q1071
+#line 478 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Y_Pos Q1072
+#line 479 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Z_Pos Q1073
+#line 480 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Z_Depth Q1074
+#line 481 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define R_Plane Q1075
+#line 482 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Abs_Mode Q1076
+#line 483 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define CycleDwell Q1077
+#line 484 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define XreadFlag Q1078
+#line 485 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define YreadFlag Q1079
+#line 486 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define ZreadFlag Q1080
+#line 487 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define BoreShift Q1081
+#line 488 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define X_inter_point Q1082
+#line 489 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Y_inter_point Q1083
+#line 490 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Z_inter_point Q1084
+#line 491 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define X_final_point Q1085
+#line 492 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Y_final_point Q1086
+#line 493 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define Z_final_point Q1087
+#line 494 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+#define OverrideDisable Q1088
+#line 498 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define CoordFeedTemp Q1089
+#line 499 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+
+
+
+#define IncDistance P8428
+#line 505 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define FeedOverrideInput P8429
+#line 506 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define DryRunMode P8430
+#line 507 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define OverrideTemp P8431
+#line 509 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define OverrideTemp2 P8432
+#line 510 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define OverrideInc P8433
+#line 511 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define OverrideMax P8434
+#line 512 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+#define SpindleOverrideTemp P8435
+#line 514 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define SpindleOverrideInc P8436
+#line 515 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define SpindleOverrideMax P8437
+#line 516 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define StepLatch P8438
+#line 519 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+#define StepCycleLatch P8439
+#line 520 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define AutoJogFlag P8440
+#line 523 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+
+#define ArgPassVar D0
+
+#define Aarg D1
+#define Barg D2
+#define Carg D3
+#define Darg D4
+#define Earg D5
+#define Farg D6
+#define Garg D7
+#define Harg D8
+#define Iarg D9
+#define Jarg D10
+#define Karg D11
+#define Larg D12
+#define Marg D13
+#define Narg D14
+#define Oarg D15
+#define Parg D16
+#define Qarg D17
+#define Rarg D18
+#define Sarg D19
+#define Targ D20
+#define Uarg D21
+#define Varg D22
+#define Warg D23
+#define Xarg D24
+#define Yarg D25
+#define Zarg D26
+
+#define AAarg D27
+#define BBarg D28
+#define CCarg D29
+#define DDarg D30
+#define EEarg D31
+#define FFarg D32
+#define GGarg D33
+#define HHarg D34
+#define IIarg D35
+#define JJarg D36
+#define KKarg D37
+#define LLarg D38
+#define MMarg D39
+#define NNarg D40
+#define OOarg D41
+#define PParg D42
+#define QQarg D43
+#define RRarg D44
+#define SSarg D45
+#define TTarg D46
+#define UUarg D47
+#define VVarg D48
+#define WWarg D49
+#define XXarg D50
+#define YYarg D51
+#define ZZarg D52
+
+#define AargMask $1
+#define BargMask $2
+#define CargMask $4
+#define DargMask $8
+#define EargMask $10
+#define FargMask $20
+#define GargMask $40
+#define HargMask $80
+#define IargMask $100
+#define JargMask $200
+#define KargMask $400
+#define LargMask $800
+#define MargMask $1000
+#define NargMask $2000
+#define OargMask $4000
+#define PargMask $8000
+#define QargMask $10000
+#define RargMask $20000
+#define SargMask $40000
+#define TargMask $80000
+#define UargMask $100000
+#define VargMask $200000
+#define WargMask $400000
+#define XargMask $800000
+#define YargMask $1000000
+#define ZargMask $2000000
+
+#define AAargMask $4000000
+#define BBargMask $8000000
+#define CCargMask $10000000
+#define DDargMask $20000000
+#define EEargMask $40000000
+#define FFargMask $80000000
+#define GGargMask $100000000
+#define HHargMask $200000000
+#define IIargMask $400000000
+#define JJargMask $800000000
+#define KKargMask $1000000000
+#define LLargMask $2000000000
+#define MMargMask $4000000000
+#define NNargMask $8000000000
+#define OOargMask $10000000000
+#define PPargMask $20000000000
+#define QQargMask $40000000000
+#define RRargMask $80000000000
+#define SSargMask $100000000000
+#define TTargMask $200000000000
+#define UUargMask $400000000000
+#define VVargMask $800000000000
+#define WWargMask $1000000000000
+#define XXargMask $2000000000000
+#define YYargMask $4000000000000
+#define ZZargMask $8000000000000
+
+
+#define CS1WorkG54X P900
+#define CS1WorkG54Y P901
+#define CS1WorkG54Z P902
+
+#define CS1WorkG55X P910
+#define CS1WorkG55Y P911
+#define CS1WorkG55Z P912
+
+#define CS1WorkG56X P920
+#define CS1WorkG56Y P921
+#define CS1WorkG56Z P922
+
+#define CS1WorkG57X P930
+#define CS1WorkG57Y P931
+#define CS1WorkG57Z P932
+
+#define CS1WorkG58X P940
+#define CS1WorkG58Y P941
+#define CS1WorkG58Z P942
+
+#define CS1WorkG59X P950
+#define CS1WorkG59Y P951
+#define CS1WorkG59Z P952
+
+#define CS1WorkG54_1P1X P1000
+#define CS1WorkG54_1P1Y P1001
+#define CS1WorkG54_1P1Z P1002
+
+#define CS1WorkG54_1P2X P1010
+#define CS1WorkG54_1P2Y P1011
+#define CS1WorkG54_1P2Z P1012
+
+#define CS1WorkG54_1P3X P1020
+#define CS1WorkG54_1P3Y P1021
+#define CS1WorkG54_1P3Z P1022
+
+#define CS1WorkG54_1P4X P1030
+#define CS1WorkG54_1P4Y P1031
+#define CS1WorkG54_1P4Z P1032
+
+#define CS1WorkG54_1P5X P1040
+#define CS1WorkG54_1P5Y P1041
+#define CS1WorkG54_1P5Z P1042
+
+#define CS1WorkG54_1P6X P1050
+#define CS1WorkG54_1P6Y P1051
+#define CS1WorkG54_1P6Z P1052
+
+#define CS1WorkG54_1P7X P1060
+#define CS1WorkG54_1P7Y P1061
+#define CS1WorkG54_1P7Z P1062
+
+#define CS1WorkG54_1P8X P1070
+#define CS1WorkG54_1P8Y P1071
+#define CS1WorkG54_1P8Z P1072
+
+#define CS1WorkG54_1P9X P1080
+#define CS1WorkG54_1P9Y P1081
+#define CS1WorkG54_1P9Z P1082
+
+#define CS1WorkG54_1P10X P1090
+#define CS1WorkG54_1P10Y P1091
+#define CS1WorkG54_1P10Z P1092
+
+#define CS1WorkG54_1P11X P1100
+#define CS1WorkG54_1P11Y P1101
+#define CS1WorkG54_1P11Z P1102
+
+#define CS1WorkG54_1P12X P1110
+#define CS1WorkG54_1P12Y P1111
+#define CS1WorkG54_1P12Z P1112
+
+#define CS1WorkG54_1P13X P1120
+#define CS1WorkG54_1P13Y P1121
+#define CS1WorkG54_1P13Z P1122
+
+#define CS1WorkG54_1P14X P1130
+#define CS1WorkG54_1P14Y P1131
+#define CS1WorkG54_1P14Z P1132
+
+#define CS1WorkG54_1P15X P1140
+#define CS1WorkG54_1P15Y P1141
+#define CS1WorkG54_1P15Z P1142
+
+#define CS1WorkG54_1P16X P1150
+#define CS1WorkG54_1P16Y P1151
+#define CS1WorkG54_1P16Z P1152
+
+
+
+
+#define CS1Tool1ZGeom P2000
+#define CS1Tool1ZWear P2001
+#define CS1Tool1CCGeom P2002
+#define CS1Tool1CCWear P2003
+
+#define CS1Tool2ZGeom P2010
+#define CS1Tool2ZWear P2011
+#define CS1Tool2CCGeom P2012
+#define CS1Tool2CCWear P2013
+
+#define CS1Tool3ZGeom P2020
+#define CS1Tool3ZWear P2021
+#define CS1Tool3CCGeom P2022
+#define CS1Tool3CCWear P2023
+
+#define CS1Tool4ZGeom P2030
+#define CS1Tool4ZWear P2031
+#define CS1Tool4CCGeom P2032
+#define CS1Tool4CCWear P2033
+
+#define CS1Tool5ZGeom P2040
+#define CS1Tool5ZWear P2041
+#define CS1Tool5CCGeom P2042
+#define CS1Tool5CCWear P2043
+
+#define CS1Tool6ZGeom P2050
+#define CS1Tool6ZWear P2051
+#define CS1Tool6CCGeom P2052
+#define CS1Tool6CCWear P2053
+
+#define CS1Tool7ZGeom P2060
+#define CS1Tool7ZWear P2061
+#define CS1Tool7CCGeom P2062
+#define CS1Tool7CCWear P2063
+
+#define CS1Tool8ZGeom P2070
+#define CS1Tool8ZWear P2071
+#define CS1Tool8CCGeom P2072
+#define CS1Tool8CCWear P2073
+
+#define CS1Tool9ZGeom P2080
+#define CS1Tool9ZWear P2081
+#define CS1Tool9CCGeom P2082
+#define CS1Tool9CCWear P2083
+
+#define CS1Tool10ZGeom P2090
+#define CS1Tool10ZWear P2091
+#define CS1Tool10CCGeom P2092
+#define CS1Tool10CCWear P2093
+
+#define CS1Tool11ZGeom P2100
+#define CS1Tool11ZWear P2101
+#define CS1Tool11CCGeom P2102
+#define CS1Tool11CCWear P2103
+
+#define CS1Tool12ZGeom P2110
+#define CS1Tool12ZWear P2111
+#define CS1Tool12CCGeom P2112
+#define CS1Tool12CCWear P2113
+
+#define CS1Tool13ZGeom P2120
+#define CS1Tool13ZWear P2121
+#define CS1Tool13CCGeom P2122
+#define CS1Tool13CCWear P2123
+
+#define CS1Tool14ZGeom P2130
+#define CS1Tool14ZWear P2131
+#define CS1Tool14CCGeom P2132
+#define CS1Tool14CCWear P2133
+
+#define CS1Tool15ZGeom P2140
+#define CS1Tool15ZWear P2141
+#define CS1Tool15CCGeom P2142
+#define CS1Tool15CCWear P2143
+
+#define CS1Tool16ZGeom P2150
+#define CS1Tool16ZWear P2151
+#define CS1Tool16CCGeom P2152
+#define CS1Tool16CCWear P2153
+
+#define CS1Tool17ZGeom P2160
+#define CS1Tool17ZWear P2161
+#define CS1Tool17CCGeom P2162
+#define CS1Tool17CCWear P2163
+
+#define CS1Tool18ZGeom P2170
+#define CS1Tool18ZWear P2171
+#define CS1Tool18CCGeom P2172
+#define CS1Tool18CCWear P2173
+
+#define CS1Tool19ZGeom P2180
+#define CS1Tool19ZWear P2181
+#define CS1Tool19CCGeom P2182
+#define CS1Tool19CCWear P2183
+
+#define CS1Tool20ZGeom P2190
+#define CS1Tool20ZWear P2191
+#define CS1Tool20CCGeom P2192
+#define CS1Tool20CCWear P2193
+
+#define CS1Tool21ZGeom P2200
+#define CS1Tool21ZWear P2201
+#define CS1Tool21CCGeom P2202
+#define CS1Tool21CCWear P2203
+
+#define CS1Tool22ZGeom P2210
+#define CS1Tool22ZWear P2211
+#define CS1Tool22CCGeom P2212
+#define CS1Tool22CCWear P2213
+
+#define CS1Tool23ZGeom P2220
+#define CS1Tool23ZWear P2221
+#define CS1Tool23CCGeom P2222
+#define CS1Tool23CCWear P2223
+
+#define CS1Tool24ZGeom P2230
+#define CS1Tool24ZWear P2231
+#define CS1Tool24CCGeom P2232
+#define CS1Tool24CCWear P2233
+
+#define CS1Tool25ZGeom P2240
+#define CS1Tool25ZWear P2241
+#define CS1Tool25CCGeom P2242
+#define CS1Tool25CCWear P2243
+
+
+
+#line 855 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh"
+
+ 
+#define LaserParametersT1Power P2004 
+#define LaserParametersT1Frequency P2005 
+#define LaserParametersT1Speed P2006 
+ 
+#define LaserParametersT2Power P2014 
+#define LaserParametersT2Frequency P2015
+#define LaserParametersT2Speed P2016 
+ 
+#define LaserParametersT3Power P2024
+#define LaserParametersT3Frequency P2025 
+#define LaserParametersT3Speed P2026
+ 
+#define LaserParametersT4Power P2034
+#define LaserParametersT4Frequency P2035 
+#define LaserParametersT4Speed P2036
+ 
+#define LaserParametersT5Power P2044
+#define LaserParametersT5Frequency P2045 
+#define LaserParametersT5Speed P2046
+ 
+#define LaserParametersT6Power P2054
+#define LaserParametersT6Frequency P2055
+#define LaserParametersT6Speed P2056
+ 
+#define LaserParametersT7Power P2064
+#define LaserParametersT7Frequency P2065
+#define LaserParametersT7Speed P2066
+ 
+#define LaserParametersT8Power P2074
+#define LaserParametersT8Frequency P2075
+#define LaserParametersT8Speed P2076
+ 
+#define LaserParametersT9Power P2084
+#define LaserParametersT9Frequency P2085
+#define LaserParametersT9Speed P2086
+ 
+#define LaserParametersT10Power P2094
+#define LaserParametersT10Frequency P2095
+#define LaserParametersT10Speed P2096
+ 
+#define LaserParametersT11Power P2104
+#define LaserParametersT11Frequency P2105
+#define LaserParametersT11Speed P2106
+ 
+#define LaserParametersT12Power P2114
+#define LaserParametersT12Frequency P2115
+#define LaserParametersT12Speed P2116
+ 
+#define LaserParametersT13Power P2124
+#define LaserParametersT13Frequency P2125
+#define LaserParametersT13Speed P2126
+ 
+#define LaserParametersT14Power P2134
+#define LaserParametersT14Frequency P2135
+#define LaserParametersT14Speed P2136
+ 
+#define LaserParametersT15Power P2144
+#define LaserParametersT15Frequency P2145
+#define LaserParametersT15Speed P2146
+ 
+#define LaserParametersT16Power P2154
+#define LaserParametersT16Frequency P2155
+#define LaserParametersT16Speed P2156
+ 
+#define LaserParametersT17Power P2164
+#define LaserParametersT17Frequency P2165
+#define LaserParametersT17Speed P2166
+ 
+#define LaserParametersT18Power P2174
+#define LaserParametersT18Frequency P2175
+#define LaserParametersT18Speed P2176
+ 
+#define LaserParametersT19Power P2184
+#define LaserParametersT19Frequency P2185
+#define LaserParametersT19Speed P2186
+ 
+#define LaserParametersT20Power P2194
+#define LaserParametersT20Frequency P2195
+#define LaserParametersT20Speed P2196
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define SpindleCommand coord[1].Ldata.D[53]
+
+#define SpindleMaxRPM 40000
+#define SpindleScaling 0.8192
+
+
+
+#define SpindleMode Q1090
+#line 25 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+#define SpindleTemp Q1091
+#line 26 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+#define SpindleOutput Q1092
+#line 27 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+#define SpindleOutputTemp Q1093
+#line 28 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+#define SpindlePrevCommand Q1094
+#line 29 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+#define SpindleOverrideInput Q1095
+#line 30 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh"
+
+
+
+#define Spindle_OFF 0
+#define Spindle_CW 1
+#define Spindle_CCW 2
+
+ #endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_virtualmotors.pmh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Motor[1].ServoCtrl=1
+Motor[2].ServoCtrl=1
+Motor[3].ServoCtrl=1
+Motor[4].ServoCtrl=0
+Motor[5].ServoCtrl=0
+Motor[6].ServoCtrl=0
+Motor[7].ServoCtrl=0
+Motor[8].ServoCtrl=0
+Motor[9].ServoCtrl=0
+
+
+Motor[1].InvAmax=1,1,1,1,1,1,1,1,1
+
+Motor[1].MaxSpeed=1000,1000,1000,1000,1000,1000,1000,1000,1000
+
+
+
+
+Motor[1].pDac=sys.udata[11].a
+EncTable[1].pEnc=sys.udata[11].a
+Motor[1].Ctrl=sys.PosCtrl
+
+Motor[1].FatalFeLimit=0
+Motor[1].pAmpFault=0
+Motor[1].pAmpEnable=0
+EncTable[1].type=1
+EncTable[1].index1=0
+EncTable[1].index2=0
+EncTable[1].index3=0
+EncTable[1].index4=0
+EncTable[1].index5=0
+EncTable[1].pEnc1=Sys.udata[11].a
+EncTable[1].pEnc=Sys.udata[11].a
+EncTable[1].MaxDelta=0
+EncTable[1].ScaleFactor=1
+EncTable[1].TanHalfPhi=0
+EncTable[1].CoverSerror=0
+
+Motor[2].pDac=sys.udata[12].a
+EncTable[2].pEnc=sys.udata[12].a
+Motor[2].Ctrl=sys.PosCtrl
+Motor[2].FatalFeLimit=0
+Motor[2].pAmpFault=0
+Motor[2].pAmpEnable=0
+EncTable[2].type=1
+EncTable[2].index1=0
+EncTable[2].index2=0
+EncTable[2].index3=0
+EncTable[2].index4=0
+EncTable[2].index5=0
+EncTable[2].pEnc1=Sys.udata[12].a
+EncTable[2].pEnc=Sys.udata[12].a
+EncTable[2].MaxDelta=0
+EncTable[2].ScaleFactor=1
+EncTable[2].TanHalfPhi=0
+EncTable[2].CoverSerror=0
+
+Motor[3].pDac=sys.udata[13].a
+EncTable[3].pEnc=sys.udata[13].a
+Motor[3].Ctrl=sys.PosCtrl
+Motor[3].FatalFeLimit=0
+Motor[3].pAmpFault=0
+Motor[3].pAmpEnable=0
+EncTable[3].type=1
+EncTable[3].index1=0
+EncTable[3].index2=0
+EncTable[3].index3=0
+EncTable[3].index4=0
+EncTable[3].index5=0
+EncTable[3].pEnc1=Sys.udata[13].a
+EncTable[3].pEnc=Sys.udata[13].a
+EncTable[3].MaxDelta=0
+EncTable[3].ScaleFactor=1
+EncTable[3].TanHalfPhi=0
+EncTable[3].CoverSerror=0
+
+Motor[4].pDac=sys.udata[14].a
+EncTable[4].pEnc=sys.udata[14].a
+Motor[4].Ctrl=sys.PosCtrl
+Motor[4].FatalFeLimit=0
+Motor[4].pAmpFault=0
+Motor[4].pAmpEnable=0
+EncTable[4].type=1
+EncTable[4].index1=0
+EncTable[4].index2=0
+EncTable[4].index3=0
+EncTable[4].index4=0
+EncTable[4].index5=0
+EncTable[4].pEnc1=Sys.udata[14].a
+EncTable[4].pEnc=Sys.udata[14].a
+EncTable[4].MaxDelta=0
+EncTable[4].ScaleFactor=1
+EncTable[4].TanHalfPhi=0
+EncTable[4].CoverSerror=0
+
+Motor[5].pDac=sys.udata[15].a
+EncTable[5].pEnc=sys.udata[15].a
+Motor[5].Ctrl=sys.PosCtrl
+Motor[5].FatalFeLimit=0
+Motor[5].pAmpFault=0
+Motor[5].pAmpEnable=0
+EncTable[5].type=1
+EncTable[5].index1=0
+EncTable[5].index2=0
+EncTable[5].index3=0
+EncTable[5].index4=0
+EncTable[5].index5=0
+EncTable[5].pEnc1=Sys.udata[15].a
+EncTable[5].pEnc=Sys.udata[15].a
+EncTable[5].MaxDelta=0
+EncTable[5].ScaleFactor=1
+EncTable[5].TanHalfPhi=0
+EncTable[5].CoverSerror=0
+
+Motor[6].pDac=sys.udata[16].a
+EncTable[6].pEnc=sys.udata[16].a
+Motor[6].Ctrl=sys.PosCtrl
+Motor[6].FatalFeLimit=0
+Motor[6].pAmpFault=0
+Motor[6].pAmpEnable=0
+EncTable[6].type=1
+EncTable[6].index1=0
+EncTable[6].index2=0
+EncTable[6].index3=0
+EncTable[6].index4=0
+EncTable[6].index5=0
+EncTable[6].pEnc1=Sys.udata[16].a
+EncTable[6].pEnc=Sys.udata[16].a
+EncTable[6].MaxDelta=0
+EncTable[6].ScaleFactor=1
+EncTable[6].TanHalfPhi=0
+EncTable[6].CoverSerror=0
+
+Motor[7].pDac=sys.udata[17].a
+EncTable[7].pEnc=sys.udata[17].a
+Motor[7].Ctrl=sys.PosCtrl
+Motor[7].FatalFeLimit=0
+Motor[7].pAmpFault=0
+Motor[7].pAmpEnable=0
+EncTable[7].type=1
+EncTable[7].index1=0
+EncTable[7].index2=0
+EncTable[7].index3=0
+EncTable[7].index4=0
+EncTable[7].index5=0
+EncTable[7].pEnc1=Sys.udata[17].a
+EncTable[7].pEnc=Sys.udata[17].a
+EncTable[7].MaxDelta=0
+EncTable[7].ScaleFactor=1
+EncTable[7].TanHalfPhi=0
+EncTable[7].CoverSerror=0
+
+Motor[8].pDac=sys.udata[18].a
+EncTable[8].pEnc=sys.udata[18].a
+Motor[8].Ctrl=sys.PosCtrl
+Motor[8].FatalFeLimit=0
+Motor[8].pAmpFault=0
+Motor[8].pAmpEnable=0
+EncTable[8].type=1
+EncTable[8].index1=0
+EncTable[8].index2=0
+EncTable[8].index3=0
+EncTable[8].index4=0
+EncTable[8].index5=0
+EncTable[8].pEnc1=Sys.udata[18].a
+EncTable[8].pEnc=Sys.udata[18].a
+EncTable[8].MaxDelta=0
+EncTable[8].ScaleFactor=1
+EncTable[8].TanHalfPhi=0
+EncTable[8].CoverSerror=0
+
+Motor[9].pDac=sys.udata[19].a
+EncTable[9].pEnc=sys.udata[19].a
+Motor[9].Ctrl=sys.PosCtrl
+Motor[9].FatalFeLimit=0
+Motor[9].pAmpFault=0
+Motor[9].pAmpEnable=0
+EncTable[9].type=1
+EncTable[9].index1=0
+EncTable[9].index2=0
+EncTable[9].index3=0
+EncTable[9].index4=0
+EncTable[9].index5=0
+EncTable[9].pEnc1=Sys.udata[19].a
+EncTable[9].pEnc=Sys.udata[19].a
+EncTable[9].MaxDelta=0
+EncTable[9].ScaleFactor=1
+EncTable[9].TanHalfPhi=0
+EncTable[9].CoverSerror=0
+
+
+
+
+Motor[1].pLimits=0
+Motor[2].pLimits=0
+Motor[3].pLimits=0
+Motor[4].pLimits=0
+Motor[5].pLimits=0
+Motor[6].pLimits=0
+Motor[7].pLimits=0
+Motor[8].pLimits=0
+Motor[9].pLimits=0
+
+
+Motor[1].PosSf=1
+Motor[1].Pos2Sf=1
+Motor[2].PosSf=1
+Motor[2].Pos2Sf=1
+Motor[3].PosSf=1
+Motor[3].Pos2Sf=1
+Motor[4].PosSf=1
+Motor[4].Pos2Sf=1
+Motor[5].PosSf=1
+Motor[5].Pos2Sf=1
+Motor[6].PosSf=1
+Motor[6].Pos2Sf=1
+Motor[7].PosSf=1
+Motor[7].Pos2Sf=1
+Motor[8].PosSf=1
+Motor[8].Pos2Sf=1
+Motor[9].PosSf=1
+Motor[9].Pos2Sf=1
+
+
+
+Motor[1].Servo.Kvfb=0
+Motor[2].Servo.Kvfb=0
+Motor[3].Servo.Kvfb=0
+Motor[4].Servo.Kvfb=0
+Motor[5].Servo.Kvfb=0
+Motor[6].Servo.Kvfb=0
+Motor[7].Servo.Kvfb=0
+Motor[8].Servo.Kvfb=0
+Motor[9].Servo.Kvfb=0
+
+
+Motor[1].Servo.Kp=40
+Motor[2].Servo.Kp=40
+Motor[3].Servo.Kp=40
+Motor[4].Servo.Kp=40
+Motor[5].Servo.Kp=40
+Motor[6].Servo.Kp=40
+Motor[7].Servo.Kp=40
+Motor[8].Servo.Kp=40
+Motor[9].Servo.Kp=40
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_dcodes.pmc"
+
+
+
+open subprog 1003
+#line 5 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_dcodes.pmc"
+
+
+Ldata.coord=1 
+
+
+n1000:
+CS1_CutterRadius == CS1Tool1CCGeom 
+CS1_CutterWear == CS1Tool1CCWear 
+CS1ActiveDCode == 1 
+dwell 0 
+return
+
+
+n2000:
+CS1_CutterRadius == CS1Tool2CCGeom 
+CS1_CutterWear == CS1Tool2CCWear 
+CS1ActiveDCode == 2 
+dwell 0 
+return
+
+
+n3000:
+CS1_CutterRadius == CS1Tool3CCGeom 
+CS1_CutterWear == CS1Tool3CCWear 
+CS1ActiveDCode == 3 
+dwell 0 
+return
+
+
+n4000:
+CS1_CutterRadius == CS1Tool4CCGeom 
+CS1_CutterWear == CS1Tool4CCWear 
+CS1ActiveDCode == 4 
+dwell 0 
+return
+
+
+n5000:
+CS1_CutterRadius == CS1Tool5CCGeom 
+CS1_CutterWear == CS1Tool5CCWear 
+CS1ActiveDCode == 5 
+dwell 0 
+return
+
+
+n6000:
+CS1_CutterRadius == CS1Tool6CCGeom 
+CS1_CutterWear == CS1Tool6CCWear 
+CS1ActiveDCode == 6 
+dwell 0 
+return
+
+
+n7000:
+CS1_CutterRadius == CS1Tool7CCGeom 
+CS1_CutterWear == CS1Tool7CCWear 
+CS1ActiveDCode == 7 
+dwell 0 
+return
+
+
+n8000:
+CS1_CutterRadius == CS1Tool8CCGeom 
+CS1_CutterWear == CS1Tool8CCWear 
+CS1ActiveDCode == 8 
+dwell 0 
+return
+
+
+n9000:
+CS1_CutterRadius == CS1Tool9CCGeom 
+CS1_CutterWear == CS1Tool9CCWear 
+CS1ActiveDCode == 9 
+dwell 0 
+return
+
+
+n10000:
+CS1_CutterRadius == CS1Tool10CCGeom 
+CS1_CutterWear == CS1Tool10CCWear 
+CS1ActiveDCode == 10 
+dwell 0 
+return
+
+
+n11000:
+CS1_CutterRadius == CS1Tool11CCGeom 
+CS1_CutterWear == CS1Tool11CCWear 
+CS1ActiveDCode == 11 
+dwell 0 
+return
+
+
+n12000:
+CS1_CutterRadius == CS1Tool12CCGeom 
+CS1_CutterWear == CS1Tool12CCWear 
+CS1ActiveDCode == 12 
+dwell 0 
+return
+
+
+n13000:
+CS1_CutterRadius == CS1Tool13CCGeom 
+CS1_CutterWear == CS1Tool13CCWear 
+CS1ActiveDCode == 13 
+dwell 0 
+return
+
+
+n14000:
+CS1_CutterRadius == CS1Tool14CCGeom 
+CS1_CutterWear == CS1Tool14CCWear 
+CS1ActiveDCode == 14 
+dwell 0 
+return
+
+
+n15000:
+CS1_CutterRadius == CS1Tool15CCGeom 
+CS1_CutterWear == CS1Tool15CCWear 
+CS1ActiveDCode == 15 
+dwell 0 
+return
+
+
+n16000:
+CS1_CutterRadius == CS1Tool16CCGeom 
+CS1_CutterWear == CS1Tool16CCWear 
+CS1ActiveDCode == 16 
+dwell 0 
+return
+
+
+n17000:
+CS1_CutterRadius == CS1Tool17CCGeom 
+CS1_CutterWear == CS1Tool17CCWear 
+CS1ActiveDCode == 17 
+dwell 0 
+return
+
+
+n18000:
+CS1_CutterRadius == CS1Tool18CCGeom 
+CS1_CutterWear == CS1Tool18CCWear 
+CS1ActiveDCode == 18 
+dwell 0 
+return
+
+
+n19000:
+CS1_CutterRadius == CS1Tool19CCGeom 
+CS1_CutterWear == CS1Tool19CCWear 
+CS1ActiveDCode == 19 
+dwell 0 
+return
+
+
+n20000:
+CS1_CutterRadius == CS1Tool20CCGeom 
+CS1_CutterWear == CS1Tool20CCWear 
+CS1ActiveDCode == 20 
+dwell 0 
+return
+
+
+n21000:
+CS1_CutterRadius == CS1Tool21CCGeom 
+CS1_CutterWear == CS1Tool21CCWear 
+CS1ActiveDCode == 21 
+dwell 0 
+return
+
+
+n22000:
+CS1_CutterRadius == CS1Tool22CCGeom 
+CS1_CutterWear == CS1Tool22CCWear 
+CS1ActiveDCode == 22 
+dwell 0 
+return
+
+
+n23000:
+CS1_CutterRadius == CS1Tool23CCGeom 
+CS1_CutterWear == CS1Tool23CCWear 
+CS1ActiveDCode == 23 
+dwell 0 
+return
+
+
+n24000:
+CS1_CutterRadius == CS1Tool24CCGeom 
+CS1_CutterWear == CS1Tool24CCWear 
+CS1ActiveDCode == 24 
+dwell 0 
+return
+
+
+n25000:
+CS1_CutterRadius == CS1Tool25CCGeom 
+CS1_CutterWear == CS1Tool25CCWear 
+CS1ActiveDCode == 25 
+dwell 0 
+return
+
+
+#line 250 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_dcodes.pmc"
+
+
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+
+
+#define Xpos P8441
+#line 6 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Ypos P8442
+#line 7 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Zpos P8443
+#line 8 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Apos P8444
+#line 9 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Bpos P8445
+#line 10 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Cpos P8446
+#line 11 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Upos P8447
+#line 12 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Vpos P8448
+#line 13 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Wpos P8449
+#line 14 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+
+
+open subprog 1000
+#line 19 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+#define ThisCs L0
+#line 21 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Xref L1
+#define Yref L2
+#define Zref L3
+#line 22 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define Xang L4
+#define Yang L5
+#define Zang L6
+#line 23 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+
+
+#define MotorNumber L7
+#line 28 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+
+
+
+
+#define ToolOffset L8
+#define ToolWearOffset L9
+#define ToolOffsetRow L10
+#line 35 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define CutterRadiusTemp L11
+#define ZtoolOfsTemp L12
+#line 36 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define AuxG54Offset L13
+#define AuxG54Temp L14
+#line 37 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define ActiveWorkOffset L15
+#define ActiveToolOffset L16
+#define ExtendOffsetFlag L17
+#line 38 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+#define DwellTime L18
+#line 40 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+#define A1motorNumber L19
+#define A2motorNumber L20
+#define A3motorNumber L21
+#define A4motorNumber L22
+#define A5motorNumber L23
+#define A6motorNumber L24
+#define A7motorNumber L25
+#define A8motorNumber L26
+#define A9motorNumber L27
+#define A10motorNumber L28
+#line 42 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+#define A1axisIndex L29
+#define A2axisIndex L30
+#define A3axisIndex L31
+#define A4axisIndex L32
+#define A5axisIndex L33
+#define A6axisIndex L34
+#define A7axisIndex L35
+#define A8axisIndex L36
+#define A9axisIndex L37
+#define A10axisIndex L38
+#line 43 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+
+Ldata.coord=1 
+
+
+
+N0:
+
+Coord[1].NoBlend = 1
+linear
+
+if (-Coord[1].Tm != Coord[1].MaxFeedRate)
+{
+ CoordFeedTemp = -Coord[1].Tm
+}
+F(Coord[1].MaxFeedRate)
+GCodesGroup1 == 0
+return
+
+
+N1:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+if (GCodesGroup3 == 1) Abs_Mode = 0
+else if (GCodesGroup3 == 0) Abs_Mode = 1
+
+
+
+if (ArgPassVar &XargMask)
+if (Abs_Mode == 1) X_Pos = Xarg
+else X_Pos = Xarg + Coord[ThisCs].CdPos[XaxisIndex]
+else X_Pos = Coord[ThisCs].CdPos[XaxisIndex]
+
+if (ArgPassVar &YargMask)
+if (Abs_Mode == 1) Y_Pos = Yarg
+else Y_Pos = Yarg + Coord[ThisCs].CdPos[YaxisIndex]
+else Y_Pos = Coord[ThisCs].CdPos[YaxisIndex]
+
+if (ArgPassVar &ZargMask)
+if (Abs_Mode == 1) Z_Pos = Zarg
+else Z_Pos = Zarg + Coord[ThisCs].CdPos[ZaxisIndex]
+else Z_Pos = Coord[ThisCs].CdPos[ZaxisIndex]
+
+
+if (ArgPassVar &RargMask) R_PlanePos = Rarg
+else R_PlanePos = Coord[ThisCs].CdPos[ZaxisIndex] 
+
+
+Init_PlanePos = Coord[ThisCs].CdPos[ZaxisIndex] 
+
+
+if (ArgPassVar &QargMask){
+ if (CannedCycleCode == 76)
+ BoreShift = Qarg
+ else
+ PeckDepth = Qarg
+}
+else PeckDepth = 0.01
+
+
+if (ArgPassVar &PargMask) CycleDwell = Parg*1000
+else CycleDwell = 0
+
+
+if (ArgPassVar &FargMask) F(Farg)
+
+
+if (ArgPassVar &LargMask) CannedCycleRepeats = Larg
+else CannedCycleRepeats = 1
+
+
+if (ArgPassVar &DargMask) RetractDistance = Darg
+else RetractDistance = 0.01
+
+return
+
+
+N1000:
+Coord[1].NoBlend = 0
+linear
+if ((CoordFeedTemp != -Coord[1].Tm) &&(-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+ CoordFeedTemp = -Coord[1].Tm
+}
+
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+ F(CoordFeedTemp)
+
+}
+
+GCodesGroup1 == 1
+
+
+return
+
+
+N2000:
+Coord[1].NoBlend = 0
+circle1
+if ((CoordFeedTemp != -Coord[1].Tm) &&(-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+ CoordFeedTemp = -Coord[1].Tm 
+}
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+ F(CoordFeedTemp)
+}
+
+GCodesGroup1 == 3
+return
+
+
+N3000:
+Coord[1].NoBlend = 0
+circle2
+if ((CoordFeedTemp != -Coord[1].Tm) &&(-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+ CoordFeedTemp = -Coord[1].Tm
+}
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+ F(CoordFeedTemp)
+}
+
+GCodesGroup1 == 4
+return
+
+
+N4000:
+
+read(F,P,X) 
+
+if (ArgPassVar &FargMask) { 
+ DwellTime = Farg
+}
+if (ArgPassVar &PargMask) { 
+ DwellTime = Parg
+}
+if (ArgPassVar &XargMask) { 
+ DwellTime = Xarg
+}
+G04TotalTime = DwellTime
+GCodesGroup0 == GCodesGroup0|$1
+dwell(DwellTime * 1000)
+
+GCodesGroup0 == GCodesGroup0&(GCodesGroup0^$1)
+
+return
+
+
+N9000:
+
+dwell 0 
+
+
+GCodesGroup0 == GCodesGroup0|$2
+
+return
+
+
+N17000:
+
+normal K-1
+GCodesGroup2 == $0
+
+
+return
+
+
+N18000:
+
+normal J-1
+GCodesGroup2 == $1
+
+
+return
+
+
+N19000:
+
+normal I-1
+GCodesGroup2 == $2
+
+
+return
+
+
+N20000:
+dwell 0 
+ThisCs = Ldata.Coord 
+if (NativeUnits == Metric)
+{
+ UnitScaling = 25.4
+}
+else
+{
+ UnitScaling = 1
+}
+Coord[1].MaxFeedRate = MaxFeedrate/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup6 == 0
+
+return
+
+
+N21000:
+dwell 0 
+ThisCs = Ldata.Coord 
+if (NativeUnits == English)
+{
+ UnitScaling = 1/25.4
+}
+else
+{
+ UnitScaling = 1
+}
+Coord[1].MaxFeedRate = MaxFeedrate/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup6 == 1
+
+return
+
+
+N28000:
+
+dwell 0 
+read(X,Y,Z) 
+
+ThisCs = Ldata.Coord
+
+if (GCodesGroup3 == 1) Abs_Mode = 0
+else if (GCodesGroup3 == 0) Abs_Mode = 1
+
+ThisCs = Ldata.Coord 
+
+if (ArgPassVar &XargMask)
+{
+ if (GCodesGroup3 != 1) X_inter_point = Xarg
+ else X_inter_point = Xarg + Coord[ThisCs].CdPos[XaxisIndex]
+ X_final_point = -Tdata[ThisCs].Bias[XaxisIndex]
+}
+else
+{
+ X_inter_point = Coord[ThisCs].CdPos[XaxisIndex] 
+ X_final_point = X_inter_point
+}
+
+if (ArgPassVar &YargMask)
+{
+ if (GCodesGroup3 != 1) Y_inter_point = Yarg
+ else Y_inter_point = Yarg + Coord[ThisCs].CdPos[YaxisIndex]
+ Y_final_point = -Tdata[ThisCs].Bias[YaxisIndex]
+}
+else
+{
+ Y_inter_point = Coord[ThisCs].CdPos[YaxisIndex] 
+ Y_final_point = Y_inter_point
+}
+
+if (ArgPassVar &ZargMask)
+{
+ if (GCodesGroup3 != 1) Z_inter_point = Zarg
+ else Z_inter_point = Zarg + Coord[ThisCs].CdPos[ZaxisIndex]
+ Z_final_point = -Tdata[ThisCs].Bias[ZaxisIndex]
+}
+else
+{
+ Z_inter_point = Coord[ThisCs].CdPos[ZaxisIndex] 
+ Z_final_point = Z_inter_point
+}
+
+G90
+G00
+X(X_inter_point) Y(Y_inter_point) Z(Z_inter_point)
+X(X_final_point) Y(Y_final_point) Z(Z_final_point)
+
+if (Abs_Mode == 0) G91
+
+return
+
+
+N40000:
+
+ccmode0
+GCodesGroup7 == 0
+
+return
+
+
+N41000:
+
+CutterRadiusTemp = (CS1_CutterRadius + CS1_CutterWear)/UnitScaling/2 
+ccr(CutterRadiusTemp)
+ccmode1
+GCodesGroup7 == 1
+
+return
+
+
+N42000:
+
+CutterRadiusTemp = (CS1_CutterRadius + CS1_CutterWear)/UnitScaling/2 
+ccr(CutterRadiusTemp)
+ccmode2
+GCodesGroup7 == 2
+
+return
+
+
+n43000:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+ZtoolOfs = ZtoolOfsTemp/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 0
+
+return
+
+
+n44000:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+ZtoolOfs = -(ZtoolOfsTemp/UnitScaling)
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 1
+
+return
+
+
+
+n49000:
+
+dwell 0
+ThisCs = Ldata.Coord
+ZtoolOfs = 0
+
+#line 394 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 2
+
+
+return
+
+
+n50000:
+
+dwell 0 
+ThisCs = Ldata.Coord 
+XcentScale = 0.0 
+YcentScale = 0.0 
+ZcentScale = 0.0 
+Xscaling = 1.0 
+Yscaling = 1.0 
+Zscaling = 1.0 
+call ComputeNCTransform(ThisCs)
+GCodesGroup11 == 0
+
+
+return
+
+
+n50100:
+dwell 0 
+read(X,Y,Z) 
+
+ThisCs = Ldata.Coord 
+XmirFact = 1.0 
+YmirFact = 1.0 
+ZmirFact = 1.0 
+XcentMir = 0 
+YcentMir = 0 
+ZcentMir = 0 
+call ComputeNCTransform(ThisCs)
+GCodesGroup22 == 0
+
+
+return
+
+
+N51000:
+dwell 0 
+read(I,J,K,P,X,Y,Z) 
+
+ThisCs = Ldata.Coord 
+if (ArgPassVar &XargMask) XcentScale = Xarg 
+else XcentScale = Coord[ThisCs].CdPos[XaxisIndex] 
+if (ArgPassVar &YargMask) YcentScale = Yarg 
+else YcentScale = Coord[ThisCs].CdPos[YaxisIndex] 
+if (ArgPassVar &ZargMask) ZcentScale = Zarg 
+else ZcentScale = Coord[ThisCs].CdPos[ZaxisIndex] 
+
+if (ArgPassVar &PargMask) { 
+ Xscaling = Parg
+ Yscaling = Parg
+ Zscaling = Parg
+}
+else { 
+ if (ArgPassVar &IargMask) Xscaling = Iarg 
+ else Xscaling = 1.0 
+ if (ArgPassVar &JargMask) Yscaling = Jarg 
+ else Yscaling = 1.0 
+ if (ArgPassVar &KargMask) Zscaling = Karg 
+ else Zscaling = 1.0 
+}
+call ComputeNCTransform(ThisCs)
+GCodesGroup11 == 1
+
+
+return
+
+
+n51100:
+dwell 0 
+read(X,Y,Z) 
+
+ThisCs = Ldata.Coord 
+if (ArgPassVar &XargMask) { 
+ XmirFact = -1.0 
+ XcentMir = Xarg 
+}
+if (ArgPassVar &YargMask) { 
+ YmirFact = -1.0 
+ YcentMir = Yarg 
+}
+if (ArgPassVar &ZargMask) { 
+ ZmirFact = -1.0 
+ ZcentMir = Zarg 
+}
+call ComputeNCTransform(ThisCs)
+GCodesGroup22 == 1
+
+
+return
+
+
+n53000:
+dwell 0
+read(A,B,C,U,V,W,X,Y,Z) 
+ThisCs = Ldata.Coord 
+
+
+ActiveWorkOffset = GCodesGroup12
+ActiveToolOffset = ZtoolOfs
+GCodesGroup12 == 0
+
+if (ArgPassVar &XargMask) Xpos = Xarg 
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(XaxisIndex) 
+ Xpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[XaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &YargMask) Ypos = Yarg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(YaxisIndex)
+ Ypos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[YaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &ZargMask) Zpos = Zarg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(ZaxisIndex)
+ Zpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[ZaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &AargMask) Apos = Aarg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(AaxisIndex)
+ Apos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[AaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &BargMask) Bpos = Barg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(BaxisIndex)
+ Bpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[BaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &CargMask) Cpos = Carg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(CaxisIndex)
+ Cpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[CaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &UargMask) Upos = Uarg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(UaxisIndex)
+ Upos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[UaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &VargMask) Vpos = Varg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(VaxisIndex)
+ Vpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[VaxisIndex])) / UnitScaling 
+}
+if (ArgPassVar &WargMask) Wpos = Warg
+else
+{
+ MotorNumber = Setup_AxisIndexToMotorNumber(WaxisIndex)
+ Wpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[WaxisIndex])) / UnitScaling 
+}
+
+
+
+
+ABS
+
+
+XworkOfs = 0
+YworkOfs = 0
+ZworkOfs = 0
+XlocOfs = 0
+YlocOfs = 0
+ZlocOfs = 0
+XtoolOfs = 0
+YtoolOfs = 0
+ZtoolOfs = 0
+XcomOfs = 0
+YcomOfs = 0
+ZcomOfs = 0
+
+gosub 50000 
+gosub 50100 
+gosub 69000 
+
+
+X(Xpos)Y(Ypos)Z(Zpos)
+
+
+if(ActiveWorkOffset != 0)
+{
+ if(ActiveWorkOffset < 7){
+ G(53+ActiveWorkOffset)
+ }
+ else{
+ ExtendOffsetFlag = 1
+ gosub 54100
+ }
+}
+
+
+ZtoolOfs = ActiveToolOffset
+call ComputeNCTransform(ThisCs)
+
+
+if(GCodesGroup3 == 1){inc}
+
+return
+
+
+n54000:
+
+dwell 0 
+XworkOfs = CS1WorkG54X
+YworkOfs = CS1WorkG54Y
+ZworkOfs = CS1WorkG54Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 1
+
+
+return
+
+
+n54100:
+
+dwell 0 
+read(P) 
+
+AuxG54Offset = 1000 
+
+if(ExtendOffsetFlag != 1)
+{
+
+ if (ArgPassVar &PargMask) { 
+ AuxG54Temp = AuxG54Offset + (Parg-1)*10
+ XworkOfs = P(AuxG54Temp)
+ YworkOfs = P(AuxG54Temp+1)
+ ZworkOfs = P(AuxG54Temp+2)
+ }
+}
+else{
+ 
+ AuxG54Temp = AuxG54Offset + (ActiveWorkOffset-7)*10
+ XworkOfs = P(AuxG54Temp)
+ YworkOfs = P(AuxG54Temp+1)
+ ZworkOfs = P(AuxG54Temp+2)
+ Parg = ActiveWorkOffset - 6
+ ExtendOffsetFlag = 0
+}
+
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == Parg + 6
+return
+
+
+
+n55000:
+
+dwell 0 
+XworkOfs = CS1WorkG55X
+YworkOfs = CS1WorkG55Y
+ZworkOfs = CS1WorkG55Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 2
+
+
+return
+
+
+n56000:
+
+dwell 0 
+XworkOfs = CS1WorkG56X
+YworkOfs = CS1WorkG56Y
+ZworkOfs = CS1WorkG56Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 3
+
+
+return
+
+
+n57000:
+
+dwell 0 
+XworkOfs = CS1WorkG57X
+YworkOfs = CS1WorkG57Y
+ZworkOfs = CS1WorkG57Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 4
+
+
+return
+
+
+n58000:
+
+dwell 0 
+XworkOfs = CS1WorkG58X
+YworkOfs = CS1WorkG58Y
+ZworkOfs = CS1WorkG58Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 5
+
+
+return
+
+
+n59000:
+
+dwell 0 
+XworkOfs = CS1WorkG59X
+YworkOfs = CS1WorkG59Y
+ZworkOfs = CS1WorkG59Z
+gosub 50000 
+gosub 50100 
+gosub 69000 
+GCodesGroup12 == 6
+
+
+return
+
+
+N61000:
+
+ThisCs = Ldata.Coord 
+Coord[ThisCs].NoBlend = 1 
+
+
+GCodesGroup15 == 0
+
+
+return
+
+
+N64000:
+
+ThisCs = Ldata.Coord 
+Coord[ThisCs].NoBlend = 0 
+
+GCodesGroup15 == 1
+
+
+return
+
+
+
+n68000:
+dwell 0 
+read(R,X,Y,Z) 
+
+ThisCs = Ldata.Coord 
+if (ArgPassVar &XargMask) XcentRot = Xarg 
+else XcentRot = Coord[ThisCs].CdPos[XaxisIndex] 
+if (ArgPassVar &YargMask) YcentRot = Yarg 
+else YcentRot = Coord[ThisCs].CdPos[YaxisIndex] 
+if (ArgPassVar &ZargMask) ZcentRot = Zarg 
+else ZcentRot = Coord[ThisCs].CdPos[ZaxisIndex] 
+if (ArgPassVar &RargMask) { 
+ Xrotate = -1.0 * Rarg * Coord[ThisCs].Normal[0] 
+ Yrotate = -1.0 * Rarg * Coord[ThisCs].Normal[1] 
+ Zrotate = -1.0 * Rarg * Coord[ThisCs].Normal[2] 
+ call ComputeNCTransform(ThisCs)
+}
+GCodesGroup16 == 0
+
+
+return
+
+
+n69000:
+
+dwell 0 
+ThisCs = Ldata.Coord 
+XcentRot = 0 
+YcentRot = 0 
+ZcentRot = 0 
+
+
+
+Xrotate = 0 
+Yrotate = 0 
+Zrotate = 0 
+
+call ComputeNCTransform(ThisCs)
+GCodesGroup16 == 1
+
+
+return
+
+
+
+n73000:
+
+bstart
+read(D,F,L,P,Q,R,X,Y,Z)
+
+
+
+
+
+
+
+
+
+
+
+CannedCycleCode = 73
+
+
+G40
+
+G0.001
+
+G90
+
+G00 X(X_Pos)Y(Y_Pos)
+
+OverrideDisable = 1
+
+While(CannedCycleRepeats > 0)
+{
+ CannedCycleRepeats --
+ G90
+ Z(R_PlanePos)
+ G01
+ Z_Depth = R_PlanePos - PeckDepth
+ DO
+ {
+ G01 G90
+ Z(Z_Depth)
+ G91
+ G00
+ Z(RetractDistance)
+ if (Z_Depth > Z_Pos) Z_Depth = Z_Depth - PeckDepth
+ else Z_Depth = Z_Pos
+ G90
+ G01
+ Z(Z_Depth)
+ } While(Z_Depth > Z_Pos)
+ Dwell (CycleDwell)
+ G00
+ if (R_Plane == 1) Z(R_PlanePos)
+ else Z(ZaxisDesPos)
+}
+if (Abs_Mode == 0) G91
+bstop
+
+return
+
+
+n76000:
+
+read(D,F,L,P,Q,R,X,Y,Z)
+
+
+
+
+
+
+
+
+
+
+
+CannedCycleCode = 76
+
+
+G40
+
+G0.001
+
+G90
+
+G00 X(X_Pos)Y(Y_Pos)
+
+OverrideDisable = 1
+
+While(CannedCycleRepeats > 0)
+{
+ CannedCycleRepeats --
+ G90
+ Z(R_PlanePos)
+ G01
+ Z(Z_Pos)
+ Dwell (CycleDwell)
+ M19
+ M05
+ 
+ G91
+ X(BoreShift)
+ Dwell 0
+ G00
+ if (R_Plane == 1) Z(R_PlanePos)
+ else Z(ZaxisDesPos)
+}
+if (Abs_Mode == 0) G91
+
+return
+
+
+
+n80000:
+
+dwell 0
+OverrideDisable = 0
+CannedCycleCode = 0
+
+
+return
+
+
+n83000:
+bstart
+
+read(D,F,L,P,Q,R,X,Y,Z)
+
+
+
+
+
+
+
+
+
+
+
+CannedCycleCode = 83
+
+
+G40
+
+G0.001
+
+G90
+
+G00 X(X_Pos)Y(Y_Pos)
+
+OverrideDisable = 1
+
+
+LastPeckCycle = ceil(R_PlanePos - Z_Pos / PeckDepth)
+PeckCycles = 0
+
+While(CannedCycleRepeats > 0)
+{
+ CannedCycleRepeats --
+ G90
+ Z(R_PlanePos)
+ G01
+ Z_Depth = R_PlanePos - PeckDepth
+ PeckCycles = 1
+ DO
+ {
+ G01 G90
+ Z(Z_Depth)
+ Z_PrevDepth = Z_Depth
+ G00
+ Z(R_PlanePos)
+ Z_Depth = Z_Depth - PeckDepth
+ if (Z_Depth < Z_Pos) Z_Depth = Z_Pos
+ G00
+ Z(Z_PrevDepth + RetractDistance)
+ G01
+ Z(Z_Depth)
+ PeckCycles++
+ } While(PeckCycles < LastPeckCycle) 
+ Dwell (CycleDwell)
+ G00
+
+ if (R_Plane == 1) Z(R_PlanePos)
+ else Z(Init_PlanePos)
+}
+if (Abs_Mode == 0) G91
+
+bstop
+
+return
+
+
+n90000:
+dwell 0
+abs
+
+GCodesGroup3 == 0
+return
+
+
+n90100:
+dwell 0 
+abs(I,J,K) 
+
+GCodesGroup3 == 2
+return
+
+
+n91000:
+dwell 0
+inc
+
+GCodesGroup3 == 1
+return
+
+
+n91100:
+dwell 0
+inc(I,J,K) 
+
+GCodesGroup3 == 3
+return
+
+
+n92000:
+dwell 0 
+read(x,y,z) 
+
+ThisCs = Ldata.Coord
+
+if (ArgPassVar &XargMask) Xref=Xarg 
+else Xref = -Coord[ThisCs].CdPos[XaxisIndex] 
+if (ArgPassVar &YargMask) Yref=Yarg 
+else Yref = -Coord[ThisCs].CdPos[YaxisIndex] 
+if (ArgPassVar &ZargMask) Zref=Zarg 
+else Zref = -Coord[ThisCs].CdPos[ZaxisIndex] 
+
+XworkOfs += (-Xref + Coord[ThisCs].CdPos[XaxisIndex])*UnitScaling 
+YworkOfs += (-Yref + Coord[ThisCs].CdPos[YaxisIndex])*UnitScaling 
+ZworkOfs += (-Zref + Coord[ThisCs].CdPos[ZaxisIndex])*UnitScaling 
+
+
+#line 1049 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+
+
+call ComputeNCTransform(ThisCs)
+
+GCodesGroup0 == GCodesGroup0|$100
+
+return
+
+
+n92100:
+
+
+GCodesGroup0 == GCodesGroup0|$200
+
+return
+
+
+n93000:
+
+GCodesGroup5 == 0
+
+return
+
+
+n94000:
+
+GCodesGroup5 == 1
+
+return
+
+
+n95000:
+
+GCodesGroup5 == 2
+
+return
+
+
+n96000:
+
+GCodesGroup13 == 0
+
+return
+
+
+n97000:
+
+GCodesGroup13 == 1
+
+return
+
+
+n98000:
+
+R_Plane = 0
+
+
+return
+
+
+n99000:
+
+R_Plane = 1
+
+
+return
+
+
+n120000:
+
+dwell 0 
+read(H)
+
+ToolOffset = 2000 
+ToolWearOffset = 2001 
+
+if (ArgPassVar &HargMask) { 
+ ToolOffsetRow = (Harg-1)*10
+ ZtoolOfsTemp = P(ToolOffset + ToolOffsetRow) + P(ToolWearOffset + ToolOffsetRow)
+ CS1ActiveHCode == Harg
+}
+return
+
+#undef ThisCs
+#undef Xref
+#undef Yref
+#undef Zref
+#undef Xang
+#undef Yang
+#undef Zang
+#undef MotorNumber
+#undef ToolOffset
+#undef ToolWearOffset
+#undef ToolOffsetRow
+#undef CutterRadiusTemp
+#undef ZtoolOfsTemp
+#undef AuxG54Offset
+#undef AuxG54Temp
+#undef ActiveWorkOffset
+#undef ActiveToolOffset
+#undef ExtendOffsetFlag
+#undef DwellTime
+#undef A1motorNumber
+#undef A2motorNumber
+#undef A3motorNumber
+#undef A4motorNumber
+#undef A5motorNumber
+#undef A6motorNumber
+#undef A7motorNumber
+#undef A8motorNumber
+#undef A9motorNumber
+#undef A10motorNumber
+#undef A1axisIndex
+#undef A2axisIndex
+#undef A3axisIndex
+#undef A4axisIndex
+#undef A5axisIndex
+#undef A6axisIndex
+#undef A7axisIndex
+#undef A8axisIndex
+#undef A9axisIndex
+#undef A10axisIndex
+#line 1132 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc"
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_mcodes.pmc"
+
+
+
+
+open subprog 1001
+#line 6 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_mcodes.pmc"
+
+#define SubProgLoop L0
+#define SubProgNum L1
+#line 8 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_mcodes.pmc"
+
+
+n0:
+MCodesProgramGroup == 1
+dwell 0 
+
+send1 "InFeedHold"
+stop 
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n1000:
+dwell 0 
+if (RunOptions &UI_OptionStop == UI_OptionStop)
+{
+ MCodesProgramGroup == 2
+ dwell 0 
+ 
+ send1 "InFeedHold"
+ stop 
+}
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n2000:
+dwell 0
+
+send1 "ProgramCompleted"
+MCodesProgramGroup == 3
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+if (RunOptions &UI_RotaryBuffer == UI_RotaryBuffer)
+{
+    cmd"&1 abort"
+}
+return
+
+
+n3000:
+MCodesSpindleGroup == 0
+dwell 0 
+SpindleMode == Spindle_CW
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n4000:
+MCodesSpindleGroup == 1
+dwell 0 
+SpindleMode == Spindle_CCW
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n5000:
+MCodesSpindleGroup == 2
+dwell 0 
+SpindleMode == Spindle_OFF
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n6000:
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n8000:
+MCodesCoolantGroup == 1
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n9000:
+MCodesCoolantGroup == 2
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n10000:
+MCodesChuckGroup == 0
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n11000:
+MCodesChuckGroup == 1
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n12000:
+MCodesThreadingGroup == 0
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n13000:
+MCodesThreadingGroup == 1
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n20000:
+MCodesGearRangeGroup == 0
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n21000:
+MCodesGearRangeGroup == 1
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n30000:
+MCodesProgramGroup == 4
+dwell 0
+
+send1 "ProgramCompleted"
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+if (RunOptions &UI_RotaryBuffer == UI_RotaryBuffer)
+{
+    cmd"&1 abort"
+}
+return
+
+
+n62000:
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n64000:
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+n98000:
+MCodesSubprogramGroup == 1
+dwell 0
+read(L,P) 
+
+if (ArgPassVar &LargMask) 
+{
+ SubProgLoop = Larg
+ LoopDisplay = SubProgLoop
+}
+else
+{
+ SubProgLoop = 1
+ LoopDisplay = SubProgLoop
+}
+
+if (ArgPassVar &PargMask) 
+{
+ SubProgNum = Parg
+ while(SubProgLoop > 0)
+ {
+ MCodesSubprogramGroup == 1
+ call (SubProgNum) 
+ SubProgLoop--
+ LoopDisplay = SubProgLoop
+ }
+}
+
+return
+
+
+
+n99000:
+MCodesSubprogramGroup == 2
+dwell 0
+if (RunOptions &UI_SingleBlock == UI_SingleBlock) dwell 0
+return
+
+
+#undef SubProgLoop
+#undef SubProgNum
+#line 198 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_mcodes.pmc"
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_tcodes.pmc"
+
+
+
+open subprog 1002
+#line 5 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_tcodes.pmc"
+
+
+Ldata.coord=1 
+
+
+n1000:
+CS1ActiveTCode == 1 
+dwell 0 
+return
+
+
+n2000:
+CS1ActiveTCode == 2 
+dwell 0 
+return
+
+
+n3000:
+CS1ActiveTCode == 3 
+dwell 0 
+return
+
+
+n4000:
+CS1ActiveTCode == 4 
+dwell 0 
+return
+
+
+n5000:
+CS1ActiveTCode == 5 
+dwell 0 
+return
+
+
+n6000:
+CS1ActiveTCode == 6 
+dwell 0 
+return
+
+
+n7000:
+CS1ActiveTCode == 7 
+dwell 0 
+return
+
+
+n8000:
+CS1ActiveTCode == 8 
+dwell 0 
+return
+
+
+n9000:
+CS1ActiveTCode == 9 
+dwell 0 
+return
+
+
+n10000:
+CS1ActiveTCode == 10 
+dwell 0 
+return
+
+
+n11000:
+CS1ActiveTCode == 11 
+dwell 0 
+return
+
+
+n12000:
+CS1ActiveTCode == 12 
+dwell 0 
+return
+
+
+n13000:
+CS1ActiveTCode == 13 
+dwell 0 
+return
+
+
+n14000:
+CS1ActiveTCode == 14 
+dwell 0 
+return
+
+
+n15000:
+CS1ActiveTCode == 15 
+dwell 0 
+return
+
+
+n16000:
+CS1ActiveTCode == 16 
+dwell 0 
+return
+
+
+n17000:
+CS1ActiveTCode == 17 
+dwell 0 
+return
+
+
+n18000:
+CS1ActiveTCode == 18 
+dwell 0 
+return
+
+
+n19000:
+CS1ActiveTCode == 19 
+dwell 0 
+return
+
+
+n20000:
+CS1ActiveTCode == 20 
+dwell 0 
+return
+
+
+n21000:
+CS1ActiveTCode == 21 
+dwell 0 
+return
+
+
+n22000:
+CS1ActiveTCode == 22 
+dwell 0 
+return
+
+
+n23000:
+CS1ActiveTCode == 23 
+dwell 0 
+return
+
+
+n24000:
+CS1ActiveTCode == 24 
+dwell 0 
+return
+
+
+n25000:
+CS1ActiveTCode == 25 
+dwell 0 
+return
+
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc"
+
+
+
+
+
+
+
+open subprog timer
+#define time L0
+#line 9 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc"
+#define EndTime L1
+#line 10 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc"
+#define count L2
+#line 11 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc"
+
+EndTime = Sys.Time + time 
+do count++
+while(EndTime > Sys.Time) 
+
+#undef time
+#undef EndTime
+#undef count
+#line 17 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc"
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc"
+
+
+
+
+#define Dis1 Tdata[XformNum].Bias[XaxisIndex]
+#define Dis2 Tdata[XformNum].Bias[YaxisIndex]
+#define Dis3 Tdata[XformNum].Bias[ZaxisIndex]
+#define Dis4 Tdata[XformNum].Bias[UaxisIndex]
+#define Dis5 Tdata[XformNum].Bias[VaxisIndex]
+#define Dis6 Tdata[XformNum].Bias[WaxisIndex]
+#define Dis7 Tdata[XformNum].Bias[AaxisIndex]
+#define Dis8 Tdata[XformNum].Bias[BaxisIndex]
+#define Dis9 Tdata[XformNum].Bias[CaxisIndex]
+#define Rot11 Tdata[XformNum].Diag[XaxisIndex]
+#define Rot12 Tdata[XformNum].XYZ[0]
+#define Rot13 Tdata[XformNum].XYZ[1]
+#define Rot21 Tdata[XformNum].XYZ[2]
+#define Rot22 Tdata[XformNum].Diag[YaxisIndex]
+#define Rot23 Tdata[XformNum].XYZ[3]
+#define Rot31 Tdata[XformNum].XYZ[4]
+#define Rot32 Tdata[XformNum].XYZ[5]
+#define Rot33 Tdata[XformNum].Diag[ZaxisIndex]
+
+
+#line 50 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc"
+
+
+open subprog ComputeNCTransform
+#define XformNum L0
+#line 52 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc"
+
+#define TestDet L1
+#line 54 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc"
+
+tsel1
+
+
+TestDet=tinit(XformNum) 
+
+
+Dis1 = XmirFact * XcentRot 
+Dis2 = YmirFact * YcentRot 
+Dis3 = ZmirFact * ZcentRot 
+
+
+Rot11 = XmirFact * cosd(Zrotate) * cosd(Yrotate) 
+Rot12 = XmirFact * (cosd(Zrotate) * sind(Yrotate) * sind(Xrotate) - sind(Zrotate) * cosd(Xrotate)) 
+Rot13 = XmirFact * (sind(Zrotate) * sind(Xrotate) + cosd(Zrotate) * sind(Yrotate) * cosd(Xrotate)) 
+Rot21 = YmirFact * sind(Zrotate) * cosd(Yrotate) 
+Rot22 = YmirFact * (cosd(Zrotate) * cosd(Xrotate) + sind(Zrotate) * sind(Yrotate) * sind(Xrotate)) 
+Rot23 = YmirFact * (sind(Zrotate) * sind(Yrotate) * cosd(Xrotate) - cosd(Zrotate) * sind(Xrotate)) 
+Rot31 = -1.0 * ZmirFact * sind(Yrotate) 
+Rot32 = ZmirFact * cosd(Yrotate) * sind(Xrotate) 
+Rot33 = ZmirFact * cosd(Yrotate) * cosd(Xrotate) 
+
+
+Dis1 -= Rot11 * XcentRot + Rot12 * YcentRot + Rot13 * ZcentRot 
+Dis2 -= Rot21 * XcentRot + Rot22 * YcentRot + Rot23 * ZcentRot 
+Dis3 -= Rot31 * XcentRot + Rot32 * YcentRot + Rot33 * ZcentRot 
+
+
+Dis1 += Rot11 * XcentScale + Rot12 * YcentScale + Rot13 * ZcentScale 
+Dis2 += Rot21 * XcentScale + Rot22 * YcentScale + Rot23 * ZcentScale 
+Dis3 += Rot31 * XcentScale + Rot32 * YcentScale + Rot33 * ZcentScale 
+
+
+Rot11 *= Xscaling * UnitScaling 
+Rot12 *= Yscaling * UnitScaling 
+Rot13 *= Zscaling * UnitScaling 
+Rot21 *= Xscaling * UnitScaling 
+Rot22 *= Yscaling * UnitScaling 
+Rot23 *= Zscaling * UnitScaling 
+Rot31 *= Xscaling * UnitScaling 
+Rot32 *= Yscaling * UnitScaling 
+Rot33 *= Zscaling * UnitScaling 
+
+
+Dis1 -= Rot11 * XcentScale + Rot12 * YcentScale + Rot13 * ZcentScale 
+Dis2 -= Rot21 * XcentScale + Rot22 * YcentScale + Rot23 * ZcentScale 
+Dis3 -= Rot31 * XcentScale + Rot32 * YcentScale + Rot33 * ZcentScale 
+
+
+Dis1 += 2 * XcentMir 
+Dis2 += 2 * YcentMir 
+Dis3 += 2 * ZcentMir 
+
+
+Dis1 += XworkOfs + XlocOfs + XtoolOfs + XcomOfs 
+Dis2 += YworkOfs + YlocOfs + YtoolOfs + YcomOfs 
+Dis3 += ZworkOfs + ZlocOfs + ZtoolOfs + ZcomOfs 
+
+
+
+pmatch 
+
+dwell 100 
+
+#undef XformNum
+#undef TestDet
+#line 119 "/var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc"
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/Motion Programs/ppnc_readme.pmc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc Function 
+
+#define StepCycleTemp L0
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+#define JogIncActive L1
+#line 19 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+#define ScanOnce L2
+#line 20 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+
+#define A1motorNumber L3
+#define A2motorNumber L4
+#define A3motorNumber L5
+#define A4motorNumber L6
+#define A5motorNumber L7
+#define A6motorNumber L8
+#define A7motorNumber L9
+#define A8motorNumber L10
+#define A9motorNumber L11
+#define A10motorNumber L12
+#line 22 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+#define A1axisIndex L13
+#define A2axisIndex L14
+#define A3axisIndex L15
+#define A4axisIndex L16
+#define A5axisIndex L17
+#define A6axisIndex L18
+#define A7axisIndex L19
+#define A8axisIndex L20
+#define A9axisIndex L21
+#define A10axisIndex L22
+#line 23 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+
+
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+
+Ldata.coord=1 
+
+
+if (CommandReg == UI_Initialize)
+{
+ CommandReg = UI_None
+ send1 "Initialized"
+}
+
+
+if (CommandReg == UI_Cancel)
+{
+ CommandReg = UI_None
+ 
+ send1 "Canceled"
+}
+
+
+if (CommandReg == UI_Abort)
+{
+ CommandReg = UI_None
+ abort
+ enable
+ send1 "ProgramAborted"
+}
+
+
+if (CommandReg == UI_Reset)
+{
+ CommandReg = UI_None
+ abort
+ enable
+ if (RunOptions &UI_RotaryBuffer == UI_None)
+ {
+ begin 1:100
+ }
+ 
+ send1 "ResetCompleted"
+}
+
+
+if (MaxFeedrate != 0 &&ScanOnce == 0)
+{
+ Coord[1].MaxFeedRate = MaxFeedrate
+ ScanOnce = 1
+}
+
+
+if (MachineMode == Auto || MachineMode == MDI)
+{
+ if (MachineState==ProgramLoaded || MachineState==InFeedHold || MachineState==Running) 
+ {
+ if (CommandReg == UI_CycleStart &&Coord[1].ProgActive == 0)
+ {
+ 
+ if (RunOptions &UI_RotaryBuffer == UI_RotaryBuffer)
+ {
+ 
+ while(MachineState == 11){}
+ }
+
+
+ CommandReg = UI_None
+ if (MachineMode == Auto)
+ {
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock)
+ {
+ send1 "CycleStarted"
+ 
+ if (RunOptions &UI_RotaryBuffer == UI_RotaryBuffer)
+ {
+						cmd"&1 B0"
+ }
+ else
+ {
+ begin 1:100
+ }
+
+ StepCycleTemp = 1
+ Do
+ {
+ Step
+ call timer(0.1)
+ }while(StepCycleTemp == Coord[1].Nsync &&CommandReg == 0)
+
+ if (StepCycleLatch == 1)
+ {
+ StepCycleLatch = 0
+ }
+ }
+ else
+ {
+ 
+ if (RunOptions &UI_RotaryBuffer == UI_RotaryBuffer)
+ {
+
+ 
+						cmd"&1 B0"
+ }
+ else
+ {
+ begin 1:100
+ }
+
+					cmd"run"
+
+ send1 "CycleStarted"
+ }
+ }
+ else if (MachineMode == MDI)
+ {
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock)
+ {
+ send1 "CycleStarted"
+ begin 1:99
+ StepCycleTemp = 1
+ Do
+ {
+ Step
+ call timer(0.1)
+ }while(StepCycleTemp == Coord[1].Nsync &&CommandReg == 0)
+
+ if (StepCycleLatch == 1)
+ {
+ StepCycleLatch = 0
+ }
+ }
+ else
+ {
+ begin 1:99
+ run
+ send1 "CycleStarted"
+ }
+ }
+ }
+ else if (CommandReg == UI_CycleStart &&Coord[1].ProgActive == 1)
+ {
+ CommandReg = UI_None
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock)
+ {
+ if (AutoJogFlag == 1)
+ {
+					cmd"#*j="
+ call timer(0.05)
+ while (!(Coord[1].DesVelZero)){}
+ AutoJogFlag = 0
+ }
+ send1 "CycleStarted"
+ StepCycleTemp = Coord[1].Nsync
+ Do
+ {
+ Step
+ call timer(0.1)
+ }while(StepCycleTemp == Coord[1].Nsync &&CommandReg == 0)
+
+ if (StepCycleLatch == 1)
+ {
+ StepCycleLatch = 0
+ }
+ }
+ else
+ {
+ if (AutoJogFlag == 1)
+ {
+					cmd"#*j="
+ call timer(0.05)
+ while (!(Coord[1].DesVelZero)){}
+ AutoJogFlag = 0
+ }
+ run
+ send1 "CycleStarted"
+ }
+ }
+ else if (CommandReg == UI_FeedHold)
+ {
+			cmd "&1\ "
+ 
+ 
+ CommandReg = UI_None
+ send1 "InFeedHold"
+ }
+
+ 
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock &&coord[1].ProgActive==1 &&coord[1].ProgProceeding==0 &&StepCycleLatch==0)
+ {
+ send1 "InFeedHold"
+ StepCycleLatch = 1
+ }
+
+ 
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock &&coord[1].ProgProceeding==1 &&coord[1].ProgRunning==1 &&StepLatch==0)
+ {
+			cmd "&1\ "
+ while(coord[1].ProgRunning==1){}
+ step
+ StepLatch = 1
+ StepCycleLatch = 0
+ }
+ else if (RunOptions &UI_SingleBlock == UI_None &&StepLatch == 1)
+ {
+ while(coord[1].ProgProceeding == 1){}
+ RunOptions = RunOptions &(RunOptions^UI_SingleBlock)
+ StepLatch = 0
+ }
+ }
+}
+
+
+
+
+if (MachineMode == Manual)
+{
+ if (PowerPendPresent != 1)
+ {
+ 
+ if (JogOptions &UI_JogX1 == UI_JogX1)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX1 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX1 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX1 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ motor[A4motorNumber].JogSpeed = JogX1 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX1 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX1 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX1 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX1 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX1 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX1 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (JogOptions &UI_JogX2 == UI_JogX2)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX2 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX2 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX2 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX2 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX2 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX2 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX2 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX2 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX2 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX2 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (JogOptions &UI_JogX3 == UI_JogX3)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX3 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX3 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX3 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX3 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX3 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX3 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX3 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX3 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX3 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX3 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (JogOptions &UI_JogX4 == UI_JogX4)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX4 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX4 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX4 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX4 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX4 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX4 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX4 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX4 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX4 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX4 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (JogOptions &UI_JogX5 == UI_JogX5)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX5 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX5 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX5 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX5 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX5 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX5 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX5 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX5 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX5 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX5 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ 
+ IncDistance = JogIncDist
+ }
+
+ 
+ if (CommandReg == UI_JogPlus)
+ {
+ if (JogOptions &UI_Axis_a1 == UI_Axis_a1)
+ {
+ Ldata.motor = A1motorNumber
+ }
+
+ if (JogOptions &UI_Axis_a2 == UI_Axis_a2)
+ {
+ Ldata.motor = A2motorNumber
+ }
+
+ if (JogOptions &UI_Axis_a3 == UI_Axis_a3)
+ {
+ Ldata.motor = A3motorNumber
+ }
+ 
+ if (JogOptions &UI_Axis_a4 == UI_Axis_a4)
+ {
+ Ldata.motor = A4motorNumber
+ }
+ if (JogOptions &UI_Axis_a5 == UI_Axis_a5)
+ {
+ Ldata.motor = A5motorNumber
+ } 
+ if (JogOptions &UI_Axis_a6 == UI_Axis_a6)
+ {
+ Ldata.motor = A6motorNumber
+ } 
+ if (JogOptions &UI_Axis_a7 == UI_Axis_a7)
+ {
+ Ldata.motor = A7motorNumber
+ } 
+ if (JogOptions &UI_Axis_a8 == UI_Axis_a8)
+ {
+ Ldata.motor = A8motorNumber
+ }
+ if (JogOptions &UI_Axis_a9 == UI_Axis_a9)
+ {
+ Ldata.motor = A9motorNumber
+ }
+ if (JogOptions &UI_Axis_a10 == UI_Axis_a10)
+ {
+ Ldata.motor = A10motorNumber
+ }
+ jog+ 
+ send1 "Jogging"
+ CommandReg = UI_None
+ }
+
+ 
+ if (CommandReg == UI_JogMinus)
+ {
+ if (JogOptions &UI_Axis_a1 == UI_Axis_a1)
+ {
+ Ldata.motor = A1motorNumber
+ }
+
+ if (JogOptions &UI_Axis_a2 == UI_Axis_a2)
+ {
+ Ldata.motor = A2motorNumber
+ }
+
+ if (JogOptions &UI_Axis_a3 == UI_Axis_a3)
+ {
+ Ldata.motor = A3motorNumber
+ }
+ 
+ if (JogOptions &UI_Axis_a4 == UI_Axis_a4)
+ {
+ Ldata.motor = A4motorNumber
+ }
+ if (JogOptions &UI_Axis_a5 == UI_Axis_a5)
+ {
+ Ldata.motor = A5motorNumber
+ } 
+ if (JogOptions &UI_Axis_a6 == UI_Axis_a6)
+ {
+ Ldata.motor = A6motorNumber
+ } 
+ if (JogOptions &UI_Axis_a7 == UI_Axis_a7)
+ {
+ Ldata.motor = A7motorNumber
+ } 
+ if (JogOptions &UI_Axis_a8 == UI_Axis_a8)
+ {
+ Ldata.motor = A8motorNumber
+ }
+ if (JogOptions &UI_Axis_a9 == UI_Axis_a9)
+ {
+ Ldata.motor = A9motorNumber
+ }
+ if (JogOptions &UI_Axis_a10 == UI_Axis_a10)
+ {
+ Ldata.motor = A10motorNumber
+ }
+ jog-
+ send1 "Jogging"
+ CommandReg = UI_None
+ }
+
+ 
+ if (CommandReg == UI_JogIncPlus)
+ {
+ if (JogOptions &UI_Axis_a1 == UI_Axis_a1)
+ {
+ Motor[A1motorNumber].ProgJogPos = IncDistance * Motor[A1motorNumber].CoordSf[A1axisIndex]
+ Ldata.motor = A1motorNumber 
+ }
+ if (JogOptions &UI_Axis_a2 == UI_Axis_a2)
+ {
+ Motor[A2motorNumber].ProgJogPos = IncDistance * Motor[A2motorNumber].CoordSf[A2axisIndex]
+ Ldata.motor = A2motorNumber 
+ }
+ if (JogOptions &UI_Axis_a3 == UI_Axis_a3)
+ {
+ Motor[A3motorNumber].ProgJogPos = IncDistance * Motor[A3motorNumber].CoordSf[A3axisIndex]
+ Ldata.motor = A3motorNumber 
+ }
+ if (JogOptions &UI_Axis_a4 == UI_Axis_a4)
+ {
+ Motor[A4motorNumber].ProgJogPos = IncDistance * Motor[A4motorNumber].CoordSf[A4axisIndex]
+ Ldata.motor = A4motorNumber 
+ } 
+ if (JogOptions &UI_Axis_a5 == UI_Axis_a5)
+ {
+ Motor[A5motorNumber].ProgJogPos = IncDistance * Motor[A5motorNumber].CoordSf[A5axisIndex]
+ Ldata.motor = A5motorNumber 
+ } 
+ if (JogOptions &UI_Axis_a6 == UI_Axis_a6)
+ {
+ Motor[A6motorNumber].ProgJogPos = IncDistance * Motor[A6motorNumber].CoordSf[A6axisIndex]
+ Ldata.motor = A6motorNumber 
+ }
+ if (JogOptions &UI_Axis_a7 == UI_Axis_a7)
+ {
+ Motor[A7motorNumber].ProgJogPos = IncDistance * Motor[A7motorNumber].CoordSf[A7axisIndex]
+ Ldata.motor = A7motorNumber 
+ }
+ if (JogOptions &UI_Axis_a8 == UI_Axis_a8)
+ {
+ Motor[A8motorNumber].ProgJogPos = IncDistance * Motor[A8motorNumber].CoordSf[A8axisIndex]
+ Ldata.motor = A8motorNumber 
+ }
+ if (JogOptions &UI_Axis_a9 == UI_Axis_a9)
+ {
+ Motor[A9motorNumber].ProgJogPos = IncDistance * Motor[A9motorNumber].CoordSf[A9axisIndex]
+ Ldata.motor = A9motorNumber
+ }
+ if (JogOptions &UI_Axis_a10 == UI_Axis_a10)
+ {
+ Motor[A10motorNumber].ProgJogPos = IncDistance * Motor[A10motorNumber].CoordSf[A10axisIndex]
+ Ldata.motor = A10motorNumber
+ }
+ jog^* 
+ send1 "Jogging"
+ JogIncActive = 1
+ CommandReg = UI_None
+ }
+
+ if (CommandReg == UI_JogIncMinus)
+ {
+ if (JogOptions &UI_Axis_a1 == UI_Axis_a1)
+ {
+ Motor[A1motorNumber].ProgJogPos = -IncDistance * Motor[A1motorNumber].CoordSf[A1axisIndex]
+ Ldata.motor = A1motorNumber 
+ }
+ if (JogOptions &UI_Axis_a2 == UI_Axis_a2)
+ {
+ Motor[A2motorNumber].ProgJogPos = -IncDistance * Motor[A2motorNumber].CoordSf[A2axisIndex]
+ Ldata.motor = A2motorNumber 
+ }
+ if (JogOptions &UI_Axis_a3 == UI_Axis_a3)
+ {
+ Motor[A3motorNumber].ProgJogPos = -IncDistance * Motor[A3motorNumber].CoordSf[A3axisIndex]
+ Ldata.motor = A3motorNumber 
+ }
+ if (JogOptions &UI_Axis_a4 == UI_Axis_a4)
+ {
+ Motor[A4motorNumber].ProgJogPos = -IncDistance * Motor[A4motorNumber].CoordSf[A4axisIndex]
+ Ldata.motor = A4motorNumber 
+ } 
+ if (JogOptions &UI_Axis_a5 == UI_Axis_a5)
+ {
+ Motor[A5motorNumber].ProgJogPos = -IncDistance * Motor[A5motorNumber].CoordSf[A5axisIndex]
+ Ldata.motor = A5motorNumber 
+ } 
+ if (JogOptions &UI_Axis_a6 == UI_Axis_a6)
+ {
+ Motor[A6motorNumber].ProgJogPos = -IncDistance * Motor[A6motorNumber].CoordSf[A6axisIndex]
+ Ldata.motor = A6motorNumber 
+ }
+ if (JogOptions &UI_Axis_a7 == UI_Axis_a7)
+ {
+ Motor[A7motorNumber].ProgJogPos = -IncDistance * Motor[A7motorNumber].CoordSf[A7axisIndex]
+ Ldata.motor = A7motorNumber 
+ }
+ if (JogOptions &UI_Axis_a8 == UI_Axis_a8)
+ {
+ Motor[A8motorNumber].ProgJogPos = -IncDistance * Motor[A8motorNumber].CoordSf[A8axisIndex]
+ Ldata.motor = A8motorNumber 
+ }
+ if (JogOptions &UI_Axis_a9 == UI_Axis_a9)
+ {
+ Motor[A9motorNumber].ProgJogPos = -IncDistance * Motor[A9motorNumber].CoordSf[A9axisIndex]
+ Ldata.motor = A9motorNumber
+ }
+ if (JogOptions &UI_Axis_a10 == UI_Axis_a10)
+ {
+ Motor[A10motorNumber].ProgJogPos = -IncDistance * Motor[A10motorNumber].CoordSf[A10axisIndex]
+ Ldata.motor = A10motorNumber
+ }
+ jog^* 
+ send1 "Jogging"
+ JogIncActive = 1
+ CommandReg = UI_None
+ }
+
+ 
+ if (CommandReg == UI_JogStop)
+ {
+ CommandReg = UI_None
+		cmd"#*j/"
+ send1 "JogStopped"
+ }
+}
+
+
+if (JogIncActive == 1)
+{
+ call timer(0.1) 
+ if (Motor[A1motorNumber].Desired.TimerEnabled == 0 &&Motor[A2motorNumber].Desired.TimerEnabled == 0 &&Motor[A3motorNumber].Desired.TimerEnabled == 0 &&Motor[A4motorNumber].Desired.TimerEnabled == 0 &&Motor[A5motorNumber].Desired.TimerEnabled == 0 &&Motor[A6motorNumber].Desired.TimerEnabled == 0 &&Motor[A7motorNumber].Desired.TimerEnabled == 0 &&Motor[A8motorNumber].Desired.TimerEnabled == 0 &&Motor[A9motorNumber].Desired.TimerEnabled == 0 &&Motor[A10motorNumber].Desired.TimerEnabled == 0)
+ {
+ send1 "JogStopped"
+ JogIncActive = 0
+ }
+}
+
+
+if (MachineMode == Manual &&Coord[1].ProgActive == 1 &&AutoJogFlag == 0)
+{
+ AutoJogFlag = 1
+}
+
+
+if (Coord[1].ProgActive == 0 &&GCodesGroup0 &$1 == $1)
+{
+ GCodesGroup0 = GCodesGroup0&(GCodesGroup0^$1)
+}
+
+#undef StepCycleTemp
+#undef JogIncActive
+#undef ScanOnce
+#undef A1motorNumber
+#undef A2motorNumber
+#undef A3motorNumber
+#undef A4motorNumber
+#undef A5motorNumber
+#undef A6motorNumber
+#undef A7motorNumber
+#undef A8motorNumber
+#undef A9motorNumber
+#undef A10motorNumber
+#undef A1axisIndex
+#undef A2axisIndex
+#undef A3axisIndex
+#undef A4axisIndex
+#undef A5axisIndex
+#undef A6axisIndex
+#undef A7axisIndex
+#undef A8axisIndex
+#undef A9axisIndex
+#undef A10axisIndex
+#line 584 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc"
+close
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc Handwheel 
+
+#define HandleScale L0
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+#define Motornumber L1
+#line 19 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+#define axisindex L2
+#line 20 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+#define motorindex L3
+#line 21 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+HandleScale = 0.25
+
+
+Ldata.coord=1 
+
+if (PowerPendPresent == 1)
+{
+ 
+ if (OutputLED &LED_JogInc == LED_JogInc &&MachineMode == Manual)
+ {
+ HandwheelActive=1
+ }
+ else
+ {
+ HandwheelActive=0
+ }
+
+ if (MachineMode == Manual &&HandwheelActive == 1 &&InitHandle==0)
+ {
+ while (!(Coord[1].DesVelZero)){}
+ PrevHandleCount=HandEncoder 
+ HandleSpeed=0 
+ 
+ motorindex = 0
+ while (motorindex < Sys.MaxMotors)
+ {
+ if (Motor[motorindex].ServoCtrl == 1)
+ {
+ TargetPos(motorindex) = Motor[motorindex].DesPos-Motor[motorindex].HomePos
+ Motor[motorindex].ProgJogPos = TargetPos(motorindex)
+ PrevJogSpeed(motorindex) = Motor[motorindex].JogSpeed
+ PrevJogTa(motorindex) = Motor[motorindex].JogTa
+ PrevJogTs(motorindex) = Motor[motorindex].JogTs
+ }
+ motorindex++
+ }
+
+#line 83 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+ InitHandle = 1
+ }
+
+ While(MachineMode == Manual &&OutputLED &LED_JogInc == LED_JogInc &&HandwheelActive == 1 &&InitHandle == 1)
+ {
+ HandleWhileLoop = 1
+ HandleChange = (HandEncoder - PrevHandleCount)
+
+ 
+ if (abs(HandleChange) > 50)
+ {
+ HandleChange = 0
+ }
+
+ 
+ 
+ motorindex = 0
+ while (motorindex < Sys.MaxMotors)
+ {
+ if (Motor[motorindex].ServoCtrl == 1)
+ {
+ Motor[motorindex].JogTa=-3
+ Motor[motorindex].JogTs=1.5
+ Motor[motorindex].JogSpeed=500
+ }
+ motorindex++
+ }
+
+#line 126 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+ PrevHandleCount = HandEncoder
+
+ if (SpeedSelect == Sel_1_Speed)
+ {
+ HandleSpeed=0.0001
+
+#line 147 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+ }
+ if (SpeedSelect == Sel_2_Speed)
+ {
+ HandleSpeed=0.0010
+
+#line 167 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+ 
+ }
+ if (SpeedSelect == Sel_3_Speed)
+ {
+ HandleSpeed=0.0100
+
+#line 187 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+ 
+ }
+
+ if (SpeedSelect == Sel_4_Speed)
+ {
+ HandleSpeed=0.1000
+
+#line 208 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+ 
+ }
+
+ if (SpeedSelect == Sel_5_Speed)
+ {
+ HandleSpeed=1.0000
+
+#line 229 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+ 
+ }
+
+ If(AxisSelect == Sel_1_Axis)
+ {
+ axisindex = Setup_PendantPos(1) 
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex) 
+ }
+ If(AxisSelect == Sel_2_Axis)
+ {
+ axisindex = Setup_PendantPos(2)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_3_Axis)
+ {
+ axisindex = Setup_PendantPos(3)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_4_Axis)
+ {
+ axisindex = Setup_PendantPos(4)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_5_Axis)
+ {
+ axisindex = Setup_PendantPos(5)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_6_Axis)
+ {
+ axisindex = Setup_PendantPos(6)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+ If(AxisSelect == Sel_7_Axis)
+ {
+ axisindex = Setup_PendantPos(7)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_8_Axis)
+ {
+ axisindex = Setup_PendantPos(8)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_9_Axis)
+ {
+ axisindex = Setup_PendantPos(9)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+ If(AxisSelect == Sel_10_Axis)
+ {
+ axisindex = Setup_PendantPos(10)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+ 
+ if (Motornumber > -1 &&Motor[Motornumber].ServoCtrl == 1 &&HandleChange != 0)
+ {
+ If ((Motor[Motornumber].PlusLimit == 1 || Motor[Motornumber].SoftPlusLimit == 1) &&HandleChange > 0)
+ {
+ HandleChange = 0
+ }
+ If((Motor[Motornumber].MinusLimit == 1 || Motor[Motornumber].SoftMinusLimit == 1) &&HandleChange < 0)
+ {
+ HandleChange = 0
+ }
+ TargetPos(Motornumber) = TargetPos(Motornumber) + HandleSpeed*HandleChange*Motor[Motornumber].CoordSf[axisindex]*HandleScale
+ Motor[Motornumber].ProgJogPos = TargetPos(Motornumber)
+ Ldata.motor = Motornumber
+ jog=*
+ 
+ send1 "Jogging"
+ }
+
+
+#line 333 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+ }
+
+ HandwheelActive=0
+ HandleSpeed=0
+
+ If(HandleWhileLoop == 1) 
+ {
+ InitHandle = 0
+ HandleWhileLoop = 0
+ HandleSpeed = 0
+
+ send1 "JogStopped"
+
+ motorindex = 0
+ while (motorindex < Sys.MaxMotors)
+ {
+ if (Motor[motorindex].ServoCtrl == 1)
+ {
+ Motor[motorindex].JogSpeed = PrevJogSpeed(motorindex)
+ Motor[motorindex].JogTa = PrevJogTa(motorindex)
+ Motor[motorindex].JogTs = PrevJogTs(motorindex)
+ }
+ motorindex++
+ }
+ 
+#line 373 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+
+ }
+}
+
+#undef HandleScale
+#undef Motornumber
+#undef axisindex
+#undef motorindex
+#line 377 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc"
+close
+
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_hmimonitor.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc HmiMonitor 
+
+#define HmiCounterPrev L0
+#define HmiPresentFlag L1
+#define FirstTime L2
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_hmimonitor.plc"
+
+
+Ldata.coord=1 
+
+if(FirstTime == 0)
+{
+ 
+ HmiCounterPrev = HmiCounter
+ call timer(0.5)
+ if (HmiCounterPrev != HmiCounter &&HmiPresentFlag == 0)
+ {
+ 
+
+ 
+ if (PowerPendPresent == 1)
+ {
+ send1 "PendantConnected"
+ send1 "HideManual" 
+ 
+ }
+ HmiPresentFlag = 1
+ FirstTime = 1
+ }
+ else if (HmiCounterPrev == HmiCounter &&HmiPresentFlag == 1)
+ {
+ 
+ HmiPresentFlag = 0
+ }
+ 
+}
+else
+{
+ HmiCounterPrev = HmiCounter
+ call timer(4.0)
+ if (HmiCounterPrev == HmiCounter){FirstTime = 0}
+}
+#undef HmiCounterPrev
+#undef HmiPresentFlag
+#undef FirstTime
+#line 55 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_hmimonitor.plc"
+close
+
+
+
+
+
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_home.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc HomePlc 
+
+Ldata.coord = 1
+
+if (CommandReg == UI_Home)
+{
+ CommandReg = UI_None
+
+ abort 
+ enable 
+
+ 
+ call timer(1.0) 
+
+ 
+ homez 1..10
+
+ send1 "HomeCompleted"
+
+}
+
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc Initialize 
+
+#define indexcount L0
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+#define axisindex L1
+#line 19 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+
+
+#line 33 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+
+
+
+
+
+
+
+Setup_AxisIndex(0) = -1 
+Setup_AxisIndex(1) = XaxisIndex
+Setup_AxisIndex(2) = YaxisIndex
+Setup_AxisIndex(3) = ZaxisIndex
+Setup_AxisIndex(4) = -1 
+Setup_AxisIndex(5) = -1 
+Setup_AxisIndex(6) = -1 
+Setup_AxisIndex(7) = -1 
+Setup_AxisIndex(8) = -1 
+Setup_AxisIndex(9) = -1 
+Setup_AxisIndex(10) = -1
+
+
+Setup_MotorNumber(0) = -1 
+Setup_MotorNumber(1) = 1
+Setup_MotorNumber(2) = 2
+Setup_MotorNumber(3) = 3
+Setup_MotorNumber(4) = -1 
+Setup_MotorNumber(5) = -1 
+Setup_MotorNumber(6) = -1 
+Setup_MotorNumber(7) = -1 
+Setup_MotorNumber(8) = -1 
+Setup_MotorNumber(9) = -1 
+Setup_MotorNumber(10) = -1
+
+
+Setup_PendantPos(0) = -1 
+Setup_PendantPos(1) = XaxisIndex
+Setup_PendantPos(2) = YaxisIndex
+Setup_PendantPos(3) = ZaxisIndex
+Setup_PendantPos(4) = -1 
+Setup_PendantPos(5) = -1 
+Setup_PendantPos(6) = -1 
+Setup_PendantPos(7) = -1 
+Setup_PendantPos(8) = -1 
+Setup_PendantPos(9) = -1 
+Setup_PendantPos(10) = -1
+
+
+
+
+
+indexcount = 0
+while (indexcount !> 32)
+{
+ Setup_AxisIndexToMotorNumber(indexcount) = -1
+ indexcount++
+}
+indexcount = 0
+while (indexcount !> 10)
+{
+ if (Setup_AxisIndex(indexcount) > -1 &&Setup_AxisIndex(indexcount) !> 32)
+ {
+ axisindex = Setup_AxisIndex(indexcount)
+ Setup_AxisIndexToMotorNumber(axisindex) = Setup_MotorNumber(indexcount)
+ }
+ indexcount++
+}
+
+#line 113 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+
+
+
+
+indexcount = 0
+while (indexcount !> 32)
+{
+ Setup_AxisIndexToAxisNumber(indexcount) = -1
+ indexcount++
+}
+indexcount = 0
+while (indexcount !> 10)
+{
+ if (Setup_AxisIndex(indexcount) > -1 &&Setup_AxisIndex(indexcount) !> 32)
+ {
+ axisindex = Setup_AxisIndex(indexcount)
+ Setup_AxisIndexToAxisNumber(axisindex) = indexcount
+ }
+ indexcount++
+}
+
+#line 148 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+
+
+
+disable plc PositionReport
+disable plc Function
+disable plc HomePlc
+disable plc Override
+disable plc Spindle
+disable plc SoftPanel
+disable plc WorkOffset
+disable plc PowerPendant
+disable plc Handwheel
+disable plc HmiMonitor
+
+
+
+PowerPendPresent = 0 
+
+
+Ldata.coord=1 
+
+
+UnitScaling = 1.0 
+
+
+
+NativeUnits = Metric 
+
+
+
+Xscaling=1.0 
+Yscaling=1.0 
+Zscaling=1.0 
+XcentScale=0.0 
+YcentScale=0.0 
+ZcentScale=0.0 
+Xrotate=0.0 
+Yrotate=0.0 
+Zrotate=0.0 
+XcentRot=0.0 
+YcentRot=0.0 
+ZcentRot=0.0 
+XmirFact=1.0 
+YmirFact=1.0 
+ZmirFact=1.0 
+XcentMir=0.0 
+YcentMir=0.0 
+ZcentMir=0.0 
+
+
+XworkOfs=0.0 
+YworkOfs =0.0 
+ZworkOfs=0.0 
+XlocOfs=0.0 
+YlocOfs=0.0 
+ZlocOfs=0.0 
+XtoolOfs=0.0 
+YtoolOfs=0.0 
+ZtoolOfs=0.0 
+XcomOfs=0.0 
+YcomOfs=0.0 
+ZcomOfs=0.0 
+
+
+GCodesGroup0 = 0 
+GCodesGroup1 = 0 
+GCodesGroup2 = 0 
+GCodesGroup3 = 0 
+GCodesGroup5 = 3 
+if (NativeUnits == Metric){GCodesGroup6 = 1} 
+else{GCodesGroup6 = 0} 
+GCodesGroup7 = 1 
+GCodesGroup8 = 2 
+GCodesGroup11 = 0 
+GCodesGroup12 = 0 
+GCodesGroup13 = 1 
+GCodesGroup15 = 1 
+GCodesGroup16 = 1 
+GCodesGroup19 = 0 
+GCodesGroup22 = 0 
+
+
+MCodesProgramGroup = 0 
+MCodesSpindleGroup = 2 
+MCodesCoolantGroup = 2 
+MCodesChuckGroup = 0 
+MCodesThreadingGroup = 0 
+MCodesGearRangeGroup = 0 
+MCodesFeedrateOverrideGroup = 0 
+MCodesBAxisGroup = 0 
+MCodesSubprogramGroup = 0 
+
+
+CS1ActiveTCode = 0 
+CS1ActiveHCode = 0 
+CS1ActiveDCode = 0 
+
+
+coord[1].Tm = -100
+FeedOverrideInput = 100
+SpindleOverrideInput = 100
+
+
+
+cmd"&1 delete lookahead"
+cmd"&1 delete rotary"
+
+
+cmd"&1 define rotary 204800"
+cmd"&1 define lookahead 2048"
+
+enable plc PositionReport
+enable plc Function
+enable plc HomePlc
+enable plc Override
+enable plc Spindle
+enable plc SoftPanel
+enable plc WorkOffset
+enable plc PowerPendant
+enable plc Handwheel
+enable plc HmiMonitor
+
+
+call timer(1.0)
+if(PowerPendPresent == 1)
+{
+	cmd"ctrlpanel 0 1"
+}
+else
+{
+	cmd"ctrlpanel 0 0"
+}
+
+disable plc Initialize 
+
+#undef indexcount
+#undef axisindex
+#line 283 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc"
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 46 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+
+open plc PowerPendant 
+
+#define JogFlag L0
+#define KeyDownFlag L1
+#line 50 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define Motornumber L2
+#line 51 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define axisindex L3
+#line 52 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define motorindex L4
+#line 53 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define axisnumber L5
+#line 54 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define axisnumbermask L6
+#line 55 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+#define A1motorNumber L7
+#define A2motorNumber L8
+#define A3motorNumber L9
+#define A4motorNumber L10
+#define A5motorNumber L11
+#define A6motorNumber L12
+#define A7motorNumber L13
+#define A8motorNumber L14
+#define A9motorNumber L15
+#define A10motorNumber L16
+#line 57 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+#define A1axisIndex L17
+#define A2axisIndex L18
+#define A3axisIndex L19
+#define A4axisIndex L20
+#define A5axisIndex L21
+#define A6axisIndex L22
+#define A7axisIndex L23
+#define A8axisIndex L24
+#define A9axisIndex L25
+#define A10axisIndex L26
+#line 58 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+
+Ldata.coord=1 
+
+if (PowerPendPresent == 1)
+{
+ if(KeyDown == 1 &&KeyDownFlag == 0)
+ {
+
+ 
+ if (KeyCode == Key_Reset)
+ {
+ send1 "RequestReset"
+ }
+
+ 
+ if (KeyCode == Key_AutoMode)
+ {
+ send1 "RequestAutoMode"
+ }
+
+ if (KeyCode == Key_MdiMode)
+ {
+ send1 "RequestMdiMode"
+ }
+
+ if (KeyCode == Key_JogCont)
+ {
+ send1 "RequestManualMode"
+ send1 "ManualSubmodeContinuous"
+ }
+
+ if (KeyCode == Key_JogInc)
+ {
+ send1 "RequestManualMode"
+ send1 "ManualSubmodeHandle"
+ }
+
+ if (KeyCode == Key_HomeMode)
+ {
+ send1 "RequestManualMode"
+ send1 "ManualSubmodeHome"
+ }
+
+ 
+
+ if (KeyCode == Key_SingleBlock)
+ {
+ send1 "RequestSingleBlock"
+ }
+
+ if (KeyCode == Key_BlockDelete)
+ {
+ send1 "RequestBlockSkip"
+ }
+
+ if (KeyCode == Key_OptStop)
+ {
+ send1 "RequestOptionStop"
+ }
+
+ 
+ 
+ if (MachineMode == Auto || MachineMode == MDI)
+ {
+ if (KeyCode == Key_CycleStart)
+ {
+ send1 "RequestCycleStart"
+ }
+
+ if (KeyCode == Key_FeedHold)
+ {
+ send1 "RequestFeedHold"
+ }
+ }
+
+
+
+ 
+ if (MachineMode == Manual)
+ {
+ 
+ if (OutputLED &LED_Home == LED_Home)
+ {
+ if (KeyCode == Key_JogMinus || KeyCode == Key_JogPlus)
+ {
+ send1 "RequestHome"
+ }
+ }
+
+ 
+ If(AxisSelect == Sel_1_Axis)
+ {
+ axisindex = Setup_PendantPos(1) 
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex) 
+ } 
+ If(AxisSelect == Sel_2_Axis)
+ {
+ axisindex = Setup_PendantPos(2)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_3_Axis)
+ {
+ axisindex = Setup_PendantPos(3)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_4_Axis)
+ {
+ axisindex = Setup_PendantPos(4)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_5_Axis)
+ {
+ axisindex = Setup_PendantPos(5)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_6_Axis)
+ {
+ axisindex = Setup_PendantPos(6)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+ If(AxisSelect == Sel_7_Axis)
+ {
+ axisindex = Setup_PendantPos(7)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_8_Axis)
+ {
+ axisindex = Setup_PendantPos(8)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ }
+ If(AxisSelect == Sel_9_Axis)
+ {
+ axisindex = Setup_PendantPos(9)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+ If(AxisSelect == Sel_10_Axis)
+ {
+ axisindex = Setup_PendantPos(10)
+ Motornumber = Setup_AxisIndexToMotorNumber(axisindex)
+ } 
+
+ 
+ if (OutputLED &LED_JogCont == LED_JogCont)
+ {
+ if (Motornumber > -1 &&Motor[Motornumber].ServoCtrl == 1)
+ {
+ Ldata.motor = Motornumber
+ if (KeyCode == Key_JogMinus &&JogFlag == 0)
+ {
+ 
+ jog-
+ 
+ 
+ }
+
+ if (KeyCode == Key_JogPlus &&JogFlag == 0)
+ {
+ 
+ jog+
+ 
+ 
+ }
+ send1 "Jogging"
+ JogFlag = 1
+ } 
+
+#line 300 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+ 
+ }
+ 
+ if (OutputLED &LED_JogInc == LED_JogInc)
+ {
+ if (Motornumber > -1 &&Motor[Motornumber].ServoCtrl == 1)
+ {
+ Ldata.motor = Motornumber
+ if (KeyCode == Key_JogMinus &&JogFlag == 0)
+ {
+ Motor[Motornumber].ProgJogPos = -IncDistance * Motor[Motornumber].CoordSf[axisindex]
+ 
+ jog^*
+
+ send1 "Jogging"
+ JogFlag = 1
+
+ while (!(Motor[Motornumber].DesVelZero)){}
+ InitHandle = 0
+ }
+
+ if (KeyCode == Key_JogPlus &&JogFlag == 0)
+ {
+ Motor[Motornumber].ProgJogPos = IncDistance * Motor[Motornumber].CoordSf[axisindex]
+ 
+ jog^*
+
+ send1 "Jogging"
+ JogFlag = 1
+
+ while (!(Motor[Motornumber].DesVelZero)){}
+ InitHandle = 0
+ }
+ } 
+
+#line 411 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+ }
+ }
+
+ 
+ if(KeyCode == Key_User_01)
+ {
+ OutputLED = OutputLED^LED_User_01
+ }
+
+ 
+ if(KeyCode == Key_User_02)
+ {
+ OutputLED = OutputLED^LED_User_02
+ }
+
+ 
+ if(KeyCode == Key_User_03)
+ {
+ OutputLED = OutputLED^LED_User_03
+ }
+
+ 
+ if (KeyCode == Key_User_04)
+ {
+ OutputLED = OutputLED^LED_User_04
+ }
+
+ 
+ if (KeyCode == Key_User_05)
+ {
+ OutputLED = OutputLED^LED_User_05
+ }
+
+ 
+ if (KeyCode == Key_User_06)
+ {
+ OutputLED = OutputLED^LED_User_06
+ }
+
+ KeyDownFlag = 1
+ }
+ else if(KeyDown == 0 &&KeyDownFlag == 1)
+ {
+ KeyDownFlag = 0
+ }
+
+ 
+ if (JogFlag == 1 &&KeyDown == 0)
+ {
+ 
+		cmd"#*j/"
+ JogFlag = 0
+ send1 "JogStopped"
+ }
+
+ 
+ if (OutputLED &LED_JogCont == LED_JogCont)
+ {
+ motorindex = 0
+ while (motorindex < Sys.MaxMotors)
+ {
+ if (Motor[motorindex].ServoCtrl == 1)
+ {
+ motor[motorindex].JogTa = -2
+ motor[motorindex].JogTs = 0
+ }
+ motorindex++
+ } 
+
+#line 488 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+ if (SpeedSelect == Sel_1_Speed)
+ {
+ 
+#line 495 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+ Motor[A1motorNumber].JogSpeed = JogX1 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX1 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX1 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX1 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX1 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX1 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX1 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX1 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX1 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX1 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (SpeedSelect == Sel_2_Speed)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX2 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX2 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX2 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX2 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX2 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX2 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX2 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX2 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX2 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX2 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (SpeedSelect == Sel_3_Speed)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX3 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX3 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX3 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX3 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX3 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX3 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX3 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX3 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX3 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX3 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (SpeedSelect == Sel_4_Speed)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX4 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX4 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX4 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX4 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX4 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX4 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX4 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX4 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX4 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX4 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ else if (SpeedSelect == Sel_5_Speed)
+ {
+ Motor[A1motorNumber].JogSpeed = JogX5 * Motor[A1motorNumber].CoordSf[A1axisIndex] / coord[1].FeedTime
+ Motor[A2motorNumber].JogSpeed = JogX5 * Motor[A2motorNumber].CoordSf[A2axisIndex] / coord[1].FeedTime
+ Motor[A3motorNumber].JogSpeed = JogX5 * Motor[A3motorNumber].CoordSf[A3axisIndex] / coord[1].FeedTime
+ Motor[A4motorNumber].JogSpeed = JogX5 * Motor[A4motorNumber].CoordSf[A4axisIndex] / coord[1].FeedTime
+ Motor[A5motorNumber].JogSpeed = JogX5 * Motor[A5motorNumber].CoordSf[A5axisIndex] / coord[1].FeedTime
+ Motor[A6motorNumber].JogSpeed = JogX5 * Motor[A6motorNumber].CoordSf[A6axisIndex] / coord[1].FeedTime
+ Motor[A7motorNumber].JogSpeed = JogX5 * Motor[A7motorNumber].CoordSf[A7axisIndex] / coord[1].FeedTime
+ Motor[A8motorNumber].JogSpeed = JogX5 * Motor[A8motorNumber].CoordSf[A8axisIndex] / coord[1].FeedTime
+ Motor[A9motorNumber].JogSpeed = JogX5 * Motor[A9motorNumber].CoordSf[A9axisIndex] / coord[1].FeedTime
+ Motor[A10motorNumber].JogSpeed = JogX5 * Motor[A10motorNumber].CoordSf[A10axisIndex] / coord[1].FeedTime
+ }
+ }
+
+ if (OutputLED &LED_JogInc == LED_JogInc)
+ {
+ if (SpeedSelect == Sel_1_Speed)
+ {
+ IncDistance = 0.0001
+ }
+ else if (SpeedSelect == Sel_2_Speed)
+ {
+ IncDistance = 0.0010
+ }
+ else if (SpeedSelect == Sel_3_Speed)
+ {
+ IncDistance = 0.0100
+ }
+ else if (SpeedSelect == Sel_4_Speed)
+ {
+ IncDistance = 0.1000
+ }
+ else if (SpeedSelect == Sel_5_Speed)
+ {
+ IncDistance = 1.0000
+ }
+ }
+
+ 
+ if (MachineMode == Auto)
+ {
+ OutputLED = OutputLED|LED_Auto
+ OutputLED = OutputLED&(OutputLED^LED_Mdi)
+ OutputLED = OutputLED&(OutputLED^LED_JogCont)
+ OutputLED = OutputLED&(OutputLED^LED_JogInc)
+ OutputLED = OutputLED&(OutputLED^LED_Home)
+ }
+
+ if (MachineMode == MDI)
+ {
+ OutputLED = OutputLED&(OutputLED^LED_Auto)
+ OutputLED = OutputLED|LED_Mdi
+ OutputLED = OutputLED&(OutputLED^LED_JogCont)
+ OutputLED = OutputLED&(OutputLED^LED_JogInc)
+ OutputLED = OutputLED&(OutputLED^LED_Home)
+ }
+
+ if (MachineMode == Auto || MachineMode == MDI)
+ {
+ if (MachineState == InFeedHold || MachineState == ProgramLoaded)
+ {
+ OutputLED2 = LED_FeedHold
+ }
+
+ if (MachineState == Running)
+ {
+ OutputLED2 = LED_CycleStart
+ }
+ }
+
+ if (MachineMode == Manual)
+ {
+ OutputLED2 = LED_Off
+
+ if (KeyCode == Key_JogCont)
+ {
+ OutputLED = OutputLED&(OutputLED^LED_Auto)
+ OutputLED = OutputLED&(OutputLED^LED_Mdi)
+ OutputLED = OutputLED|LED_JogCont
+ OutputLED = OutputLED&(OutputLED^LED_JogInc)
+ OutputLED = OutputLED&(OutputLED^LED_Home)
+ }
+
+ if (KeyCode == Key_JogInc)
+ {
+ OutputLED = OutputLED&(OutputLED^LED_Auto)
+ OutputLED = OutputLED&(OutputLED^LED_Mdi)
+ OutputLED = OutputLED&(OutputLED^LED_JogCont)
+ OutputLED = OutputLED|LED_JogInc
+ OutputLED = OutputLED&(OutputLED^LED_Home)
+ }
+
+ if (KeyCode == Key_HomeMode)
+ {
+ OutputLED = OutputLED&(OutputLED^LED_Auto)
+ OutputLED = OutputLED&(OutputLED^LED_Mdi)
+ OutputLED = OutputLED&(OutputLED^LED_JogCont)
+ OutputLED = OutputLED&(OutputLED^LED_JogInc)
+ OutputLED = OutputLED|LED_Home
+ }
+ }
+
+ 
+ if (RunOptions &UI_SingleBlock == UI_SingleBlock)
+ {
+ OutputLED = OutputLED|LED_SingleBlock
+ }
+ else
+ {
+ OutputLED = OutputLED&(OutputLED^LED_SingleBlock)
+ }
+
+ if (RunOptions &UI_BlockSkip == UI_BlockSkip)
+ {
+ OutputLED = OutputLED|LED_BlockDelete
+ }
+ else
+ {
+ OutputLED = OutputLED&(OutputLED^LED_BlockDelete)
+ }
+
+ if (RunOptions &UI_OptionStop == UI_OptionStop)
+ {
+ OutputLED = OutputLED|LED_OptionStop
+ }
+ else
+ {
+ OutputLED = OutputLED&(OutputLED^LED_OptionStop)
+ }
+
+ 
+ if (AxisSelect == Sel_1_Axis)
+ { 
+ axisindex = Setup_PendantPos(1) 
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ 
+#line 686 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+
+ }
+
+ if (AxisSelect == Sel_2_Axis)
+ {
+ axisindex = Setup_PendantPos(2)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex)
+ }
+ 
+ if (AxisSelect == Sel_3_Axis)
+ {
+ axisindex = Setup_PendantPos(3)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_4_Axis)
+ {
+ axisindex = Setup_PendantPos(4)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_5_Axis)
+ {
+ axisindex = Setup_PendantPos(5)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_6_Axis)
+ {
+ axisindex = Setup_PendantPos(6)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_7_Axis)
+ {
+ axisindex = Setup_PendantPos(7)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_8_Axis)
+ {
+ axisindex = Setup_PendantPos(8)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ }
+ 
+ if (AxisSelect == Sel_9_Axis)
+ {
+ axisindex = Setup_PendantPos(9)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ } 
+ 
+ if (AxisSelect == Sel_10_Axis)
+ {
+ axisindex = Setup_PendantPos(10)
+ axisnumber = Setup_AxisIndexToAxisNumber(axisindex) 
+ } 
+
+ axisnumbermask = exp2(axisnumber-1) *16
+ JogOptions=JogOptions&(JogOptions^$3ff0)
+ JogOptions=JogOptions|axisnumbermask 
+
+ 
+ if (SpeedSelect == Sel_1_Speed)
+ {
+ JogOptions=JogOptions&(JogOptions^$F)
+ JogOptions=JogOptions&(JogOptions^$30000)
+ JogOptions=JogOptions|$00001
+ }
+ else if (SpeedSelect == Sel_2_Speed)
+ {
+ JogOptions=JogOptions&(JogOptions^$F)
+ JogOptions=JogOptions&(JogOptions^$30000)
+ JogOptions=JogOptions|$10000
+ }
+ else if (SpeedSelect == Sel_3_Speed)
+ {
+ JogOptions=JogOptions&(JogOptions^$F)
+ JogOptions=JogOptions&(JogOptions^$30000)
+ JogOptions=JogOptions|$00002
+ }
+ else if (SpeedSelect == Sel_4_Speed)
+ {
+ JogOptions=JogOptions&(JogOptions^$F)
+ JogOptions=JogOptions&(JogOptions^$30000)
+ JogOptions=JogOptions|$20000
+ }
+ else if (SpeedSelect == Sel_5_Speed)
+ {
+ JogOptions=JogOptions&(JogOptions^$F)
+ JogOptions=JogOptions&(JogOptions^$30000)
+ JogOptions=JogOptions|$00004
+ }
+}
+
+#undef JogFlag
+#undef KeyDownFlag
+#undef Motornumber
+#undef axisindex
+#undef motorindex
+#undef axisnumber
+#undef axisnumbermask
+#undef A1motorNumber
+#undef A2motorNumber
+#undef A3motorNumber
+#undef A4motorNumber
+#undef A5motorNumber
+#undef A6motorNumber
+#undef A7motorNumber
+#undef A8motorNumber
+#undef A9motorNumber
+#undef A10motorNumber
+#undef A1axisIndex
+#undef A2axisIndex
+#undef A3axisIndex
+#undef A4axisIndex
+#undef A5axisIndex
+#undef A6axisIndex
+#undef A7axisIndex
+#undef A8axisIndex
+#undef A9axisIndex
+#undef A10axisIndex
+#line 780 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc"
+close
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_override.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc Override 
+
+
+Ldata.coord=1 
+
+
+if (PowerPendPresent != 1)
+{
+ switch (MachineMode)
+ {
+ 
+ case 0:
+
+ Coord[1].TimeBaseSlew=0.0005
+
+ if (GCodesGroup1 == 0 &&DryRunMode==0) Coord[1].DesTimeBase = Sys.ServoPeriod
+ else Coord[1].DesTimeBase = Sys.ServoPeriod * FeedOverrideInput / 100 
+
+ break 
+
+ 
+ case 1:
+ Coord[1].DesTimeBase = Sys.ServoPeriod
+ break 
+
+ 
+ case 2:
+
+ Coord[1].TimeBaseSlew=0.0005
+
+ if (GCodesGroup1 == 0 &&DryRunMode==0) Coord[1].DesTimeBase = Sys.ServoPeriod
+ else Coord[1].DesTimeBase = Sys.ServoPeriod * FeedOverrideInput / 100 
+
+ break 
+
+ default:
+ Coord[1].DesTimeBase = Sys.ServoPeriod
+ break 
+ }
+}
+else
+{
+ 
+ switch (MachineMode)
+ {
+ 
+ case 0:
+
+ Coord[1].TimeBaseSlew=0.0005 
+
+ if (GCodesGroup1 == 0 &&DryRunMode==0) Coord[1].DesTimeBase = OvrRapid/15 * Sys.ServoPeriod
+ else Coord[1].DesTimeBase = Sys.ServoPeriod * ((OvrFeed/15)*1.5) 
+
+ break 
+
+ 
+ case 1:
+ Coord[1].DesTimeBase = Sys.ServoPeriod
+ break 
+
+ 
+ case 2:
+
+ Coord[1].TimeBaseSlew=0.0005 
+
+ if (GCodesGroup1 == 0 &&DryRunMode==0) Coord[1].DesTimeBase = OvrRapid/15 * Sys.ServoPeriod
+ else Coord[1].DesTimeBase = Sys.ServoPeriod * ((OvrFeed/15)*1.5) 
+
+ break 
+
+ default:
+ Coord[1].DesTimeBase = Sys.ServoPeriod
+ break 
+ }
+
+ 
+ SpindleOverrideInput = 100*((OvrSpindle/15)*1.5) 
+}
+
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+
+
+
+
+
+
+open plc PositionReport 
+
+#define A1progPos L0
+#define A2progPos L1
+#define A3progPos L2
+#define A4progPos L3
+#define A5progPos L4
+#define A6progPos L5
+#define A7progPos L6
+#define A8progPos L7
+#define A9progPos L8
+#define A10progPos L9
+#line 10 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define InvalidSolA1 L10
+#define InvalidSolA2 L11
+#define InvalidSolA3 L12
+#define InvalidSolA4 L13
+#define InvalidSolA5 L14
+#define InvalidSolA6 L15
+#define InvalidSolA7 L16
+#define InvalidSolA8 L17
+#define InvalidSolA9 L18
+#define InvalidSolA10 L19
+#line 11 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define A1disttogoRd L20
+#define A2disttogoRd L21
+#define A3disttogoRd L22
+#define A4disttogoRd L23
+#define A5disttogoRd L24
+#define A6disttogoRd L25
+#define A7disttogoRd L26
+#define A8disttogoRd L27
+#define A9disttogoRd L28
+#define A10disttogoRd L29
+#line 12 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define A1currentPos L30
+#define A2currentPos L31
+#define A3currentPos L32
+#define A4currentPos L33
+#define A5currentPos L34
+#define A6currentPos L35
+#define A7currentPos L36
+#define A8currentPos L37
+#define A9currentPos L38
+#define A10currentPos L39
+#line 13 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define A1velocity L40
+#define A2velocity L41
+#define A3velocity L42
+#define A4velocity L43
+#define A5velocity L44
+#define A6velocity L45
+#define A7velocity L46
+#define A8velocity L47
+#define A9velocity L48
+#define A10velocity L49
+#line 14 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define Xvelocity L50
+#define Yvelocity L51
+#define Zvelocity L52
+#line 15 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define DispFeedTemp L53
+#line 16 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define ScanOnce L54
+#line 17 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define A1motorNumber L55
+#define A2motorNumber L56
+#define A3motorNumber L57
+#define A4motorNumber L58
+#define A5motorNumber L59
+#define A6motorNumber L60
+#define A7motorNumber L61
+#define A8motorNumber L62
+#define A9motorNumber L63
+#define A10motorNumber L64
+#line 18 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+#define A1axisIndex L65
+#define A2axisIndex L66
+#define A3axisIndex L67
+#define A4axisIndex L68
+#define A5axisIndex L69
+#define A6axisIndex L70
+#define A7axisIndex L71
+#define A8axisIndex L72
+#define A9axisIndex L73
+#define A10axisIndex L74
+#line 19 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+
+
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+
+Ldata.coord=1 
+
+
+pread
+A1progPos = Ldata.D[A1axisIndex]
+A2progPos = Ldata.D[A2axisIndex]
+A3progPos = Ldata.D[A3axisIndex]
+A4progPos = Ldata.D[A4axisIndex]
+A5progPos = Ldata.D[A5axisIndex]
+A6progPos = Ldata.D[A6axisIndex]
+A7progPos = Ldata.D[A7axisIndex]
+A8progPos = Ldata.D[A8axisIndex]
+A9progPos = Ldata.D[A9axisIndex]
+A10progPos = Ldata.D[A10axisIndex]
+
+
+tread
+A1disttogoRd = Ldata.D[A1axisIndex]
+A2disttogoRd = Ldata.D[A2axisIndex]
+A3disttogoRd = Ldata.D[A3axisIndex]
+A4disttogoRd = Ldata.D[A4axisIndex]
+A5disttogoRd = Ldata.D[A5axisIndex]
+A6disttogoRd = Ldata.D[A6axisIndex]
+A7disttogoRd = Ldata.D[A7axisIndex]
+A8disttogoRd = Ldata.D[A8axisIndex]
+A9disttogoRd = Ldata.D[A9axisIndex]
+A10disttogoRd = Ldata.D[A10axisIndex]
+
+
+vread
+A1velocity = Ldata.D[A1axisIndex]
+A2velocity = Ldata.D[A2axisIndex]
+A3velocity = Ldata.D[A3axisIndex]
+A4velocity = Ldata.D[A4axisIndex]
+A5velocity = Ldata.D[A5axisIndex]
+A6velocity = Ldata.D[A6axisIndex]
+A7velocity = Ldata.D[A7axisIndex]
+A8velocity = Ldata.D[A8axisIndex]
+A9velocity = Ldata.D[A9axisIndex]
+A10velocity = Ldata.D[A10axisIndex]
+
+if (Ldata.D[32]&64 == 64) Xvelocity = Ldata.D[XaxisIndex] else Xvelocity = 0
+if (Ldata.D[32]&128 == 128) Yvelocity = Ldata.D[YaxisIndex] else Yvelocity = 0
+if (Ldata.D[32]&256 == 256) Zvelocity = Ldata.D[ZaxisIndex] else Zvelocity = 0
+
+
+switch (AxesDisplayMode)
+{
+ 
+ case ProgramPosition:
+ ScanOnce = 0
+ A1position = A1progPos
+ A2position = A2progPos
+ A3position = A3progPos
+ A4position = A4progPos
+ A5position = A5progPos
+ A6position = A6progPos
+ A7position = A7progPos
+ A8position = A8progPos
+ A9position = A9progPos
+ A10position = A10progPos
+ break 
+
+ 
+ case RelativePosition:
+ if (ScanOnce == 0)
+ {
+ A1currentPos = (Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos)
+ A2currentPos = (Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos)
+ A3currentPos = (Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos)
+ A4currentPos = (Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos) 
+ A5currentPos = (Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos)
+ A6currentPos = (Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos)
+ A7currentPos = (Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos)
+ A8currentPos = (Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos)
+ A9currentPos = (Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos)
+ A10currentPos = (Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos)
+ ScanOnce = 1
+ }
+ A1position = (((Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos) - A1currentPos)/Motor[A1motorNumber].CoordSf[A1axisIndex]) / UnitScaling 
+ A2position = (((Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos) - A2currentPos)/Motor[A2motorNumber].CoordSf[A2axisIndex]) / UnitScaling 
+ A3position = (((Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos) - A3currentPos)/Motor[A3motorNumber].CoordSf[A3axisIndex]) / UnitScaling 
+ A4position = (((Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos) - A4currentPos)/Motor[A4motorNumber].CoordSf[A4axisIndex]) / UnitScaling 
+ A5position = (((Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos) - A5currentPos)/Motor[A5motorNumber].CoordSf[A5axisIndex]) / UnitScaling 
+ A6position = (((Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos) - A6currentPos)/Motor[A6motorNumber].CoordSf[A6axisIndex]) / UnitScaling 
+ A7position = (((Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos) - A7currentPos)/Motor[A7motorNumber].CoordSf[A7axisIndex]) / UnitScaling 
+ A8position = (((Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos) - A8currentPos)/Motor[A8motorNumber].CoordSf[A8axisIndex]) / UnitScaling 
+ A9position = (((Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos) - A9currentPos)/Motor[A9motorNumber].CoordSf[A9axisIndex]) / UnitScaling 
+ A10position = (((Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos) - A10currentPos)/Motor[A10motorNumber].CoordSf[A10axisIndex]) / UnitScaling 
+ break 
+
+ 
+ case MachinePosition:
+ ScanOnce = 0
+ A1position = ((Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos)/(Motor[A1motorNumber].CoordSf[A1axisIndex])) / UnitScaling 
+ A2position = ((Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos)/(Motor[A2motorNumber].CoordSf[A2axisIndex])) / UnitScaling 
+ A3position = ((Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos)/(Motor[A3motorNumber].CoordSf[A3axisIndex])) / UnitScaling 
+ A4position = ((Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos)/(Motor[A4motorNumber].CoordSf[A4axisIndex])) / UnitScaling 
+ A5position = ((Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos)/(Motor[A5motorNumber].CoordSf[A5axisIndex])) / UnitScaling 
+ A6position = ((Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos)/(Motor[A6motorNumber].CoordSf[A6axisIndex])) / UnitScaling 
+ A7position = ((Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos)/(Motor[A7motorNumber].CoordSf[A7axisIndex])) / UnitScaling 
+ A8position = ((Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos)/(Motor[A8motorNumber].CoordSf[A8axisIndex])) / UnitScaling 
+ A9position = ((Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos)/(Motor[A9motorNumber].CoordSf[A9axisIndex])) / UnitScaling 
+ A10position = ((Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos)/(Motor[A10motorNumber].CoordSf[A10axisIndex])) / UnitScaling 
+ break 
+
+ 
+ case CommandedPosition:
+ ScanOnce = 0
+ A1position = Coord[1].CdPos[A1axisIndex]
+ A1position = Coord[1].CdPos[A2axisIndex]
+ A3position = Coord[1].CdPos[A3axisIndex]
+ A4position = Coord[1].CdPos[A4axisIndex]
+ A5position = Coord[1].CdPos[A5axisIndex]
+ A6position = Coord[1].CdPos[A6axisIndex]
+ A7position = Coord[1].CdPos[A7axisIndex]
+ A8position = Coord[1].CdPos[A8axisIndex]
+ A9position = Coord[1].CdPos[A9axisIndex]
+ A10position = Coord[1].CdPos[A10axisIndex]
+ break 
+}
+
+
+InvalidSolA1 = isnan(A1disttogoRd) 
+InvalidSolA2 = isnan(A2disttogoRd)
+InvalidSolA3 = isnan(A3disttogoRd)
+InvalidSolA4 = isnan(A4disttogoRd)
+InvalidSolA5 = isnan(A5disttogoRd)
+InvalidSolA6 = isnan(A6disttogoRd)
+InvalidSolA7 = isnan(A7disttogoRd)
+InvalidSolA8 = isnan(A8disttogoRd)
+InvalidSolA9 = isnan(A9disttogoRd)
+InvalidSolA10 = isnan(A10disttogoRd)
+
+if (InvalidSolA1 == 0 &&InvalidSolA2 == 0 &&InvalidSolA3 == 0 &&InvalidSolA4 == 0 &&InvalidSolA5 == 0 &&InvalidSolA6 == 0 &&InvalidSolA7 == 0 &&InvalidSolA8 == 0 &&InvalidSolA9 == 0 &&InvalidSolA10 == 0)
+{
+ A1disttogo = A1progPos - A1disttogoRd 
+ A2disttogo = A2progPos - A2disttogoRd 
+ A3disttogo = A3progPos - A3disttogoRd 
+ A4disttogo = A4progPos - A4disttogoRd 
+ A5disttogo = A5progPos - A5disttogoRd 
+ A6disttogo = A6progPos - A6disttogoRd 
+ A7disttogo = A7progPos - A7disttogoRd 
+ A8disttogo = A8progPos - A8disttogoRd 
+ A9disttogo = A7progPos - A9disttogoRd 
+ A10disttogo = A8progPos - A10disttogoRd 
+}
+else
+{
+ A1disttogo = 0 
+ A2disttogo = 0 
+ A3disttogo = 0 
+ A4disttogo = 0 
+ A5disttogo = 0 
+ A6disttogo = 0 
+ A7disttogo = 0 
+ A8disttogo = 0 
+ A9disttogo = 0 
+ A10disttogo = 0 
+}
+
+
+A1torque = abs((Motor[A1motorNumber].iqCmd)/Motor[A1motorNumber].MaxDac)
+A2torque = abs((Motor[A2motorNumber].iqCmd)/Motor[A2motorNumber].MaxDac)
+A3torque = abs((Motor[A3motorNumber].iqCmd)/Motor[A3motorNumber].MaxDac)
+A4torque = abs((Motor[A4motorNumber].iqCmd)/Motor[A4motorNumber].MaxDac)
+A5torque = abs((Motor[A5motorNumber].iqCmd)/Motor[A5motorNumber].MaxDac)
+A6torque = abs((Motor[A6motorNumber].iqCmd)/Motor[A6motorNumber].MaxDac)
+A7torque = abs((Motor[A7motorNumber].iqCmd)/Motor[A7motorNumber].MaxDac)
+A8torque = abs((Motor[A8motorNumber].iqCmd)/Motor[A8motorNumber].MaxDac)
+A9torque = abs((Motor[A9motorNumber].iqCmd)/Motor[A9motorNumber].MaxDac)
+A10torque = abs((Motor[A10motorNumber].iqCmd)/Motor[A10motorNumber].MaxDac)
+
+
+A1FolErr = (Motor[A1motorNumber].PosError/Motor[A1motorNumber].CoordSf[A1axisIndex])/UnitScaling
+A2FolErr = (Motor[A2motorNumber].PosError/Motor[A2motorNumber].CoordSf[A2axisIndex])/UnitScaling
+A3FolErr = (Motor[A3motorNumber].PosError/Motor[A3motorNumber].CoordSf[A3axisIndex])/UnitScaling
+A4FolErr = (Motor[A4motorNumber].PosError/Motor[A4motorNumber].CoordSf[A4axisIndex])/UnitScaling
+A5FolErr = (Motor[A5motorNumber].PosError/Motor[A5motorNumber].CoordSf[A5axisIndex])/UnitScaling
+A6FolErr = (Motor[A6motorNumber].PosError/Motor[A6motorNumber].CoordSf[A6axisIndex])/UnitScaling
+A7FolErr = (Motor[A7motorNumber].PosError/Motor[A7motorNumber].CoordSf[A7axisIndex])/UnitScaling
+A8FolErr = (Motor[A8motorNumber].PosError/Motor[A8motorNumber].CoordSf[A8axisIndex])/UnitScaling
+A9FolErr = (Motor[A9motorNumber].PosError/Motor[A9motorNumber].CoordSf[A9axisIndex])/UnitScaling
+A10FolErr = (Motor[A10motorNumber].PosError/Motor[A10motorNumber].CoordSf[A10axisIndex])/UnitScaling
+
+
+DispFeedAct = sqrt((Xvelocity*Xvelocity) + (Yvelocity*Yvelocity) + (Zvelocity*Zvelocity)) * Coord[1].FeedTime
+if (GCodesGroup1 != 0)
+{
+ DispFeedCmd = CoordFeedTemp
+}
+else
+{
+ if (GCodesGroup1 == 1)
+ {
+ DispFeedCmd = MaxFeedrate
+ }
+ else
+ {
+ DispFeedCmd = MaxFeedrate/UnitScaling
+ }
+}
+
+
+DispFeedOverride = (Coord[1].DesTimeBase/Sys.ServoPeriod)*100
+
+
+if (GCodesGroup5 == 0)
+{
+ DispFeedMode = FeedInverse
+}
+else if (GCodesGroup5 == 1)
+{
+ DispFeedMode = FeedPerMin
+}
+else if (GCodesGroup5 == 2)
+{
+ DispFeedMode = FeedPerRev
+}
+else if (GCodesGroup5 == 3)
+{
+ DispFeedMode = NoFeedMode
+}
+
+
+
+if (GCodesGroup13 == 0)
+{
+ SpinDisplayMode = SpindleCSS
+}
+else if (GCodesGroup13 == 1)
+{
+ SpinDisplayMode = SpindleCUT
+}
+
+
+DispSpindleCmd = SpindleCommand
+if (SpindleMode == Spindle_CW || SpindleMode == Spindle_CCW)
+{
+ DispSpindleAct = SpindleTemp
+}
+
+
+DispSpinOverride = SpindleOverrideInput
+
+
+if (sys.ServoPeriod == coord[1].DesTimeBase)
+{
+ SoftPanelStatus = SoftPanelStatus | SP_Feed100
+}
+else
+{
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_Feed100)
+}
+
+if (coord[1].DesTimeBase == 0)
+{
+ SoftPanelStatus = SoftPanelStatus | SP_FeedZero
+}
+else
+{
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_FeedZero)
+}
+
+if (SpindleOverrideInput == 100)
+{
+ SoftPanelStatus = SoftPanelStatus | SP_Spindle100
+}
+else
+{
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_Spindle100)
+}
+
+if (SpindleMode == Spindle_OFF)
+{
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_SpindleCW)
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_SpindleCCW)
+}
+else if (SpindleMode == Spindle_CW)
+{
+ SoftPanelStatus = SoftPanelStatus | SP_SpindleCW
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_SpindleCCW)
+}
+else if (SpindleMode == Spindle_CCW)
+{
+ SoftPanelStatus = SoftPanelStatus | SP_SpindleCCW
+ SoftPanelStatus = SoftPanelStatus &(SoftPanelStatus^SP_SpindleCW)
+}
+
+#undef A1progPos
+#undef A2progPos
+#undef A3progPos
+#undef A4progPos
+#undef A5progPos
+#undef A6progPos
+#undef A7progPos
+#undef A8progPos
+#undef A9progPos
+#undef A10progPos
+#undef InvalidSolA1
+#undef InvalidSolA2
+#undef InvalidSolA3
+#undef InvalidSolA4
+#undef InvalidSolA5
+#undef InvalidSolA6
+#undef InvalidSolA7
+#undef InvalidSolA8
+#undef InvalidSolA9
+#undef InvalidSolA10
+#undef A1disttogoRd
+#undef A2disttogoRd
+#undef A3disttogoRd
+#undef A4disttogoRd
+#undef A5disttogoRd
+#undef A6disttogoRd
+#undef A7disttogoRd
+#undef A8disttogoRd
+#undef A9disttogoRd
+#undef A10disttogoRd
+#undef A1currentPos
+#undef A2currentPos
+#undef A3currentPos
+#undef A4currentPos
+#undef A5currentPos
+#undef A6currentPos
+#undef A7currentPos
+#undef A8currentPos
+#undef A9currentPos
+#undef A10currentPos
+#undef A1velocity
+#undef A2velocity
+#undef A3velocity
+#undef A4velocity
+#undef A5velocity
+#undef A6velocity
+#undef A7velocity
+#undef A8velocity
+#undef A9velocity
+#undef A10velocity
+#undef Xvelocity
+#undef Yvelocity
+#undef Zvelocity
+#undef DispFeedTemp
+#undef ScanOnce
+#undef A1motorNumber
+#undef A2motorNumber
+#undef A3motorNumber
+#undef A4motorNumber
+#undef A5motorNumber
+#undef A6motorNumber
+#undef A7motorNumber
+#undef A8motorNumber
+#undef A9motorNumber
+#undef A10motorNumber
+#undef A1axisIndex
+#undef A2axisIndex
+#undef A3axisIndex
+#undef A4axisIndex
+#undef A5axisIndex
+#undef A6axisIndex
+#undef A7axisIndex
+#undef A8axisIndex
+#undef A9axisIndex
+#undef A10axisIndex
+#line 334 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc"
+close
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_softpanel.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc SoftPanel 
+
+
+Ldata.coord=1 
+
+if (PowerPendPresent != 1)
+{
+
+ OverrideInc = sys.ServoPeriod / 10
+ OverrideMax = sys.ServoPeriod * 1.5
+
+ SpindleOverrideInc = 10
+ SpindleOverrideMax = 150
+
+
+ 
+ if (CommandReg == UI_FeedMinus)
+ {
+ CommandReg = UI_None
+ OverrideTemp = coord[1].DesTimeBase
+ if (OverrideTemp > 0)
+ {
+ OverrideTemp = OverrideTemp - OverrideInc
+ FeedOverrideInput = (OverrideTemp / sys.ServoPeriod) * 100
+ }
+ }
+
+ if (CommandReg == UI_FeedPlus)
+ {
+ CommandReg = UI_None
+ OverrideTemp = coord[1].DesTimeBase
+ if (OverrideTemp < OverrideMax)
+ {
+ OverrideTemp = OverrideTemp + OverrideInc
+ FeedOverrideInput = (OverrideTemp / sys.ServoPeriod) * 100
+ }
+ }
+
+ 
+ OverrideTemp = abs(FeedOverrideInput - 100)
+ if (OverrideTemp < 0.1)
+ {
+ FeedOverrideInput = 100
+ }
+ else if (OverrideTemp > 99.9)
+ {
+ FeedOverrideInput = 0
+ }
+
+ if (CommandReg == UI_FeedZero)
+ {
+ CommandReg = UI_None
+ FeedOverrideInput = 0
+ }
+
+ if (CommandReg == UI_Feed100)
+ {
+ CommandReg = UI_None
+ FeedOverrideInput = 100
+ }
+
+ 
+ if (CommandReg == UI_SpindleMinus)
+ {
+ CommandReg = UI_None
+ SpindleOverrideTemp = SpindleOverrideInput
+ if (SpindleOverrideTemp > 0)
+ {
+ SpindleOverrideInput = SpindleOverrideTemp - SpindleOverrideInc
+ }
+ }
+
+ if (CommandReg == UI_SpindlePlus)
+ {
+ CommandReg = UI_None
+ SpindleOverrideTemp = SpindleOverrideInput
+ if (SpindleOverrideTemp < SpindleOverrideMax)
+ {
+ SpindleOverrideInput = SpindleOverrideTemp + SpindleOverrideInc
+ }
+ }
+
+ if (CommandReg == UI_Spindle100)
+ {
+ CommandReg = UI_None
+ SpindleOverrideInput = 100
+ }
+
+ 
+ if (CommandReg == UI_SpindleCW &&SpindleMode != Spindle_CW)
+ {
+ CommandReg = UI_None
+ SpindleMode = Spindle_CW
+ }
+
+ if (CommandReg == UI_SpindleCCW &&SpindleMode != Spindle_CCW)
+ {
+ CommandReg = UI_None
+ SpindleMode = Spindle_CCW
+ }
+
+ if (CommandReg == UI_SpindleCW || CommandReg == UI_SpindleCCW &&SpindleMode != Spindle_OFF)
+ {
+ CommandReg = UI_None
+ SpindleMode = Spindle_OFF
+ }
+
+}
+
+close
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_spindle.plc"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+open plc Spindle 
+
+Ldata.coord = 1
+
+SpindleTemp = SpindleCommand
+
+if (SpindleTemp > SpindleMaxRPM)
+{
+ SpindleTemp = SpindleMaxRPM
+}
+
+SpindleTemp = SpindleTemp * SpindleOverrideInput * 0.01
+
+if (SpindleTemp != SpindlePrevCommand)
+{
+ SpindleOutputTemp = SpindleTemp * SpindleScaling
+ if (SpindleOutputTemp <= 32767)
+ {
+ SpindleOutput = SpindleOutputTemp
+ }
+ else
+ {
+ SpindleOutput = 32767
+ }
+ SpindlePrevCommand = SpindleOutput
+}
+
+
+
+
+
+
+close
+
+#endif
+#ifndef _INC_BUILD_
+#line 1 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+
+
+
+
+
+
+open plc WorkOffset 
+
+#define NumWorkOffsets L0
+#define NumToolOffsets L1
+#line 10 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+#define XaxisOffset L2
+#define YaxisOffset L3
+#define ZaxisOffset L4
+#line 11 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+#define XaxisMaxOffset L5
+#define YaxisMaxOffset L6
+#define ZaxisMaxOffset L7
+#line 12 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+#define XaxisInvalid L8
+#define YaxisInvalid L9
+#define ZaxisInvalid L10
+#line 13 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+#define ToolOffset L11
+#define ToolMaxOffset L12
+#define ToolInvalid L13
+#line 14 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+
+
+
+Ldata.coord=1 
+
+
+
+NumWorkOffsets = 25 + 10 
+NumToolOffsets = 25 
+
+
+
+if (CommandReg == UI_SetWorkOfs)
+{
+ CommandReg = UI_None
+
+ 
+ 
+ XaxisOffset = 900
+ XaxisMaxOffset = XaxisOffset + (NumWorkOffsets * 10)
+
+ While(XaxisOffset < XaxisMaxOffset)
+ {
+ XaxisInvalid = isnan(P(XaxisOffset))
+ If(XaxisInvalid == 1)
+ {
+ P(XaxisOffset) = ((Motor[1].ActPos - Motor[1].HomePos)/(Motor[1].CoordSf[XaxisIndex]))
+ }
+ XaxisOffset = XaxisOffset + 10
+ }
+
+ 
+ 
+ YaxisOffset = 901
+ YaxisMaxOffset = YaxisOffset + (NumWorkOffsets * 10)
+
+ While(YaxisOffset < YaxisMaxOffset)
+ {
+ YaxisInvalid = isnan(P(YaxisOffset))
+ If(YaxisInvalid == 1)
+ {
+ P(YaxisOffset) = ((Motor[2].ActPos - Motor[2].HomePos)/(Motor[2].CoordSf[YaxisIndex]))
+ }
+ YaxisOffset = YaxisOffset + 10
+ }
+
+ 
+ 
+ ZaxisOffset = 902
+ ZaxisMaxOffset = ZaxisOffset + (NumWorkOffsets * 10)
+
+ While(ZaxisOffset < ZaxisMaxOffset)
+ {
+ ZaxisInvalid = isnan(P(ZaxisOffset))
+ If(ZaxisInvalid == 1)
+ {
+ P(ZaxisOffset) = ((Motor[3].ActPos - Motor[3].HomePos)/(Motor[3].CoordSf[ZaxisIndex]))
+ }
+ ZaxisOffset = ZaxisOffset + 10
+ }
+ send1 "WorkOffsetsSet"
+}
+
+
+if (CommandReg == UI_SetToolOfs)
+{
+ CommandReg = UI_None
+
+ 
+ 
+ ToolOffset = 2000
+ ToolMaxOffset = ToolOffset + (NumToolOffsets * 10)
+
+ While(ToolOffset < ToolMaxOffset)
+ {
+ ToolInvalid = isnan(P(ToolOffset))
+ If(ToolInvalid == 1)
+ {
+ P(ToolOffset) = ((Motor[3].ActPos - Motor[3].HomePos)/(Motor[3].CoordSf[ZaxisIndex]))
+ }
+ ToolOffset = ToolOffset + 10
+ }
+ send1 "ToolOffsetsSet"
+}
+
+#undef NumWorkOffsets
+#undef NumToolOffsets
+#undef XaxisOffset
+#undef YaxisOffset
+#undef ZaxisOffset
+#undef XaxisMaxOffset
+#undef YaxisMaxOffset
+#undef ZaxisMaxOffset
+#undef XaxisInvalid
+#undef YaxisInvalid
+#undef ZaxisInvalid
+#undef ToolOffset
+#undef ToolMaxOffset
+#undef ToolInvalid
+#line 100 "/var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc"
+close
+
+
+#endif
+#line 1 "/var/ftp/usrflash/Project/Configuration/pp_startup.txt"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+enable plc Initialize
+
+
+
+
+
+
+
+
+
+
+
+
+
+

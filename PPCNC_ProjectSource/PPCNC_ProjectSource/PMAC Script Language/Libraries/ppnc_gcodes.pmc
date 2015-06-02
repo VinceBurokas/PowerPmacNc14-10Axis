@@ -1,0 +1,1117 @@
+// G-code subroutine implementation
+// Assumes saved setup element Coord[x].Gprog is at default of 1000
+
+open subprog 1000
+
+local ThisCs;							// Coordinate system executing this
+local Xref, Yref, Zref;					// X, Y, and Z intermediate positions
+local Xang, Yang, Zang;					// X, Y, and Z intermediate angles
+//local Xsf, Ysf, Zsf;					// Axis scale factors, 1.0=true scale
+
+local Xpos, Ypos, Zpos, Apos, Bpos, Cpos, Upos, Vpos, Wpos;				// Axis holding values
+
+local MotorNumber;
+
+
+
+//local XformNum;
+//local Index;
+
+local ToolOffset, ToolWearOffset, ToolOffsetRow;
+local CutterRadiusTemp,	ZtoolOfsTemp;
+local AuxG54Offset, AuxG54Temp;
+local ActiveWorkOffset, ActiveToolOffset, ExtendOffsetFlag;
+
+local DwellTime;
+
+local A1motorNumber, A2motorNumber, A3motorNumber, A4motorNumber, A5motorNumber ,A6motorNumber, A7motorNumber, A8motorNumber, A9motorNumber, A10motorNumber;
+local A1axisIndex, A2axisIndex, A3axisIndex, A4axisIndex, A5axisIndex, A6axisIndex, A7axisIndex, A8axisIndex, A9axisIndex, A10axisIndex;
+
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// G00 Rapid move mode declaration
+// Modified Rapid w/Linear Mode Move
+N0:
+//dwell 0
+Coord[1].NoBlend = 1
+linear
+
+if (-Coord[1].Tm != Coord[1].MaxFeedRate)
+{
+    CoordFeedTemp = -Coord[1].Tm
+}
+F(Coord[1].MaxFeedRate)
+GCodesGroup1 == 0
+return
+
+// G00.001 Canned Cycle Read-In Sub-Routine
+N1:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+if (GCodesGroup3 == 1) Abs_Mode = 0
+else if (GCodesGroup3 == 0) Abs_Mode = 1
+
+// Store XYZ Positions if passed. Else use current position.
+
+if (ArgPassVar & XargMask)
+if (Abs_Mode == 1) X_Pos = Xarg
+else X_Pos = Xarg + Coord[ThisCs].CdPos[XaxisIndex]
+else X_Pos = Coord[ThisCs].CdPos[XaxisIndex]
+
+if (ArgPassVar & YargMask)
+if (Abs_Mode == 1) Y_Pos = Yarg
+else Y_Pos = Yarg + Coord[ThisCs].CdPos[YaxisIndex]
+else Y_Pos = Coord[ThisCs].CdPos[YaxisIndex]
+
+if (ArgPassVar & ZargMask)
+if (Abs_Mode == 1) Z_Pos = Zarg
+else Z_Pos = Zarg + Coord[ThisCs].CdPos[ZaxisIndex]
+else Z_Pos = Coord[ThisCs].CdPos[ZaxisIndex]
+
+// Set R-Plane Height
+if (ArgPassVar & RargMask) R_PlanePos = Rarg
+else R_PlanePos = Coord[ThisCs].CdPos[ZaxisIndex]  //ZaxisDesPos
+
+// Set Initial-Plane Height
+Init_PlanePos = Coord[ThisCs].CdPos[ZaxisIndex]  //ZaxisDesPos
+
+// Set Peck Depth
+if (ArgPassVar & QargMask){
+    if (CannedCycleCode == 76)
+    BoreShift = Qarg
+    else
+    PeckDepth = Qarg
+}
+else PeckDepth = 0.01
+
+// Set Dwell at Bottom of Hole
+if (ArgPassVar & PargMask) CycleDwell = Parg*1000
+else CycleDwell = 0
+
+// Set Feedrate if F Parameter Passed
+if (ArgPassVar & FargMask) F(Farg)
+
+// Set Canned Cycle Repeats
+if (ArgPassVar & LargMask) CannedCycleRepeats = Larg
+else CannedCycleRepeats = 1
+
+// Set Peck Cycle Retract Distance
+if (ArgPassVar & DargMask) RetractDistance = Darg
+else RetractDistance = 0.01
+
+return
+
+// G01 Linear move mode declaration
+N1000:
+Coord[1].NoBlend = 0
+linear
+if ((CoordFeedTemp != -Coord[1].Tm) && (-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+    CoordFeedTemp = -Coord[1].Tm
+}
+
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+    F(CoordFeedTemp)
+
+}
+
+GCodesGroup1 == 1
+
+
+return
+
+// G02 Clockwise circle move mode declaration
+N2000:
+Coord[1].NoBlend = 0
+circle1
+if ((CoordFeedTemp != -Coord[1].Tm) && (-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+    CoordFeedTemp = -Coord[1].Tm;
+}
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+    F(CoordFeedTemp)
+}
+
+GCodesGroup1 == 3
+return
+
+// G03 Counter Clockwise circle move mode declaration
+N3000:
+Coord[1].NoBlend = 0
+circle2
+if ((CoordFeedTemp != -Coord[1].Tm) && (-Coord[1].Tm != Coord[1].MaxFeedRate))
+{
+    CoordFeedTemp = -Coord[1].Tm
+}
+
+if ((CoordFeedTemp != -Coord[1].Tm) || (-Coord[1].Tm == Coord[1].MaxFeedRate))
+{
+    F(CoordFeedTemp)
+}
+
+GCodesGroup1 == 4
+return
+
+// G04 Dwell for time of F, P, or X value in seconds
+N4000:
+
+read(F,P,X)						// Read possible arguments
+
+if (ArgPassVar & FargMask) {			// F-value passed?
+    DwellTime = Farg
+}
+if (ArgPassVar & PargMask) {			// P-value passed?
+    DwellTime = Parg
+}
+if (ArgPassVar & XargMask) {			// X-value passed?
+    DwellTime = Xarg
+}
+G04TotalTime = DwellTime
+GCodesGroup0 == GCodesGroup0|$1
+dwell(DwellTime * 1000)
+
+GCodesGroup0 == GCodesGroup0&(GCodesGroup0^$1)
+
+return
+
+// G09 Exact stop (non-modal)
+N9000:
+
+dwell 0;	// Stop blending and lookahead
+//ThisCs = Ldata.Coord;
+//while (Coord[ThisCs].InPos == 0) {}
+GCodesGroup0 == GCodesGroup0|$2
+
+return
+
+// G17 XY plane declaration for circles and radius comp
+N17000:
+
+normal K-1
+GCodesGroup2 == $0
+
+
+return
+
+// G18 ZX plane declaration for circles and radius comp
+N18000:
+
+normal J-1
+GCodesGroup2 == $1
+
+
+return
+
+// G19 YZ plane declaration for circles and radius comp
+N19000:
+
+normal I-1
+GCodesGroup2 == $2
+
+
+return
+
+// G20 Set English (inch) mode
+N20000:
+dwell 0								// Stop lookahead and blending
+ThisCs = Ldata.Coord	// Coordinate system executing program
+if (NativeUnits == Metric)
+{
+    UnitScaling = 25.4
+}
+else
+{
+    UnitScaling = 1
+}
+Coord[1].MaxFeedRate = MaxFeedrate/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup6 == 0
+
+return;
+
+// G21 Set metric (mm) mode
+N21000:
+dwell 0										// Stop lookahead and blending
+ThisCs = Ldata.Coord			// Coordinate system executing program
+if (NativeUnits == English)
+{
+    UnitScaling = 1/25.4
+}
+else
+{
+    UnitScaling = 1
+}
+Coord[1].MaxFeedRate = MaxFeedrate/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup6 == 1
+
+return
+
+// G28 Return to Reference  Point
+N28000:
+
+dwell 0								// Stop lookahead and blending
+read(X,Y,Z)						// Read X, Y, and Z values
+
+ThisCs = Ldata.Coord
+
+if (GCodesGroup3 == 1) Abs_Mode = 0
+else if (GCodesGroup3 == 0) Abs_Mode = 1
+
+ThisCs = Ldata.Coord						// Coordinate system executing program
+
+if (ArgPassVar & XargMask)
+{
+    if (GCodesGroup3 != 1) X_inter_point = Xarg
+    else X_inter_point = Xarg + Coord[ThisCs].CdPos[XaxisIndex]
+    X_final_point = -Tdata[ThisCs].Bias[XaxisIndex]
+}
+else
+{
+    X_inter_point = Coord[ThisCs].CdPos[XaxisIndex]	// Use present X position
+    X_final_point = X_inter_point
+}
+
+if (ArgPassVar & YargMask)
+{
+    if (GCodesGroup3 != 1) Y_inter_point = Yarg
+    else Y_inter_point = Yarg + Coord[ThisCs].CdPos[YaxisIndex]
+    Y_final_point = -Tdata[ThisCs].Bias[YaxisIndex]
+}
+else
+{
+    Y_inter_point = Coord[ThisCs].CdPos[YaxisIndex]	// Use present Y position
+    Y_final_point = Y_inter_point
+}
+
+if (ArgPassVar & ZargMask)
+{
+    if (GCodesGroup3 != 1) Z_inter_point = Zarg
+    else Z_inter_point = Zarg + Coord[ThisCs].CdPos[ZaxisIndex]
+    Z_final_point = -Tdata[ThisCs].Bias[ZaxisIndex]
+}
+else
+{
+    Z_inter_point = Coord[ThisCs].CdPos[ZaxisIndex]	// Use present Z position
+    Z_final_point = Z_inter_point
+}
+
+G90
+G00
+X(X_inter_point) Y(Y_inter_point) Z(Z_inter_point)
+X(X_final_point) Y(Y_final_point) Z(Z_final_point)
+
+if (Abs_Mode == 0) G91
+
+return
+
+// G40 Cutter radius compensation cancel
+N40000:
+
+ccmode0
+GCodesGroup7 == 0
+
+return
+
+// G41 Cutter radius compensation on left
+N41000:
+
+CutterRadiusTemp = (CS1_CutterRadius + CS1_CutterWear)/UnitScaling/2	//Divide by two for Radius - HMI Input is Diameter
+ccr(CutterRadiusTemp)
+ccmode1
+GCodesGroup7 == 1
+
+return
+
+// G42 Cutter radius compensation on right
+N42000:
+
+CutterRadiusTemp = (CS1_CutterRadius + CS1_CutterWear)/UnitScaling/2	// Divide by two for Radius - HMI Input is Diameter
+ccr(CutterRadiusTemp)
+ccmode2
+GCodesGroup7 == 2
+
+return
+
+// G43 Tool Length Offset
+n43000:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+ZtoolOfs = ZtoolOfsTemp/UnitScaling
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 0
+
+return
+
+// G44 Tool Length Offset (minus direction)
+n44000:
+
+dwell 0
+ThisCs = Ldata.Coord
+
+ZtoolOfs = -(ZtoolOfsTemp/UnitScaling)
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 1
+
+return
+
+
+// G49 Tool Length Compensation Cancel
+n49000:
+
+dwell 0
+ThisCs = Ldata.Coord
+ZtoolOfs = 0
+/*
+gosub 50000						// G50 disable scaling
+gosub 50100						// G50.1 disable mirroring
+gosub 69000						// G69 disable rotation
+*/
+call ComputeNCTransform(ThisCs)
+GCodesGroup8 == 2
+
+
+return
+
+// G50 Cancel scaling
+n50000:
+// No arguments to pass
+dwell 0												// Stop lookahead and blending
+ThisCs = Ldata.Coord					// Coordinate system executing program
+XcentScale = 0.0							// Clear X center for scaling
+YcentScale = 0.0							// Clear Y center for scaling
+ZcentScale = 0.0							// Clear Z center for scalingr
+Xscaling = 1.0								// Set unity scale factor for X
+Yscaling = 1.0								// Set unity scale factor for Y
+Zscaling = 1.0								// Set unity scale factor for Z
+call ComputeNCTransform(ThisCs)
+GCodesGroup11 == 0
+
+
+return
+
+// G50.1 Disable mirroring
+n50100:
+dwell 0								// Stop lookahead and blending
+read(X,Y,Z)						// Read X, Y, and Z values
+//dwell 0								// Stop lookahead and blending
+ThisCs = Ldata.Coord	// Coordinate system executing program
+XmirFact = 1.0				// Take X out of mirrored mode
+YmirFact = 1.0				// Take Y out of mirrored mode
+ZmirFact = 1.0				// Take Z out of mirrored mode
+XcentMir = 0					// Mirror about X argument value
+YcentMir = 0					// Mirror about Y argument value
+ZcentMir = 0					// Mirror about Z argument value
+call ComputeNCTransform(ThisCs)
+GCodesGroup22 == 0
+
+
+return
+
+// G51 Set scaling factors
+N51000:
+dwell 0								  // Stop lookahead and blending
+read(I,J,K,P,X,Y,Z)			// Read axis scaling factors and scale center
+//dwell 0								// Stop lookahead and blending
+ThisCs = Ldata.Coord						// Coordinate system executing program
+if (ArgPassVar & XargMask) XcentScale = Xarg		// Use declared X value
+else XcentScale = Coord[ThisCs].CdPos[XaxisIndex]	// Use present X position
+if (ArgPassVar & YargMask) YcentScale = Yarg		// Use declared Y value
+else YcentScale = Coord[ThisCs].CdPos[YaxisIndex]	// Use present Y position
+if (ArgPassVar & ZargMask) ZcentScale = Zarg		// Use declared Z value
+else ZcentScale = Coord[ThisCs].CdPos[ZaxisIndex]	// Use present Z position
+
+if (ArgPassVar & PargMask) {						// P is multi-axis scale factor
+    Xscaling = Parg
+    Yscaling = Parg
+    Zscaling = Parg
+}
+else {												// Individual axis scale factors
+    if (ArgPassVar & IargMask) Xscaling = Iarg	// Use declared scale factor
+    else Xscaling = 1.0								// Use unity scale factor
+    if (ArgPassVar & JargMask) Yscaling = Jarg	// Use declared scale factor
+    else Yscaling = 1.0								// Use unity scale factor
+    if (ArgPassVar & KargMask) Zscaling = Karg	// Use declared scale factor
+    else Zscaling = 1.0								// Use unity scale factor
+}
+call ComputeNCTransform(ThisCs)
+GCodesGroup11 == 1
+
+
+return
+
+// G51.1 Enable mirroring
+n51100:
+dwell 0								// Stop lookahead and blending
+read(X,Y,Z)					// Read X, Y, and Z values
+//dwell 0								// Stop lookahead and blending
+ThisCs = Ldata.Coord						// Coordinate system executing program
+if (ArgPassVar & XargMask) {				// X argument passed?
+    XmirFact = -1.0					// Put X in mirrored mode
+    XcentMir = Xarg					// Mirror about X argument value
+}
+if (ArgPassVar & YargMask) {				// Y argument passed?
+    YmirFact = -1.0					// Put Y in mirrored mode
+    YcentMir = Yarg					// Mirror about Y argument value
+}
+if (ArgPassVar & ZargMask) {				// Z argument passed?
+    ZmirFact = -1.0					// Put Z in mirrored mode
+    ZcentMir = Zarg					// Mirror about Z argument value
+}
+call ComputeNCTransform(ThisCs)
+GCodesGroup22 == 1
+
+
+return
+
+// G53 set machine coordinate system
+n53000:
+dwell 0
+read(A,B,C,U,V,W,X,Y,Z)		// Read axis scaling factors and scale center
+ThisCs = Ldata.Coord		// Coordinate system executing program
+
+//Store Current Offsets
+ActiveWorkOffset = GCodesGroup12
+ActiveToolOffset = ZtoolOfs
+GCodesGroup12 == 0
+
+if (ArgPassVar & XargMask) Xpos = Xarg			// Use declared X value
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(XaxisIndex)    // check which motor number is X axis index/name
+	Xpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[XaxisIndex])) / UnitScaling;	// Use present X position
+}
+if (ArgPassVar & YargMask) Ypos = Yarg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(YaxisIndex)
+	Ypos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[YaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & ZargMask) Zpos = Zarg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(ZaxisIndex)
+	Zpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[ZaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & AargMask) Apos = Aarg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(AaxisIndex)
+	Apos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[AaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & BargMask) Bpos = Barg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(BaxisIndex)
+	Bpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[BaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & CargMask) Cpos = Carg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(CaxisIndex)
+	Cpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[CaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & UargMask) Upos = Uarg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(UaxisIndex)
+	Upos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[UaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & VargMask) Vpos = Varg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(VaxisIndex)
+	Vpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[VaxisIndex])) / UnitScaling;
+}
+if (ArgPassVar & WargMask) Wpos = Warg
+else
+{
+	MotorNumber = Setup_AxisIndexToMotorNumber(WaxisIndex)
+	Wpos = ((Motor[MotorNumber].ActPos - Motor[MotorNumber].HomePos)/(Motor[MotorNumber].CoordSf[WaxisIndex])) / UnitScaling;
+}
+
+// ?? TenthAxis ?? = ((Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos)/(Motor[A10motorNumber].CoordSf[A10axisIndex])) / UnitScaling;
+
+//Set to Absolute Mode
+ABS
+
+// Set Offsets to Machine Coordinates
+XworkOfs = 0
+YworkOfs = 0
+ZworkOfs = 0
+XlocOfs = 0
+YlocOfs = 0
+ZlocOfs = 0
+XtoolOfs = 0
+YtoolOfs = 0
+ZtoolOfs = 0
+XcomOfs = 0
+YcomOfs = 0
+ZcomOfs = 0
+
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+
+//Do Move
+X(Xpos)Y(Ypos)Z(Zpos)
+
+//Return Work Offset to Previous
+if(ActiveWorkOffset != 0)
+{
+	if(ActiveWorkOffset < 7){
+		G(53+ActiveWorkOffset)
+	}
+	else{
+		ExtendOffsetFlag = 1
+		gosub 54100
+	}
+}
+
+//Retun Tool Offset to Previous
+ZtoolOfs = ActiveToolOffset
+call ComputeNCTransform(ThisCs)
+
+// G91 If Previously
+if(GCodesGroup3 == 1){inc}
+
+return
+
+// G54 set work coordinate system 1
+n54000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG54X
+YworkOfs = CS1WorkG54Y
+ZworkOfs = CS1WorkG54Z
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 1
+
+
+return
+
+// G54.1 set auxiliary work coordinate system offsets
+n54100:
+
+dwell 0					// Stop lookahead and blending
+read(P)					// Read P Value
+
+AuxG54Offset = 1000	// P-Variable Offset for Auxiliary Work Offsets
+
+if(ExtendOffsetFlag != 1)
+{
+
+	if (ArgPassVar & PargMask) {				// P argument passed?
+		AuxG54Temp = AuxG54Offset + (Parg-1)*10
+		XworkOfs = P(AuxG54Temp)
+		YworkOfs = P(AuxG54Temp+1)
+		ZworkOfs = P(AuxG54Temp+2)
+	}
+}
+else{
+	// Set Previous Offset After G53
+	AuxG54Temp = AuxG54Offset + (ActiveWorkOffset-7)*10
+	XworkOfs = P(AuxG54Temp)
+	YworkOfs = P(AuxG54Temp+1)
+	ZworkOfs = P(AuxG54Temp+2)
+	Parg = ActiveWorkOffset - 6
+	ExtendOffsetFlag = 0
+}
+
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == Parg + 6
+return
+
+
+// G55 set work coordinate system 2
+n55000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG55X
+YworkOfs = CS1WorkG55Y
+ZworkOfs = CS1WorkG55Z
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 2
+
+
+return
+
+// G56 set work coordinate system 3
+n56000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG56X
+YworkOfs = CS1WorkG56Y
+ZworkOfs = CS1WorkG56Z
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 3
+
+
+return
+
+// G57 set work coordinate system 4
+n57000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG57X
+YworkOfs = CS1WorkG57Y
+ZworkOfs = CS1WorkG57Z
+gosub 50000						// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 4
+
+
+return
+
+// G58 set work coordinate system 5
+n58000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG58X
+YworkOfs = CS1WorkG58Y
+ZworkOfs = CS1WorkG58Z
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 5
+
+
+return
+
+// G59 set work coordinate system 6
+n59000:
+
+dwell 0								// Stop lookahead and blending
+XworkOfs = CS1WorkG59X
+YworkOfs = CS1WorkG59Y
+ZworkOfs = CS1WorkG59Z
+gosub 50000							// G50 disable scaling
+gosub 50100							// G50.1 disable mirroring
+gosub 69000							// G69 disable rotation
+GCodesGroup12 == 6
+
+
+return
+
+// G61 set exact stop mode
+N61000:
+
+ThisCs = Ldata.Coord					// Coordinate system executing program
+Coord[ThisCs].NoBlend = 1				// Disable blending modally
+// Set control bit directly here?
+// Set in-position check (when available) here?
+GCodesGroup15 == 0
+
+
+return
+
+// G64 set cutting mode
+N64000:
+
+ThisCs = Ldata.Coord					// Coordinate system executing program
+Coord[ThisCs].NoBlend = 0				// Enable blending modally
+// Set control bit directly here?
+GCodesGroup15 == 1
+
+
+return
+
+
+// G68 coordinate system rotation
+n68000:
+dwell 0								// Stop lookahead and blending
+read(R,X,Y,Z)							// Get absolute rotation angle and center point
+//dwell 0										// Stop lookahead and blending
+ThisCs = Ldata.Coord							// Present coordinate system
+if (ArgPassVar & XargMask) XcentRot = Xarg			// Passed X value is X center of rotation
+else XcentRot = Coord[ThisCs].CdPos[XaxisIndex]	// Present X position is X center of rotation
+if (ArgPassVar & YargMask) YcentRot = Yarg			// Passed Y value is Y center of rotation
+else YcentRot = Coord[ThisCs].CdPos[YaxisIndex]	// Present Y position is Y center of rotation
+if (ArgPassVar & ZargMask) ZcentRot = Zarg			// Passed Z value is Z center of rotation
+else ZcentRot = Coord[ThisCs].CdPos[ZaxisIndex]	// Present Z position is Z center of rotation
+if (ArgPassVar & RargMask) {					// Rotation angle R value (in degrees) passed?
+    Xrotate = -1.0 * Rarg * Coord[ThisCs].Normal[0]	// Scaled by unit normal vector I component
+    Yrotate = -1.0 * Rarg * Coord[ThisCs].Normal[1]	// Scaled by unit normal vector J component
+    Zrotate = -1.0 * Rarg * Coord[ThisCs].Normal[2]	// Scaled by unit normal vector K component
+    call ComputeNCTransform(ThisCs)
+}
+GCodesGroup16 == 0
+
+
+return
+
+// G69 Cancel rotation
+n69000:
+// No arguments
+dwell 0									// Stop lookahead and blending
+ThisCs = Ldata.Coord						// Present coordinate system
+XcentRot = 0								// Copy X center for derotation into local var
+YcentRot = 0							// Copy Y center for derotation into local var
+ZcentRot = 0								// Copy Z center for derotation into local var
+//Xang = 0.0;									// Zero degree X rotation
+//Yang = 0.0;									// Zero degree Y rotation
+//Zang = 0.0;									// Zero degree Z rotation
+Xrotate = 0	// Zero degree Z rotation
+Yrotate = 0	// Zero degree Z rotation
+Zrotate = 0	// Zero degree Z rotation
+
+call ComputeNCTransform(ThisCs)
+GCodesGroup16 == 1
+
+
+return
+
+// G73 High Speed Peck Drilling Cycle - Short Retract
+//n73000: read(X,Y,Z,R,Q,F,K,D);
+n73000:
+
+bstart
+read(D,F,L,P,Q,R,X,Y,Z)
+//X - [D24] X Hole Position Data
+//Y - [D25] Y Hole Position Data
+//Z - [D26] Z Final Depth Data
+//R - [D18] R Level Data
+//Q - [D17] Peck Depth Data
+//F - [D6] Cutting Feedrate
+//L - [D12] Number of Repeats
+//D - [D4] Retract Distance
+//P - [D16] Dwell Time at Bottom of Hole
+
+//Set Canned Cycle Number
+CannedCycleCode = 73
+//CS1Group09ActiveGCode == 73
+//Cancel Cutter Compensation
+G40
+//Call Canned Cycle Read-In Sub
+G0.001
+//Set Absolute Mode
+G90
+// Move to Position in Rapid
+G00 X(X_Pos)Y(Y_Pos)
+//Disable Override
+OverrideDisable = 1
+
+While(CannedCycleRepeats > 0)
+{
+    CannedCycleRepeats --
+    G90
+    Z(R_PlanePos)
+    G01
+    Z_Depth = R_PlanePos - PeckDepth
+    DO
+    {
+        G01 G90
+        Z(Z_Depth)
+        G91
+        G00
+        Z(RetractDistance)
+        if (Z_Depth > Z_Pos)	Z_Depth = Z_Depth - PeckDepth
+        else Z_Depth = Z_Pos
+        G90
+        G01
+        Z(Z_Depth)
+    } While(Z_Depth > Z_Pos)
+    Dwell (CycleDwell)
+    G00
+    if (R_Plane == 1) Z(R_PlanePos)
+    else Z(ZaxisDesPos)
+}
+if (Abs_Mode == 0) G91
+bstop
+
+return
+
+// G76 Fine Boring Cycle
+n76000:
+
+read(D,F,L,P,Q,R,X,Y,Z)
+//X - [D24] X Hole Position Data
+//Y - [D25] Y Hole Position Data
+//Z - [D26] Z Final Depth Data
+//R - [D18] R Level Data
+//Q - [D17] Bore Shift Data
+//F - [D6] Cutting Feedrate
+//L - [D12] Number of Repeats
+//D - [D4] Retract Distance
+//P - [D16] Dwell Time at Bottom of Hole
+
+//Set Canned Cycle Number
+CannedCycleCode = 76
+//CS1Group09ActiveGCode == 76
+//Cancel Cutter Compensation
+G40
+//Call Canned Cycle Read-In Sub
+G0.001
+//Set Absolute Mode
+G90
+// Move to Position in Rapid
+G00 X(X_Pos)Y(Y_Pos)
+//Disable Override
+OverrideDisable = 1
+
+While(CannedCycleRepeats > 0)
+{
+    CannedCycleRepeats --
+    G90
+    Z(R_PlanePos)
+    G01
+    Z(Z_Pos)
+    Dwell (CycleDwell)
+    M19
+    M05
+    //Enter Shift Amount Here
+    G91
+    X(BoreShift)
+    Dwell 0
+    G00
+    if (R_Plane == 1) Z(R_PlanePos)
+    else Z(ZaxisDesPos)
+}
+if (Abs_Mode == 0) G91
+
+return
+
+
+// G80 Canned Cycle Cancel
+n80000:
+
+dwell 0
+OverrideDisable = 0
+CannedCycleCode = 0
+//CS1Group09ActiveGCode == 0
+
+return
+
+// G83 Peck Drilling Cycle - Long Retract
+n83000:
+bstart
+
+read(D,F,L,P,Q,R,X,Y,Z)
+//X - [D24] X Hole Position Data
+//Y - [D25] Y Hole Position Data
+//Z - [D26] Z Final Depth Data
+//R - [D18] R Level Data
+//Q - [D17] Peck Depth Data
+//F - [D6] Cutting Feedrate
+//L - [D12] Number of Repeats
+//D - [D4] Retract Distance
+//P - [D16] Dwell Time at Bottom of Hole
+
+//Set Canned Cycle Number
+CannedCycleCode = 83
+//CS1Group09ActiveGCode == 83
+//Cancel Cutter Compensation
+G40
+//Call Canned Cycle Read-In Sub
+G0.001
+//Set Absolute Mode
+G90
+// Move to Position in Rapid
+G00 X(X_Pos)Y(Y_Pos)
+//Disable Override
+OverrideDisable = 1
+
+// Calculate Number of Peck Cycles
+LastPeckCycle = ceil(R_PlanePos - Z_Pos / PeckDepth)
+PeckCycles = 0
+
+While(CannedCycleRepeats > 0)
+{
+    CannedCycleRepeats --
+    G90
+    Z(R_PlanePos)
+    G01
+    Z_Depth = R_PlanePos - PeckDepth
+    PeckCycles = 1
+    DO
+    {
+        G01 G90
+        Z(Z_Depth)
+        Z_PrevDepth = Z_Depth
+        G00
+        Z(R_PlanePos)
+        Z_Depth = Z_Depth - PeckDepth
+        if (Z_Depth < Z_Pos)	Z_Depth = Z_Pos
+        G00
+        Z(Z_PrevDepth + RetractDistance)
+        G01
+        Z(Z_Depth)
+        PeckCycles++
+    } While(PeckCycles < LastPeckCycle)	//Z_Depth > Z_Pos)
+    Dwell (CycleDwell)
+    G00
+
+    if (R_Plane == 1) Z(R_PlanePos)
+    else Z(Init_PlanePos)
+}
+if (Abs_Mode == 0) G91
+
+bstop
+
+return
+
+// G90 absolute move mode
+n90000:
+dwell 0
+abs
+//Abs_Mode = 1;
+GCodesGroup3 == 0
+return
+
+// G90.1 absolute move mode (IJK Abs Arc Center)
+n90100:
+dwell 0;
+abs(I,J,K);
+//Abs_Mode = 1;
+GCodesGroup3 == 2
+return
+
+// G91 incremental move mode
+n91000:
+dwell 0
+inc
+//Abs_Mode = 0;
+GCodesGroup3 == 1
+return
+
+// G91.1 incremental move mode (IJK Inc Arc Center)
+n91100:
+dwell 0
+inc(I,J,K);
+//Abs_Mode = 0;
+GCodesGroup3 == 3
+return
+
+// G92 position set mode
+n92000:
+dwell 0								// Stop lookahead and blending
+read(x,y,z)							// X, Y, Z are new names for present position
+//dwell 0										// Stop lookahead and blending
+ThisCs = Ldata.Coord
+
+if (ArgPassVar & XargMask) Xref=Xarg			// Passed X value is X new position value
+else Xref = -Coord[ThisCs].CdPos[XaxisIndex]	// Present X position is X new position value
+if (ArgPassVar & YargMask) Yref=Yarg			// Passed Y value is Y new position value
+else Yref = -Coord[ThisCs].CdPos[YaxisIndex]	// Present Y position is Y new position value
+if (ArgPassVar & ZargMask) Zref=Zarg			// Passed Z value is Z new position value
+else Zref = -Coord[ThisCs].CdPos[ZaxisIndex]	// Present Z position is Z new position value
+
+XworkOfs += (-Xref + Coord[ThisCs].CdPos[XaxisIndex])*UnitScaling	// Change in X offset
+YworkOfs += (-Yref + Coord[ThisCs].CdPos[YaxisIndex])*UnitScaling	// Change in Y offset
+ZworkOfs += (-Zref + Coord[ThisCs].CdPos[ZaxisIndex])*UnitScaling	// Change in Z offset
+
+/*if (EnglishMode == 0)
+{
+    XworkOfs += -Xref + Coord[ThisCs].CdPos[XaxisIndex]	// Change in X offset
+    YworkOfs += -Yref + Coord[ThisCs].CdPos[YaxisIndex]	// Change in Y offset
+    ZworkOfs += -Zref + Coord[ThisCs].CdPos[ZaxisIndex]	// Change in Z offset
+}
+else
+{
+    XworkOfs += (-Xref + Coord[ThisCs].CdPos[XaxisIndex])*UnitScaling	// Change in X offset
+    YworkOfs += (-Yref + Coord[ThisCs].CdPos[YaxisIndex])*UnitScaling	// Change in Y offset
+    ZworkOfs += (-Zref + Coord[ThisCs].CdPos[ZaxisIndex])*UnitScaling	// Change in Z offset
+}
+*/
+
+call ComputeNCTransform(ThisCs)
+//CS1Group00ActiveGCode == 92
+GCodesGroup0 == GCodesGroup0|$100
+
+return
+
+// G92.1 Position Set Mode Cancel
+n92100:
+
+//CS1Group00ActiveGCode == 92.1
+GCodesGroup0 == GCodesGroup0|$200
+
+return
+
+// G93 Inverse Time
+n93000:
+
+GCodesGroup5 == 0
+
+return
+
+// G94 Feed Per Minute
+n94000:
+
+GCodesGroup5 == 1
+
+return
+
+// G95 Feed Per Revolution
+n95000:
+
+GCodesGroup5 == 2
+
+return
+
+// G96 Constant Surface Speed
+n96000:
+
+GCodesGroup13 == 0
+
+return
+
+// G97 Constant Surface Speed Cancel
+n97000:
+
+GCodesGroup13 == 1
+
+return
+
+// G98 Return Initial Level
+n98000:
+
+R_Plane = 0
+//CS1Group10ActiveGCode == 98
+
+return
+
+// G99 Return R Level
+n99000:
+
+R_Plane = 1
+//CS1Group10ActiveGCode == 99
+
+return
+
+// G120 H Code Parse
+n120000:
+
+dwell 0			// Stop lookahead and blending
+read(H)
+
+ToolOffset = 2000			//Set P-Variable Length Offset
+ToolWearOffset = 2001	//Set P-Variable Wear Offset
+
+if (ArgPassVar & HargMask) {			// H-value passed?
+    ToolOffsetRow = (Harg-1)*10
+    ZtoolOfsTemp = P(ToolOffset + ToolOffsetRow) + P(ToolWearOffset + ToolOffsetRow)
+    CS1ActiveHCode == Harg
+}
+return
+
+close		// close this program

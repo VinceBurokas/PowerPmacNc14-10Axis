@@ -1,0 +1,49 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Spindle Control PLC.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+
+open plc Spindle
+
+Ldata.coord = 1
+
+SpindleTemp = SpindleCommand
+
+if (SpindleTemp > SpindleMaxRPM)
+{
+    SpindleTemp = SpindleMaxRPM
+}
+
+SpindleTemp = SpindleTemp * SpindleOverrideInput * 0.01
+
+if (SpindleTemp != SpindlePrevCommand)
+{
+    SpindleOutputTemp = SpindleTemp * SpindleScaling
+    if (SpindleOutputTemp <= 32767)
+    {
+        SpindleOutput = SpindleOutputTemp
+    }
+    else
+    {
+        SpindleOutput = 32767
+    }
+    SpindlePrevCommand = SpindleOutput
+}
+
+
+
+
+
+
+close
+

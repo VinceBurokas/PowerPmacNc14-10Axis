@@ -1,0 +1,101 @@
+// Power PMAC Script PLC Program
+// Power PMAC CNC, Work Offset PLC
+// Date: January 8, 2014
+// By:  VAB
+
+
+open plc WorkOffset
+
+local NumWorkOffsets, NumToolOffsets;
+local XaxisOffset, YaxisOffset, ZaxisOffset;
+local XaxisMaxOffset, YaxisMaxOffset, ZaxisMaxOffset;
+local XaxisInvalid, YaxisInvalid, ZaxisInvalid;
+local ToolOffset, ToolMaxOffset, ToolInvalid;
+
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// Set Number of Work Offsets Used
+// Work Offset = ini value + 10
+NumWorkOffsets = 25	+ 10	// Must Match Total Work Offsets in ini
+NumToolOffsets = 25		// Must Match Total Tool Offsets in ini
+
+
+// ************************************ Work Offsets Section ****************************
+if (CommandReg == UI_SetWorkOfs)
+{
+    CommandReg = UI_None
+
+    // X-Axis Work Offset Logic
+    // Set First X-Axis Offset Variable
+    XaxisOffset = 900
+    XaxisMaxOffset = XaxisOffset + (NumWorkOffsets * 10)
+
+    While(XaxisOffset < XaxisMaxOffset)
+    {
+        XaxisInvalid = isnan(P(XaxisOffset))
+        If(XaxisInvalid == 1)
+        {
+            P(XaxisOffset) = ((Motor[1].ActPos - Motor[1].HomePos)/(Motor[1].CoordSf[XaxisIndex]))
+        }
+        XaxisOffset = XaxisOffset + 10
+    }
+
+    // Y-Axis Work Offset Logic
+    // Set First Y-Axis Offset Variable
+    YaxisOffset = 901
+    YaxisMaxOffset = YaxisOffset + (NumWorkOffsets * 10)
+
+    While(YaxisOffset < YaxisMaxOffset)
+    {
+        YaxisInvalid = isnan(P(YaxisOffset))
+        If(YaxisInvalid == 1)
+        {
+            P(YaxisOffset) = ((Motor[2].ActPos - Motor[2].HomePos)/(Motor[2].CoordSf[YaxisIndex]))
+        }
+        YaxisOffset = YaxisOffset + 10
+    }
+
+    // Z-Axis Work Offset Logic
+    // Set First Z-Axis Offset Variable
+    ZaxisOffset = 902
+    ZaxisMaxOffset = ZaxisOffset + (NumWorkOffsets * 10)
+
+    While(ZaxisOffset < ZaxisMaxOffset)
+    {
+        ZaxisInvalid = isnan(P(ZaxisOffset))
+        If(ZaxisInvalid == 1)
+        {
+            P(ZaxisOffset) = ((Motor[3].ActPos - Motor[3].HomePos)/(Motor[3].CoordSf[ZaxisIndex]))
+        }
+        ZaxisOffset = ZaxisOffset + 10
+    }
+    send1 "WorkOffsetsSet"
+}
+
+// ************************************ Tool Offsets Section ****************************
+if (CommandReg == UI_SetToolOfs)
+{
+    CommandReg = UI_None
+
+    // Tool Offset Logic
+    // Set First Tool Offset Variable
+    ToolOffset = 2000
+    ToolMaxOffset = ToolOffset + (NumToolOffsets * 10)
+
+    While(ToolOffset < ToolMaxOffset)
+    {
+        ToolInvalid = isnan(P(ToolOffset))
+        If(ToolInvalid == 1)
+        {
+            P(ToolOffset) = ((Motor[3].ActPos - Motor[3].HomePos)/(Motor[3].CoordSf[ZaxisIndex]))
+        }
+        ToolOffset = ToolOffset + 10
+    }
+    send1 "ToolOffsetsSet"
+}
+
+close
+
+

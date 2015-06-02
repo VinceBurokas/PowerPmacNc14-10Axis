@@ -1,0 +1,31 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// PowerPMAC Startup Control File
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+// Initialize PLC's
+
+enable plc Initialize
+
+//enable plc PositionReport
+//enable plc Function
+//enable plc HomePlc
+//enable plc Override
+//enable plc Spindle
+//enable plc SoftPanel
+//enable plc WorkOffset
+//enable plc PowerPendant
+//enable plc Handwheel
+//enable plc HmiMonitor
+
+//&1 delete lookahead - Now in Initialize PLC
+//&1 define lookahead 2048 - Now in Initialize PLC

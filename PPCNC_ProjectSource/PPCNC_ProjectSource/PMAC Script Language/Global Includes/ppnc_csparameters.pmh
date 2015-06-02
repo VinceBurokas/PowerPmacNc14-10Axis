@@ -1,0 +1,88 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Required Coordinate System Setup Parameters.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+// System Unlock
+Sys.WpKey = $AAAAAAAA
+
+
+// CS Definitions
+&1
+#1->1000X	//25400X
+#2->1000Y	//25400Y
+#3->1000Z	//25400Z
+/*
+#4->1000V
+#5->1000U
+#6->1000WW
+#7->1000C
+#8->1000B
+#9->1000A
+*/
+
+// Target GMTD Code Sub Program Numbers
+Coord[1].Gprog = 1000
+Coord[1].Mprog = 1001
+Coord[1].Tprog = 1002
+Coord[1].Dprog = 1003
+
+// Feedrate Related Setup
+coord[1].FeedTime=60000
+coord[1].SegOverrideSlew=0.0005
+
+// Coordinate Step Mode Setup
+coord[1].StepMode=1
+
+// Required Distance-To-Go Reporting CS Settings
+Coord[1].tpsize = 1024
+//Coord[1].tpcoords = $1C0  //XYZ for XY it is $C0
+Coord[1].tpcoords = $1FD  //XYZUVWAC for XY it is $C0
+Coord[1].FRAxes=$1FD
+
+// 2D Cutter Compensation Buffer Size
+// Increase these setting if your G-code requires
+// a high number of out of plane moves
+Coord[1].CCSize = 20
+Coord[1].CCDistance = 8
+
+// Coarse Interpolation Time
+Coord[1].SegMoveTime = 1
+Coord[1].MaxFeedRate = 5000
+Coord[1].Ta = 5.0
+Coord[1].Ts = 0.0
+Coord[1].Td = Coord[1].Ta
+
+// Lookahead Buffer Size
+Coord[1].LHDistance = 256
+
+// Coordinate System Alternate Feedrate for Non-Feedrate Axes
+Coord[1].AltFeedrate = 10
+
+// PMAC Maximum Number of Coordinates
+Sys.MaxMotors = 11
+Sys.MaxCoords = 3
+
+// Synchronous Buffer Size
+Coord[1].SyncOps = 8192
+
+// Soft Limit Offsets Must be Enabled for Limit Reporting
+Motor[1].SoftLimitOffset=-1
+Motor[2].SoftLimitOffset=-1
+Motor[3].SoftLimitOffset=-1
+Motor[4].SoftLimitOffset=-1
+Motor[5].SoftLimitOffset=-1
+Motor[6].SoftLimitOffset=-1
+Motor[7].SoftLimitOffset=-1
+Motor[8].SoftLimitOffset=-1
+Motor[9].SoftLimitOffset=-1
+Motor[10].SoftLimitOffset=-1

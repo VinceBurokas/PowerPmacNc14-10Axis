@@ -1,0 +1,282 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Initialization plc.  Runs once and disables.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+// 052515 - Implemented 10 Axis Code
+//
+//
+/***********************************************************************************/
+
+open plc Initialize
+
+local indexcount;
+local axisindex;
+
+/*
+// CS Definitions
+&1
+#1->1000X
+#2->1000Y
+#3->1000Z
+#4->1000V
+#5->1000U
+#6->1000WW
+#7->1000C
+#8->1000B
+#9->1000A
+*/
+// in HMI
+//AxisLabels=X,Y,Z,U,V,W,A,B,C
+//MotorNumbers=1,2,3,5,4,6,9,8,7
+//
+//
+// to fill up by integrator (-1 means not used)
+Setup_AxisIndex(0) =  -1		// no axis 0 but array in PPMAC start at zero, we just skip it
+Setup_AxisIndex(1) =  XaxisIndex
+Setup_AxisIndex(2) =  YaxisIndex
+Setup_AxisIndex(3) =  ZaxisIndex
+Setup_AxisIndex(4) =  -1	//UaxisIndex
+Setup_AxisIndex(5) =  -1	//VaxisIndex
+Setup_AxisIndex(6) =  -1	//WWaxisIndex
+Setup_AxisIndex(7) =  -1	//AaxisIndex
+Setup_AxisIndex(8) =  -1	//BaxisIndex
+Setup_AxisIndex(9) =  -1	//CaxisIndex
+Setup_AxisIndex(10) =  -1
+//
+// to fill up by integrator (-1 means not used)
+Setup_MotorNumber(0) =  -1		// no axis 0 but array in PPMAC start at zero, we just skip it
+Setup_MotorNumber(1) =  1
+Setup_MotorNumber(2) =  2
+Setup_MotorNumber(3) =  3
+Setup_MotorNumber(4) =  -1	//5
+Setup_MotorNumber(5) =  -1	//4
+Setup_MotorNumber(6) =  -1	//6
+Setup_MotorNumber(7) =  -1	//9
+Setup_MotorNumber(8) =  -1	//8
+Setup_MotorNumber(9) =  -1	//7
+Setup_MotorNumber(10) =  -1
+//
+// to fill up by integrator (-1 means not used)
+Setup_PendantPos(0) =  -1		// no axis 0 but array in PPMAC start at zero, we just skip it
+Setup_PendantPos(1) =  XaxisIndex
+Setup_PendantPos(2) =  YaxisIndex
+Setup_PendantPos(3) =  ZaxisIndex
+Setup_PendantPos(4) =  -1	//AaxisIndex
+Setup_PendantPos(5) =  -1	//BaxisIndex
+Setup_PendantPos(6) =  -1	//CaxisIndex
+Setup_PendantPos(7) =  -1	//UaxisIndex
+Setup_PendantPos(8) =  -1	//VaxisIndex
+Setup_PendantPos(9) =  -1	//WWaxisIndex
+Setup_PendantPos(10) =  -1
+//
+//
+//
+// create array of
+// which axis name (index) correspond to which motor number
+indexcount = 0
+while (indexcount !> 32)
+{
+	Setup_AxisIndexToMotorNumber(indexcount) = -1
+	indexcount++
+}
+indexcount = 0
+while (indexcount !> 10)
+{
+	if (Setup_AxisIndex(indexcount) > -1 && Setup_AxisIndex(indexcount) !> 32)
+	{
+		axisindex = Setup_AxisIndex(indexcount)
+		Setup_AxisIndexToMotorNumber(axisindex) = Setup_MotorNumber(indexcount)
+	}
+	indexcount++
+}
+/*
+// this gives this array for this example (-1 means not used)
+Setup_AxisIndexToMotorNumber(AaxisIndex) = 9   // axis A is motor 9
+Setup_AxisIndexToMotorNumber(BaxisIndex) = 8   // axis B is motor 8
+Setup_AxisIndexToMotorNumber(CaxisIndex) = 7   // axis V is motor 7
+Setup_AxisIndexToMotorNumber(UaxisIndex) = 5   // axis U is motor 5
+Setup_AxisIndexToMotorNumber(VaxisIndex) = 4   // axis V is motor 4
+Setup_AxisIndexToMotorNumber(WaxisIndex) = -1   // axis W not used
+Setup_AxisIndexToMotorNumber(XaxisIndex) = 1   // axis X is motor 1
+Setup_AxisIndexToMotorNumber(YaxisIndex) = 2   // axis Y is motor 2
+Setup_AxisIndexToMotorNumber(ZaxisIndex) = 3   // axis Z is motor 3
+Setup_AxisIndexToMotorNumber(AAaxisIndex) = -1   // axis AA not used
+.......
+Setup_AxisIndexToMotorNumber(WWaxisIndex) = 6   // axis WW is motor 6
+Setup_AxisIndexToMotorNumber(ZZaxisIndex) = -1
+*/
+
+// create array of
+// which axis name (index) correspond to which axis number (order from top to bottom in HMI)
+indexcount = 0
+while (indexcount !> 32)
+{
+	Setup_AxisIndexToAxisNumber(indexcount) = -1
+	indexcount++
+}
+indexcount = 0
+while (indexcount !> 10)
+{
+	if (Setup_AxisIndex(indexcount) > -1 && Setup_AxisIndex(indexcount) !> 32)
+	{
+		axisindex = Setup_AxisIndex(indexcount)
+		Setup_AxisIndexToAxisNumber(axisindex) = indexcount
+	}
+	indexcount++
+}
+/*
+// this gives this array for this example (-1 means not used)
+Setup_AxisIndexToAxisNumber(AaxisIndex) = 7  // axis A is axis 7
+Setup_AxisIndexToAxisNumber(BaxisIndex) = 8  // axis B is axis 8
+Setup_AxisIndexToAxisNumber(CaxisIndex) = 9  // axis V is axis 9
+Setup_AxisIndexToAxisNumber(UaxisIndex) = 4  // axis U is axis 5
+Setup_AxisIndexToAxisNumber(VaxisIndex) = 5  // axis V is axis 4
+Setup_AxisIndexToAxisNumber(WaxisIndex) = -1  // axis W not used
+Setup_AxisIndexToAxisNumber(XaxisIndex) = 1  // axis X is axis 1
+Setup_AxisIndexToAxisNumber(YaxisIndex) = 2  // axis Y is axis 2
+Setup_AxisIndexToAxisNumber(ZaxisIndex) = 3  // axis Z is axis 3
+Setup_AxisIndexToAxisNumber(AAaxisIndex) = -1   // axis AA not used
+.......
+Setup_AxisIndexToAxisNumber(WWaxisIndex) = 6  // axis WW is axis 6
+Setup_AxisIndexToAxisNumber(ZZaxisIndex) = -1
+*/
+
+//
+disable plc PositionReport
+disable plc Function
+disable plc HomePlc
+disable plc Override
+disable plc Spindle
+disable plc SoftPanel
+disable plc WorkOffset
+disable plc PowerPendant
+disable plc Handwheel
+disable plc HmiMonitor
+
+//If using handheld Power PMAC Pendant Set to 1
+//If using Software Control Panel Set to 0
+PowerPendPresent = 0;
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// Initialize Unit Scaling and English/Metric Mode
+UnitScaling = 1.0;
+
+// Initialize English/Metric Mode
+// Set NativeUnits to Metric or English;
+NativeUnits = Metric;
+//NativeUnits = English;
+
+// Initialize Transformation Matrix Parameters
+Xscaling=1.0;
+Yscaling=1.0;
+Zscaling=1.0;
+XcentScale=0.0;
+YcentScale=0.0;
+ZcentScale=0.0;
+Xrotate=0.0;
+Yrotate=0.0;
+Zrotate=0.0;
+XcentRot=0.0;
+YcentRot=0.0;
+ZcentRot=0.0;
+XmirFact=1.0;
+YmirFact=1.0;
+ZmirFact=1.0;
+XcentMir=0.0;
+YcentMir=0.0;
+ZcentMir=0.0;
+
+// Initialize Work, Local, Tool, and Common Offsets
+XworkOfs=0.0;
+YworkOfs =0.0;
+ZworkOfs=0.0;
+XlocOfs=0.0;
+YlocOfs=0.0;
+ZlocOfs=0.0;
+XtoolOfs=0.0;
+YtoolOfs=0.0;
+ZtoolOfs=0.0;
+XcomOfs=0.0;
+YcomOfs=0.0;
+ZcomOfs=0.0;
+
+// Default G-Code Group Display
+GCodesGroup0 = 0 // No Display
+GCodesGroup1 = 0 // G00-Rapid
+GCodesGroup2 = 0 // G17-XY Plane Select
+GCodesGroup3 = 0 // G90-Absolute Mode
+GCodesGroup5 = 3 // No Initial Feed Mode
+if (NativeUnits == Metric){GCodesGroup6 = 1} // G21-Metric Mode
+else{GCodesGroup6 = 0} // G20-English Mode
+GCodesGroup7 = 1 // G94-Feed Per Minute Mode
+GCodesGroup8 = 2 // G49-Tool Length Cancel
+GCodesGroup11 = 0 // G50-Scaling Off
+GCodesGroup12 = 0 // G53-Machine Coords
+GCodesGroup13 = 1 // G97-Constant Surface Speed Cancel
+GCodesGroup15 = 1 // G64-Cutting Mode
+GCodesGroup16 = 1 // G69-Rotation Off
+GCodesGroup19 = 0 // G25-Spindle Detect Off
+GCodesGroup22 = 0 // G50.1-Disable Mirroring
+
+// Default M-Code Group Display
+MCodesProgramGroup = 0 // No Display of Stop
+MCodesSpindleGroup = 2 // M05-Spindle Stopped
+MCodesCoolantGroup = 2 // M09-Coolant Off
+MCodesChuckGroup = 0 // M10-Chuck Open
+MCodesThreadingGroup = 0            // M54
+MCodesGearRangeGroup = 0             // M55
+MCodesFeedrateOverrideGroup = 0      // M56
+MCodesBAxisGroup    = 0              // M57
+MCodesSubprogramGroup  = 0           //M58
+
+//Display Initial T-Code Info
+CS1ActiveTCode = 0   //Q122
+CS1ActiveHCode = 0   //Q123
+CS1ActiveDCode = 0   //Q124
+
+//Set Initial Default Feedrate
+coord[1].Tm = -100
+FeedOverrideInput = 100
+SpindleOverrideInput = 100
+
+
+//Delete Special Buffers
+cmd"&1 delete lookahead"
+cmd"&1 delete rotary"
+
+//Define Special Buffers
+cmd"&1 define rotary 204800"
+cmd"&1 define lookahead 2048"
+
+enable plc PositionReport
+enable plc Function
+enable plc HomePlc
+enable plc Override
+enable plc Spindle
+enable plc SoftPanel
+enable plc WorkOffset
+enable plc PowerPendant
+enable plc Handwheel
+enable plc HmiMonitor
+
+// Control Panel Enable Logic
+call timer(1.0)
+if(PowerPendPresent == 1)
+{
+	cmd"ctrlpanel 0 1"
+}
+else
+{
+	cmd"ctrlpanel 0 0"
+}
+
+disable plc Initialize;
+
+close

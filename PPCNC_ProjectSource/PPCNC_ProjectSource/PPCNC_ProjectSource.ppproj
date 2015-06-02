@@ -1,0 +1,192 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{32d55ff7-e34e-4d3d-8175-4310876e7562}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <IPAddress>192.168.0.200</IPAddress>
+    <TelnetPassword>deltatau</TelnetPassword>
+    <TelnetPort>22</TelnetPort>
+    <TelnetUser>root</TelnetUser>
+    <FTPPassword>ftp</FTPPassword>
+    <FTPPort>21</FTPPort>
+    <FTPUser>ftp</FTPUser>
+    <PVarStart>8192</PVarStart>
+    <QVarStart>1024</QVarStart>
+    <MVarStart>8192</MVarStart>
+    <UserBuffer>1</UserBuffer>
+    <ProgramBuffer>256</ProgramBuffer>
+    <TableBuffer>1</TableBuffer>
+    <LookAheadBuffer>16</LookAheadBuffer>
+    <SymbolsBufSize>1</SymbolsBufSize>
+    <RealtimeRoutinesBuildFlag>0</RealtimeRoutinesBuildFlag>
+    <TemplateVersion>1.3</TemplateVersion>
+    <RootNamespace>PPCNC_ProjectSource</RootNamespace>
+    <AssemblyName>Power Pmac Project Template</AssemblyName>
+    <CommType>SSH</CommType>
+    <Name>PPCNC_ProjectSource</Name>
+    <IDESignature>wrvk8749WRVK</IDESignature>
+    <ProjppTimeoutPeriod>300000</ProjppTimeoutPeriod>
+    <ProjppRunAtOption>No</ProjppRunAtOption>
+    <DownloadCSoruce>No</DownloadCSoruce>
+    <EncryptionOption>Do Not Encrypt Any File</EncryptionOption>
+    <ProjectFrimwareVers>2.0.0.81</ProjectFrimwareVers>
+    <capp1_RunAtStartup_Option>1</capp1_RunAtStartup_Option>
+    <DefaultCCFGFile>
+    </DefaultCCFGFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PPCPUType>ppc405</PPCPUType>
+  </PropertyGroup>
+  <UsingTask AssemblyFile="$(MSBuildBinPath)\PPMAC460CompileTask.dll" TaskName="PPMAC460CompileTask.CompileTask" />
+  <ItemGroup>
+    <Content Include="Documentation\note.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="C Language\Include\pp_proj.h" />
+    <Folder Include="C Language\Libraries\" />
+    <Content Include="C Language\Realtime Routines\usrcode.c" />
+    <Content Include="C Language\Realtime Routines\usrcode.h" />
+    <Compile Include="C Language\Background Programs\capp1\capp1.c" />
+    <Content Include="C Language\Background Programs\capp1\capp1.h" />
+    <Content Include="C Language\CPLCs\rticplc\rticplc.c" />
+    <Content Include="C Language\CPLCs\bgcplc00\bgcplc.c" />
+    <Content Include="Configuration\pp_custom_save.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_csparameters.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_dtpendant.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_messages.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_ncinterfacedefinitions.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_spindleparameters.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Global Includes\ppnc_virtualmotors.pmh">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_xforms.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_dcodes.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_mcodes.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_gcodes.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_timer.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Libraries\ppnc_tcodes.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\Motion Programs\ppnc_readme.pmc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_handwheel.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_hmimonitor.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_home.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_initialize.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_mip_pendant.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_override.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_positionreport.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_function.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_softpanel.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_spindle.plc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="PMAC Script Language\PLC Programs\ppnc_worktooloffset.plc">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="C Language\" />
+    <Folder Include="C Language\Background Programs\" />
+    <Folder Include="C Language\Background Programs\capp1" />
+    <Folder Include="C Language\CPLCs\" />
+    <Folder Include="C Language\CPLCs\bgcplc00\" />
+    <Folder Include="C Language\CPLCs\rticplc\" />
+    <Folder Include="C Language\Include\" />
+    <Folder Include="C Language\Realtime Routines\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Documentation\" />
+    <Folder Include="Log\" />
+    <Folder Include="PMAC Script Language\" />
+    <Folder Include="PMAC Script Language\Global Includes\" />
+    <Folder Include="PMAC Script Language\Kinematic Routines\" />
+    <Folder Include="PMAC Script Language\Libraries\" />
+    <Folder Include="PMAC Script Language\Motion Programs\" />
+    <Folder Include="PMAC Script Language\PLC Programs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configuration\pp_save.cfg" />
+    <None Include="Configuration\pp_startup.txt" />
+    <None Include="Configuration\pp_disable.txt" />
+    <None Include="Configuration\pp_inc_startup.txt" />
+    <None Include="Configuration\pp_inc_disable.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Log\pp_proj.log" />
+    <None Include="Log\pp_error.log" />
+    <None Include="Log\pp_error_hist.log" />
+  </ItemGroup>
+  <Target Name="Build">
+    <CompileTask Files="@(Compile)" OutputPath="$(OutputPath)" DebugSymbols="$(DebugSymbols)" ProjectPath="$(MSBuildProjectDirectory)" PPCPUType="$(PPCPUType)" RealtimeRoutinesBuildFlag="$(RealtimeRoutinesBuildFlag)" CustomCompileFlags="@(CustomCompile)" CustomLibraryFlags="@(CustomLibrary)" CustomMakeFilePath="@(CustomMakeFilePath)" />
+  </Target>
+  <Target Name="Rebuild">
+    <CompileTask Files="@(Compile)" OutputPath="$(OutputPath)" DebugSymbols="$(DebugSymbols)" ProjectPath="$(MSBuildProjectDirectory)" PPCPUType="$(PPCPUType)" RealtimeRoutinesBuildFlag="$(RealtimeRoutinesBuildFlag)" CustomCompileFlags="@(CustomCompile)" CustomLibraryFlags="@(CustomLibrary)" CustomMakeFilePath="@(CustomMakeFilePath)" />
+  </Target>
+  <Target Name="Clean">
+    <RemoveDir Directories="$(OutputPath)" />
+    <MakeDir Directories="$(OutputPath)" />
+  </Target>
+</Project>

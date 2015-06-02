@@ -1,0 +1,52 @@
+[PMAC_HARDWARE]
+Gate1AutoDetect=0x0
+Gate2AutoDetect=0x0
+Gate3AutoDetect=0x0
+CardIOAutoDetect=0x0
+CardDPRAutoDetect=0x0
+[PMAC_CONFIG]
+Loading PMAC Defaults ($$$***) Configuration
+[PMAC_PROJECT]
+Start of Project Loading using INI File: "/var/ftp/usrflash/Project/Configuration/pp_proj.ini"
+0 Project Symbols were created for gpascii -2 communication
+LoadRTUserCode() Delta Time (sec) = 0.055877
+[PMAC_PROJECT]
+Start of Project Loading using INI File: "/var/ftp/usrflash/Project/Configuration/pp_proj.ini"
+Including Project File: /var/ftp/usrflash/Project/Configuration/pp_disable.txt 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_csparameters.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_dtpendant.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_messages.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_ncinterfacedefinitions.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_spindleparameters.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Global Includes/ppnc_virtualmotors.pmh 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_dcodes.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_gcodes.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_mcodes.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_tcodes.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_timer.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Libraries/ppnc_xforms.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/Motion Programs/ppnc_readme.pmc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_function.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_handwheel.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_hmimonitor.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_home.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_initialize.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_mip_pendant.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_override.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_positionreport.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_softpanel.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_spindle.plc 
+Including Project File: /var/ftp/usrflash/Project/PMAC Script Language/PLC Programs/ppnc_worktooloffset.plc 
+Including Project File: /var/ftp/usrflash/Project/Configuration/pp_startup.txt 
+Status: Pass 1 Create debug file, #defines, *.h & .sym files, Time (sec) = 0.081809
+Status: Pass 2 Verify prog calls, local stack & labels, Time (sec)  = 0.016644
+832 Project Symbols were created for gpascii -2 communication
+Status: Create PPMAC Symbol Table & Run CPP Time (sec) = 0.261578
+Status: Successful load of preprocessed File: "/var/ftp/usrflash/Temp/pp_proj.pma"
+Status: Download to PPMAC Command Processor, Time (sec) = 0.022606
+Run OK on Linux Program: '/var/ftp/usrflash/Project/C Language/Background Programs/capp1.out' & 
+Status: Final pp_proj.h & Run Background C Apps, Time (sec) = 0.522324
+Project Preprocessing & Load Total Time (sec) = 0.961119
+[PMAC_CONFIG]
+Successful: SaveConfiguration using /var/ftp/usrflash/Project/Configuration/pp_save.cfg
+Successful: SaveCustomConfiguration using /var/ftp/usrflash/Project/Configuration/pp_custom_save.tpl

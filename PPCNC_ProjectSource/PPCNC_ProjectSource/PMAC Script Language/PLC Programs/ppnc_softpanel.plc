@@ -1,0 +1,126 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Soft Panel Control PLC.
+// Original File Date:  December 10, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 121013 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+
+
+open plc SoftPanel
+
+// Set Coordinate System
+Ldata.coord=1;
+
+if (PowerPendPresent != 1)
+{
+
+    OverrideInc = sys.ServoPeriod / 10
+    OverrideMax = sys.ServoPeriod * 1.5
+
+    SpindleOverrideInc = 10
+    SpindleOverrideMax = 150
+
+
+    // -------------------- Feedrate Override Functions --------------
+    if (CommandReg == UI_FeedMinus)
+    {
+        CommandReg = UI_None
+        OverrideTemp = coord[1].DesTimeBase
+        if (OverrideTemp > 0)
+        {
+            OverrideTemp = OverrideTemp - OverrideInc
+            FeedOverrideInput = (OverrideTemp / sys.ServoPeriod) * 100
+        }
+    }
+
+    if (CommandReg == UI_FeedPlus)
+    {
+        CommandReg = UI_None
+        OverrideTemp = coord[1].DesTimeBase
+        if (OverrideTemp < OverrideMax)
+        {
+            OverrideTemp = OverrideTemp + OverrideInc
+            FeedOverrideInput = (OverrideTemp / sys.ServoPeriod) * 100
+        }
+    }
+
+    // Clear Roundoff Errors at 100% and 0%
+    OverrideTemp = abs(FeedOverrideInput - 100)
+    if (OverrideTemp < 0.1)
+    {
+        FeedOverrideInput = 100
+    }
+    else if (OverrideTemp > 99.9)
+    {
+        FeedOverrideInput = 0
+    }
+
+    if (CommandReg == UI_FeedZero)
+    {
+        CommandReg = UI_None
+        FeedOverrideInput = 0
+    }
+
+    if (CommandReg == UI_Feed100)
+    {
+        CommandReg = UI_None
+        FeedOverrideInput = 100
+    }
+
+    // -------------------- Spindle Override Functions --------------
+    if (CommandReg == UI_SpindleMinus)
+    {
+        CommandReg = UI_None
+        SpindleOverrideTemp = SpindleOverrideInput
+        if (SpindleOverrideTemp > 0)
+        {
+            SpindleOverrideInput = SpindleOverrideTemp - SpindleOverrideInc
+        }
+    }
+
+    if (CommandReg == UI_SpindlePlus)
+    {
+        CommandReg = UI_None
+        SpindleOverrideTemp = SpindleOverrideInput
+        if (SpindleOverrideTemp < SpindleOverrideMax)
+        {
+            SpindleOverrideInput = SpindleOverrideTemp + SpindleOverrideInc
+        }
+    }
+
+    if (CommandReg == UI_Spindle100)
+    {
+        CommandReg = UI_None
+        SpindleOverrideInput = 100
+    }
+
+    // Spindle Control From Soft Panel
+    if (CommandReg == UI_SpindleCW && SpindleMode != Spindle_CW)
+    {
+        CommandReg = UI_None
+        SpindleMode = Spindle_CW
+    }
+
+    if (CommandReg == UI_SpindleCCW && SpindleMode != Spindle_CCW)
+    {
+        CommandReg = UI_None
+        SpindleMode = Spindle_CCW
+    }
+
+    if (CommandReg == UI_SpindleCW || CommandReg == UI_SpindleCCW && SpindleMode != Spindle_OFF)
+    {
+        CommandReg = UI_None
+        SpindleMode = Spindle_OFF
+    }
+
+}
+
+close

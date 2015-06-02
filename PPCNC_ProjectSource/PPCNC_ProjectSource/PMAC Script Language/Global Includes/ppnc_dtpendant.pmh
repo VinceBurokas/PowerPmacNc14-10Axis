@@ -1,0 +1,194 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Optional Delta Tau Power PMAC Pendant Header File.
+// Original File Date:  August 18, 2014
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 111914 - Initial Submit to GitHub
+// 042215 - Control Panel Data Structure Added
+/***********************************************************************************/
+
+// CtrlPanel Ip Address
+CtrlPanel[0].ip[0]=192
+CtrlPanel[0].ip[1]=168
+CtrlPanel[0].ip[2]=0
+CtrlPanel[0].ip[3]=100
+
+// Axis Speed Select Rotary Switches
+ptr SpeedSelect->CtrlPanel[0].Input[0].0.4;
+ptr AxisSelect->CtrlPanel[0].Input[0].4.4;
+
+// Analog Potentiometers for Rapid/Feed/Spindle Override
+// Uncomment to Use Full 12 Bit Resolution - May Dither Sligthly
+// ptr OvrRapid->CtrlPanel[0].Input[1].0.12;
+// ptr OvrFeed->CtrlPanel[0].Input[5].0.12;
+// ptr OvrSpindle->CtrlPanel[0].Input[6].0.12;
+
+// Uncomment to User 4-Bits of Resolution Only - Works like 16 Position Encoder
+ptr OvrRapid->CtrlPanel[0].Input[1].8.12;
+ptr OvrFeed->CtrlPanel[0].Input[5].8.12;
+ptr OvrSpindle->CtrlPanel[0].Input[6].8.12;
+
+ptr HandCounter->CtrlPanel[0].Input[2].0.32;	// Handheld Pendant Heartbeat
+ptr HandEncoder->CtrlPanel[0].Input[3].0.32;	// Handheld Pendant Manual Pulse Generator
+
+ptr KeyCode->CtrlPanel[0].Input[4].8.8;	// Key Code Value
+ptr KeyDown->CtrlPanel[0].Input[4].0.1;	// Key Down Active
+
+ptr OutputLED->CtrlPanel[0].Output[0].0.32;		// LED Output Code
+ptr OutputLED2->CtrlPanel[0].Output[1].0.32;	// LED Output Code for CycleStart and Feedhold
+
+/*   FOR TESTING WITH NO PENDANT
+// Axis Speed Select Rotary Switches
+ptr SpeedSelect->sys.udata[100] //.0.4;
+ptr AxisSelect->sys.udata[101] //.0.4;
+
+// Uncomment to User 4-Bits of Resolution Only - Works like 16 Position Encoder
+ptr OvrRapid->sys.udata[110] //.0.12;
+ptr OvrFeed->sys.udata[111] //.0.12;
+ptr OvrSpindle->sys.udata[112] //.0.12;
+
+ptr HandCounter->sys.udata[120] //.0.32;	// Handheld Pendant Heartbeat
+ptr HandEncoder->sys.udata[121] //.0.32;	// Handheld Pendant Manual Pulse Generator
+
+ptr KeyCode->sys.udata[120] //.0.8;	// Key Code Value
+ptr KeyDown->sys.udata[121] //.0.1;	// Key Down Active
+
+ptr OutputLED->sys.udata[130] //.0.32;		// LED Output Code
+ptr OutputLED2->sys.udata[131] //.0.32;	// LED Output Code for CycleStart and Feedhold
+*/
+
+
+//KeyCodes for Buttons
+#define Key_AutoMode	0
+#define Key_MdiMode		1
+#define Key_Reset		2
+#define Key_SingleBlock	3
+#define Key_BlockDelete	4
+#define Key_OptStop		5
+#define Key_JogCont		6
+#define Key_JogInc		7
+#define Key_HomeMode	8
+#define Key_User_01		9
+#define Key_User_02		10
+#define Key_User_03		11
+#define Key_User_04		12
+#define Key_User_05		13
+#define Key_User_06		14
+#define Key_ATC_Plus	33
+#define Key_ATC_Minus	34
+#define Key_Spindle_CW	19
+#define Key_Spindle_CCW	32
+#define Key_CycleStart	17
+#define Key_FeedHold	18
+#define Key_JogMinus	15
+#define Key_JogPlus		16	
+
+//Output Codes for LED's
+
+#define LED_Off					$0
+
+#define LED_Auto				$0001
+#define LED_Mdi					$0002
+#define LED_Reset				$0004
+#define LED_SingleBlock	$0008
+#define LED_BlockDelete	$0010
+#define LED_OptionStop	$0020
+#define LED_JogCont			$0040
+#define LED_JogInc			$0080
+#define LED_Home				$0100
+#define LED_User_01			$0200
+#define LED_User_02			$0400
+#define LED_User_03			$0800
+#define LED_User_04			$1000
+#define LED_User_05			$2000
+#define LED_User_06			$4000
+
+#define LED_CycleStart	$1
+#define LED_FeedHold		$2
+
+//Axis Select Codes
+#define Sel_1_Axis		9
+#define Sel_2_Axis		8
+#define Sel_3_Axis		0
+#define Sel_4_Axis		1
+#define Sel_5_Axis		3
+#define Sel_6_Axis		2
+#define Sel_7_Axis		6
+#define Sel_8_Axis		7
+#define Sel_9_Axis		5
+#define Sel_10_Axis		4
+#define Sel_11_Axis		12
+#define Sel_12_Axis		13
+#define Sel_13_Axis		15
+#define Sel_14_Axis		14
+#define Sel_15_Axis		10
+#define Sel_16_Axis		11
+
+//Axis Select Codes
+#define Sel_1_Speed		9
+#define Sel_2_Speed		8
+#define Sel_3_Speed		0
+#define Sel_4_Speed		1
+#define Sel_5_Speed		3
+#define Sel_6_Speed		2
+#define Sel_7_Speed		6
+#define Sel_8_Speed		7
+#define Sel_9_Speed		5
+#define Sel_10_Speed		4
+#define Sel_11_Speed		12
+#define Sel_12_Speed		13
+#define Sel_13_Speed		15
+#define Sel_14_Speed		14
+#define Sel_15_Speed		10
+#define Sel_16_Speed		11
+
+//Power PMAC Pendant Global Paramters Used in Handwheel PLC
+
+global PowerPendPresent;
+
+global HandwheelActive;
+global InitHandle;
+global PrevHandleCount;
+global HandleWhileLoop;
+global HandleChange;
+global HandleSpeed;
+
+global TargetPos(32);
+/*
+global TargetPos1;
+global TargetPos2;
+global TargetPos3;
+global TargetPos4;
+*/
+
+global HandleScaleFactor1;
+global HandleScaleFactor2;
+global HandleScaleFactor3;
+global HandleScaleFactor4;
+
+global PrevJogSpeed(32);
+/*
+global PrevJogSpeed1;
+global PrevJogSpeed2;
+global PrevJogSpeed3;
+global PrevJogSpeed4;
+*/
+
+global PrevJogTa(32);
+/*
+global PrevJogTa1;
+global PrevJogTa2;
+global PrevJogTa3; 
+global PrevJogTa4; 
+*/
+
+global PrevJogTs(32);
+/*             
+global PrevJogTs1; 
+global PrevJogTs2; 
+global PrevJogTs3; 
+global PrevJogTs4;
+*/

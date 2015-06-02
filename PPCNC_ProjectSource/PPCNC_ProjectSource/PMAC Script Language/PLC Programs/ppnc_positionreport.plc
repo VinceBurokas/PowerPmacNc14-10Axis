@@ -1,0 +1,334 @@
+// Power PMAC Script PLC Program
+// Power PMAC CNC, Position Reporting PLC
+// Date: March 5, 2012
+// By:  VAB
+
+
+open plc PositionReport
+
+local A1progPos, A2progPos, A3progPos, A4progPos, A5progPos, A6progPos, A7progPos, A8progPos, A9progPos, A10progPos;
+local InvalidSolA1, InvalidSolA2, InvalidSolA3, InvalidSolA4, InvalidSolA5, InvalidSolA6, InvalidSolA7, InvalidSolA8, InvalidSolA9, InvalidSolA10;
+local A1disttogoRd, A2disttogoRd, A3disttogoRd, A4disttogoRd, A5disttogoRd, A6disttogoRd, A7disttogoRd, A8disttogoRd, A9disttogoRd, A10disttogoRd;
+local A1currentPos, A2currentPos, A3currentPos, A4currentPos, A5currentPos, A6currentPos, A7currentPos, A8currentPos, A9currentPos, A10currentPos;
+local A1velocity, A2velocity, A3velocity, A4velocity, A5velocity, A6velocity, A7velocity, A8velocity, A9velocity, A10velocity;
+local Xvelocity, Yvelocity, Zvelocity;
+local DispFeedTemp;
+local ScanOnce;
+local A1motorNumber, A2motorNumber, A3motorNumber, A4motorNumber, A5motorNumber ,A6motorNumber, A7motorNumber, A8motorNumber, A9motorNumber, A10motorNumber;
+local A1axisIndex, A2axisIndex, A3axisIndex, A4axisIndex, A5axisIndex, A6axisIndex, A7axisIndex, A8axisIndex, A9axisIndex, A10axisIndex;
+
+// initialisation of motor number and axis nmae
+A1motorNumber = Setup_MotorNumber(1)
+A2motorNumber = Setup_MotorNumber(2)
+A3motorNumber = Setup_MotorNumber(3)
+A4motorNumber = Setup_MotorNumber(4)
+A5motorNumber = Setup_MotorNumber(5)
+A6motorNumber = Setup_MotorNumber(6)
+A7motorNumber = Setup_MotorNumber(7)
+A8motorNumber = Setup_MotorNumber(8)
+A9motorNumber = Setup_MotorNumber(9)
+A10motorNumber = Setup_MotorNumber(10)
+
+A1axisIndex = Setup_AxisIndex(1)
+A2axisIndex = Setup_AxisIndex(2)
+A3axisIndex = Setup_AxisIndex(3)
+A4axisIndex = Setup_AxisIndex(4)
+A5axisIndex = Setup_AxisIndex(5)
+A6axisIndex = Setup_AxisIndex(6)
+A7axisIndex = Setup_AxisIndex(7)
+A8axisIndex = Setup_AxisIndex(8)
+A9axisIndex = Setup_AxisIndex(9)
+A10axisIndex = Setup_AxisIndex(10)
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// Read CS Program Positions
+pread
+A1progPos = Ldata.D[A1axisIndex]
+A2progPos = Ldata.D[A2axisIndex]
+A3progPos = Ldata.D[A3axisIndex]
+A4progPos = Ldata.D[A4axisIndex]
+A5progPos = Ldata.D[A5axisIndex]
+A6progPos = Ldata.D[A6axisIndex]
+A7progPos = Ldata.D[A7axisIndex]
+A8progPos = Ldata.D[A8axisIndex]
+A9progPos = Ldata.D[A9axisIndex]
+A10progPos = Ldata.D[A10axisIndex]
+
+// Read CS Distance ToGo
+tread
+A1disttogoRd = Ldata.D[A1axisIndex]
+A2disttogoRd = Ldata.D[A2axisIndex]
+A3disttogoRd = Ldata.D[A3axisIndex]
+A4disttogoRd = Ldata.D[A4axisIndex]
+A5disttogoRd = Ldata.D[A5axisIndex]
+A6disttogoRd = Ldata.D[A6axisIndex]
+A7disttogoRd = Ldata.D[A7axisIndex]
+A8disttogoRd = Ldata.D[A8axisIndex]
+A9disttogoRd = Ldata.D[A9axisIndex]
+A10disttogoRd = Ldata.D[A10axisIndex]
+
+// Read CS Velocity
+vread
+A1velocity = Ldata.D[A1axisIndex]
+A2velocity = Ldata.D[A2axisIndex]
+A3velocity = Ldata.D[A3axisIndex]
+A4velocity = Ldata.D[A4axisIndex]
+A5velocity = Ldata.D[A5axisIndex]
+A6velocity = Ldata.D[A6axisIndex]
+A7velocity = Ldata.D[A7axisIndex]
+A8velocity = Ldata.D[A8axisIndex]
+A9velocity = Ldata.D[A9axisIndex]
+A10velocity = Ldata.D[A10axisIndex]
+// needed for vector feedrate calculation
+if (Ldata.D[32]&64 == 64) Xvelocity = Ldata.D[XaxisIndex] else Xvelocity = 0
+if (Ldata.D[32]&128 == 128) Yvelocity = Ldata.D[YaxisIndex] else Yvelocity = 0
+if (Ldata.D[32]&256 == 256) Zvelocity = Ldata.D[ZaxisIndex] else Zvelocity = 0
+
+// Axis Display Modes
+switch (AxesDisplayMode)
+{
+    // Mode - ProgramPosition
+    case ProgramPosition:
+    ScanOnce = 0
+    A1position = A1progPos
+    A2position = A2progPos
+    A3position = A3progPos
+    A4position = A4progPos
+    A5position = A5progPos
+    A6position = A6progPos
+    A7position = A7progPos
+    A8position = A8progPos
+    A9position = A9progPos
+    A10position = A10progPos
+    break;
+
+    // Mode - RelativePosition
+    case RelativePosition:
+    if (ScanOnce == 0)
+    {
+        A1currentPos = (Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos)
+        A2currentPos = (Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos)
+        A3currentPos = (Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos)
+        A4currentPos = (Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos)        
+        A5currentPos = (Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos)
+        A6currentPos = (Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos)
+        A7currentPos = (Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos)
+        A8currentPos = (Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos)
+        A9currentPos = (Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos)
+        A10currentPos = (Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos)
+        ScanOnce = 1
+    }
+    A1position = (((Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos) - A1currentPos)/Motor[A1motorNumber].CoordSf[A1axisIndex]) / UnitScaling;
+    A2position = (((Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos) - A2currentPos)/Motor[A2motorNumber].CoordSf[A2axisIndex]) / UnitScaling;
+    A3position = (((Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos) - A3currentPos)/Motor[A3motorNumber].CoordSf[A3axisIndex]) / UnitScaling;
+    A4position = (((Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos) - A4currentPos)/Motor[A4motorNumber].CoordSf[A4axisIndex]) / UnitScaling;
+    A5position = (((Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos) - A5currentPos)/Motor[A5motorNumber].CoordSf[A5axisIndex]) / UnitScaling;
+    A6position = (((Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos) - A6currentPos)/Motor[A6motorNumber].CoordSf[A6axisIndex]) / UnitScaling;
+    A7position = (((Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos) - A7currentPos)/Motor[A7motorNumber].CoordSf[A7axisIndex]) / UnitScaling;
+    A8position = (((Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos) - A8currentPos)/Motor[A8motorNumber].CoordSf[A8axisIndex]) / UnitScaling;
+    A9position = (((Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos) - A9currentPos)/Motor[A9motorNumber].CoordSf[A9axisIndex]) / UnitScaling;
+    A10position = (((Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos) - A10currentPos)/Motor[A10motorNumber].CoordSf[A10axisIndex]) / UnitScaling;
+    break;
+
+    // Mode - MachinePosition
+    case MachinePosition:
+    ScanOnce = 0
+    A1position = ((Motor[A1motorNumber].ActPos - Motor[A1motorNumber].HomePos)/(Motor[A1motorNumber].CoordSf[A1axisIndex])) / UnitScaling;
+    A2position = ((Motor[A2motorNumber].ActPos - Motor[A2motorNumber].HomePos)/(Motor[A2motorNumber].CoordSf[A2axisIndex])) / UnitScaling;
+    A3position = ((Motor[A3motorNumber].ActPos - Motor[A3motorNumber].HomePos)/(Motor[A3motorNumber].CoordSf[A3axisIndex])) / UnitScaling;
+    A4position = ((Motor[A4motorNumber].ActPos - Motor[A4motorNumber].HomePos)/(Motor[A4motorNumber].CoordSf[A4axisIndex])) / UnitScaling;
+    A5position = ((Motor[A5motorNumber].ActPos - Motor[A5motorNumber].HomePos)/(Motor[A5motorNumber].CoordSf[A5axisIndex])) / UnitScaling;
+    A6position = ((Motor[A6motorNumber].ActPos - Motor[A6motorNumber].HomePos)/(Motor[A6motorNumber].CoordSf[A6axisIndex])) / UnitScaling;
+    A7position = ((Motor[A7motorNumber].ActPos - Motor[A7motorNumber].HomePos)/(Motor[A7motorNumber].CoordSf[A7axisIndex])) / UnitScaling;
+    A8position = ((Motor[A8motorNumber].ActPos - Motor[A8motorNumber].HomePos)/(Motor[A8motorNumber].CoordSf[A8axisIndex])) / UnitScaling;
+    A9position = ((Motor[A9motorNumber].ActPos - Motor[A9motorNumber].HomePos)/(Motor[A9motorNumber].CoordSf[A9axisIndex])) / UnitScaling;
+    A10position = ((Motor[A10motorNumber].ActPos - Motor[A10motorNumber].HomePos)/(Motor[A10motorNumber].CoordSf[A10axisIndex])) / UnitScaling;
+    break;
+
+    // Mode - Commanded Position
+    case CommandedPosition:
+    ScanOnce = 0
+    A1position = Coord[1].CdPos[A1axisIndex]
+    A1position = Coord[1].CdPos[A2axisIndex]
+    A3position = Coord[1].CdPos[A3axisIndex]
+    A4position = Coord[1].CdPos[A4axisIndex]
+    A5position = Coord[1].CdPos[A5axisIndex]
+    A6position = Coord[1].CdPos[A6axisIndex]
+    A7position = Coord[1].CdPos[A7axisIndex]
+    A8position = Coord[1].CdPos[A8axisIndex]
+    A9position = Coord[1].CdPos[A9axisIndex]
+    A10position = Coord[1].CdPos[A10axisIndex]
+    break;
+}
+
+// Distance To Go Reporting
+InvalidSolA1 = isnan(A1disttogoRd)	// Check for Not A Number Invalid Solution
+InvalidSolA2 = isnan(A2disttogoRd)
+InvalidSolA3 = isnan(A3disttogoRd)
+InvalidSolA4 = isnan(A4disttogoRd)
+InvalidSolA5 = isnan(A5disttogoRd)
+InvalidSolA6 = isnan(A6disttogoRd)
+InvalidSolA7 = isnan(A7disttogoRd)
+InvalidSolA8 = isnan(A8disttogoRd)
+InvalidSolA9 = isnan(A9disttogoRd)
+InvalidSolA10 = isnan(A10disttogoRd)
+
+if (InvalidSolA1 == 0 && InvalidSolA2 == 0 && InvalidSolA3 == 0 && InvalidSolA4 == 0 && InvalidSolA5 == 0 && InvalidSolA6 == 0 && InvalidSolA7 == 0 && InvalidSolA8 == 0 && InvalidSolA9 == 0 && InvalidSolA10 == 0)
+{
+    A1disttogo = A1progPos - A1disttogoRd;
+    A2disttogo = A2progPos - A2disttogoRd;
+    A3disttogo = A3progPos - A3disttogoRd;
+    A4disttogo = A4progPos - A4disttogoRd;
+    A5disttogo = A5progPos - A5disttogoRd;
+    A6disttogo = A6progPos - A6disttogoRd;
+    A7disttogo = A7progPos - A7disttogoRd;
+    A8disttogo = A8progPos - A8disttogoRd;
+    A9disttogo = A7progPos - A9disttogoRd;
+    A10disttogo = A8progPos - A10disttogoRd;
+}
+else
+{
+    A1disttogo = 0;
+    A2disttogo = 0;
+    A3disttogo = 0;
+    A4disttogo = 0;
+    A5disttogo = 0;
+    A6disttogo = 0;
+    A7disttogo = 0;
+    A8disttogo = 0;
+    A9disttogo = 0;
+    A10disttogo = 0;
+}
+
+// Torque display
+A1torque = abs((Motor[A1motorNumber].iqCmd)/Motor[A1motorNumber].MaxDac)
+A2torque = abs((Motor[A2motorNumber].iqCmd)/Motor[A2motorNumber].MaxDac)
+A3torque = abs((Motor[A3motorNumber].iqCmd)/Motor[A3motorNumber].MaxDac)
+A4torque = abs((Motor[A4motorNumber].iqCmd)/Motor[A4motorNumber].MaxDac)
+A5torque = abs((Motor[A5motorNumber].iqCmd)/Motor[A5motorNumber].MaxDac)
+A6torque = abs((Motor[A6motorNumber].iqCmd)/Motor[A6motorNumber].MaxDac)
+A7torque = abs((Motor[A7motorNumber].iqCmd)/Motor[A7motorNumber].MaxDac)
+A8torque = abs((Motor[A8motorNumber].iqCmd)/Motor[A8motorNumber].MaxDac)
+A9torque = abs((Motor[A9motorNumber].iqCmd)/Motor[A9motorNumber].MaxDac)
+A10torque = abs((Motor[A10motorNumber].iqCmd)/Motor[A10motorNumber].MaxDac)
+
+// Following Error Display
+A1FolErr = (Motor[A1motorNumber].PosError/Motor[A1motorNumber].CoordSf[A1axisIndex])/UnitScaling
+A2FolErr = (Motor[A2motorNumber].PosError/Motor[A2motorNumber].CoordSf[A2axisIndex])/UnitScaling
+A3FolErr = (Motor[A3motorNumber].PosError/Motor[A3motorNumber].CoordSf[A3axisIndex])/UnitScaling
+A4FolErr = (Motor[A4motorNumber].PosError/Motor[A4motorNumber].CoordSf[A4axisIndex])/UnitScaling
+A5FolErr = (Motor[A5motorNumber].PosError/Motor[A5motorNumber].CoordSf[A5axisIndex])/UnitScaling
+A6FolErr = (Motor[A6motorNumber].PosError/Motor[A6motorNumber].CoordSf[A6axisIndex])/UnitScaling
+A7FolErr = (Motor[A7motorNumber].PosError/Motor[A7motorNumber].CoordSf[A7axisIndex])/UnitScaling
+A8FolErr = (Motor[A8motorNumber].PosError/Motor[A8motorNumber].CoordSf[A8axisIndex])/UnitScaling
+A9FolErr = (Motor[A9motorNumber].PosError/Motor[A9motorNumber].CoordSf[A9axisIndex])/UnitScaling
+A10FolErr = (Motor[A10motorNumber].PosError/Motor[A10motorNumber].CoordSf[A10axisIndex])/UnitScaling
+
+//Feedrate Display
+DispFeedAct = sqrt((Xvelocity*Xvelocity) + (Yvelocity*Yvelocity) + (Zvelocity*Zvelocity)) * Coord[1].FeedTime
+if (GCodesGroup1 != 0)
+{
+    DispFeedCmd = CoordFeedTemp
+}
+else
+{
+    if (GCodesGroup1 == 1)
+    {
+        DispFeedCmd = MaxFeedrate
+    }
+    else
+    {
+        DispFeedCmd = MaxFeedrate/UnitScaling
+    }
+}
+
+// Feedrate Override Display
+DispFeedOverride = (Coord[1].DesTimeBase/Sys.ServoPeriod)*100
+
+// Display Feed Move Mode
+if (GCodesGroup5 == 0)
+{
+    DispFeedMode = FeedInverse
+}
+else if (GCodesGroup5 == 1)
+{
+    DispFeedMode = FeedPerMin
+}
+else if (GCodesGroup5 == 2)
+{
+    DispFeedMode = FeedPerRev
+}
+else if (GCodesGroup5 == 3)
+{
+    DispFeedMode = NoFeedMode
+}
+
+
+// Display Spindle Mode
+if (GCodesGroup13 == 0)
+{
+    SpinDisplayMode = SpindleCSS
+}
+else if (GCodesGroup13 == 1)
+{
+    SpinDisplayMode = SpindleCUT
+}
+
+// Display Spindle Speed
+DispSpindleCmd = SpindleCommand
+if (SpindleMode == Spindle_CW || SpindleMode == Spindle_CCW)
+{
+    DispSpindleAct = SpindleTemp
+}
+
+// Spindle Override Display
+DispSpinOverride = SpindleOverrideInput
+
+// Highlight Feedrate and Spindle Status Buttons
+if (sys.ServoPeriod == coord[1].DesTimeBase)
+{
+    SoftPanelStatus = SoftPanelStatus | SP_Feed100
+}
+else
+{
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_Feed100)
+}
+
+if (coord[1].DesTimeBase == 0)
+{
+    SoftPanelStatus = SoftPanelStatus | SP_FeedZero
+}
+else
+{
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_FeedZero)
+}
+
+if (SpindleOverrideInput == 100)
+{
+    SoftPanelStatus = SoftPanelStatus | SP_Spindle100
+}
+else
+{
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_Spindle100)
+}
+
+if (SpindleMode == Spindle_OFF)
+{
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_SpindleCW)
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_SpindleCCW)
+}
+else if (SpindleMode == Spindle_CW)
+{
+    SoftPanelStatus = SoftPanelStatus | SP_SpindleCW
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_SpindleCCW)
+}
+else if (SpindleMode == Spindle_CCW)
+{
+    SoftPanelStatus = SoftPanelStatus | SP_SpindleCCW
+    SoftPanelStatus = SoftPanelStatus & (SoftPanelStatus^SP_SpindleCW)
+}
+
+close
+

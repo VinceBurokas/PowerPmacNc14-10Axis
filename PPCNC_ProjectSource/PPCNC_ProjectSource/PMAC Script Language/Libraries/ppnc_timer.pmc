@@ -1,0 +1,16 @@
+// Power PMAC Script SubProgram
+// Power PMAC CNC, Timer SubProgram
+// Date: March 12, 2012
+// By:  VAB
+
+
+
+open subprog timer(time)
+local EndTime;
+local count;
+
+EndTime = Sys.Time + time;
+do count++
+while(EndTime > Sys.Time);
+
+close

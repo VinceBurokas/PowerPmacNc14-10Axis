@@ -1,0 +1,97 @@
+/***********************************************************************************/
+// PowerPMAC-NC Project Source File.
+// Override Control PLC.
+// Original File Date:  November 22, 2013
+/***********************************************************************************/
+
+/***********************************************************************************/
+// Comments / Revisions:
+// 112113 - Initial Submit to GitHub
+//
+//
+//
+/***********************************************************************************/
+
+//Coord[x].pDesTimeBase - Coordinate System Time Base Register Address
+//Coord[x].TimeBaseSlew - Coordinate System Time Base Slew Rate
+
+open plc Override
+
+// Set Coordinate System
+Ldata.coord=1;
+
+// --------------Use Soft Panel Override---------------
+if (PowerPendPresent != 1)
+{
+    switch (MachineMode)
+    {
+        // Mode - Auto
+        case 0:
+
+        Coord[1].TimeBaseSlew=0.0005
+
+        if (GCodesGroup1 == 0 && DryRunMode==0) Coord[1].DesTimeBase = Sys.ServoPeriod
+        else Coord[1].DesTimeBase = Sys.ServoPeriod * FeedOverrideInput / 100;
+
+        break;
+
+        //Mode - Manual
+        case 1:
+        Coord[1].DesTimeBase = Sys.ServoPeriod
+        break;
+
+        // Mode - MDI
+        case 2:
+
+        Coord[1].TimeBaseSlew=0.0005
+
+        if (GCodesGroup1 == 0 && DryRunMode==0) Coord[1].DesTimeBase = Sys.ServoPeriod
+        else Coord[1].DesTimeBase = Sys.ServoPeriod * FeedOverrideInput / 100;
+
+        break;
+
+        default:
+        Coord[1].DesTimeBase = Sys.ServoPeriod
+        break;
+    }
+}
+else
+{
+    // --------------Use Power Pendant Hardware Override---------------
+    switch (MachineMode)
+    {
+        // Mode - Auto
+        case 0:
+
+        Coord[1].TimeBaseSlew=0.0005	//0.0005
+
+        if (GCodesGroup1 == 0 && DryRunMode==0) Coord[1].DesTimeBase = OvrRapid/15 * Sys.ServoPeriod
+        else Coord[1].DesTimeBase = Sys.ServoPeriod * ((OvrFeed/15)*1.5);
+
+        break;
+
+        //Mode - Manual
+        case 1:
+        Coord[1].DesTimeBase = Sys.ServoPeriod
+        break;
+
+        // Mode - MDI
+        case 2:
+
+        Coord[1].TimeBaseSlew=0.0005	//0.0005
+
+        if (GCodesGroup1 == 0 && DryRunMode==0) Coord[1].DesTimeBase = OvrRapid/15 * Sys.ServoPeriod
+        else Coord[1].DesTimeBase = Sys.ServoPeriod * ((OvrFeed/15)*1.5);
+
+        break;
+
+        default:
+        Coord[1].DesTimeBase = Sys.ServoPeriod
+        break;
+    }
+
+    // Spindle or Laser Override Input
+    SpindleOverrideInput = 100*((OvrSpindle/15)*1.5);
+}
+
+close
